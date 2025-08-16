@@ -15,6 +15,7 @@ import Agents from "./pages/Agents";
 import Payments from "./pages/Payments";
 import Documents from "./pages/Documents";
 import Settings from "./pages/Settings";
+import AIFeatures from "./pages/AIFeatures";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
