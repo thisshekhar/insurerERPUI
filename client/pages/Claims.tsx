@@ -15,58 +15,46 @@ import {
   User,
   Upload,
   MessageSquare,
+  Brain,
+  Sparkles,
+  Shield
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { DataTable } from "@/components/ui/data-table";
 import { FormDialog } from "@/components/ui/form-dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { mockClaims, mockCustomers, Claim, Customer } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
 const statusColors = {
-  Submitted: "bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400",
-  "Under Review":
-    "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400",
-  Approved:
-    "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
-  Rejected: "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400",
-  Paid: "bg-purple-100 text-purple-800 dark:bg-purple-900/20 dark:text-purple-400",
-  Closed: "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400",
+  'Submitted': "bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400",
+  'Under Review': "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400",
+  'Approved': "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
+  'Rejected': "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400",
+  'Paid': "bg-purple-100 text-purple-800 dark:bg-purple-900/20 dark:text-purple-400",
+  'Closed': "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400",
 };
 
 const priorityColors = {
-  Low: "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
-  Medium:
-    "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400",
-  High: "bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400",
-  Critical: "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400",
+  'Low': "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
+  'Medium': "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400",
+  'High': "bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400",
+  'Critical': "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400",
 };
 
 const statusIcons = {
-  Submitted: FileText,
-  "Under Review": Clock,
-  Approved: CheckCircle,
-  Rejected: XCircle,
-  Paid: DollarSign,
-  Closed: CheckCircle,
+  'Submitted': FileText,
+  'Under Review': Clock,
+  'Approved': CheckCircle,
+  'Rejected': XCircle,
+  'Paid': DollarSign,
+  'Closed': CheckCircle,
 };
 
 export default function Claims() {
@@ -76,61 +64,50 @@ export default function Claims() {
   const [showDetailsDialog, setShowDetailsDialog] = useState(false);
   const [showStatusDialog, setShowStatusDialog] = useState(false);
   const [formData, setFormData] = useState<Partial<Claim>>({});
-  const [statusUpdate, setStatusUpdate] = useState({ status: "", notes: "" });
+  const [statusUpdate, setStatusUpdate] = useState({ status: '', notes: '' });
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
       minimumFractionDigits: 0,
     }).format(amount);
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
     });
   };
 
   const handleAddClaim = () => {
-    if (
-      !formData.customerName ||
-      !formData.policyType ||
-      !formData.claimAmount
-    ) {
+    if (!formData.customerName || !formData.policyType || !formData.claimAmount) {
       toast.error("Please fill in all required fields");
       return;
     }
 
     const newClaim: Claim = {
-      id: `CLM-${String(claims.length + 1).padStart(3, "0")}`,
-      policyId:
-        formData.policyId ||
-        `POL-${String(Math.floor(Math.random() * 999) + 1).padStart(3, "0")}`,
-      customerId:
-        formData.customerId ||
-        `CUST-${String(Math.floor(Math.random() * 999) + 1).padStart(3, "0")}`,
-      customerName: formData.customerName || "",
-      policyType: formData.policyType || "",
-      claimType: formData.claimType || "Other",
+      id: `CLM-${String(claims.length + 1).padStart(3, '0')}`,
+      policyId: formData.policyId || `POL-${String(Math.floor(Math.random() * 999) + 1).padStart(3, '0')}`,
+      customerId: formData.customerId || `CUST-${String(Math.floor(Math.random() * 999) + 1).padStart(3, '0')}`,
+      customerName: formData.customerName || '',
+      policyType: formData.policyType || '',
+      claimType: formData.claimType || 'Other',
       claimAmount: formData.claimAmount || 0,
-      status: "Submitted",
-      priority: formData.priority || "Medium",
-      submissionDate: new Date().toISOString().split("T")[0],
-      incidentDate:
-        formData.incidentDate || new Date().toISOString().split("T")[0],
-      description: formData.description || "",
-      assignedAdjuster: formData.assignedAdjuster || "John Martinez",
+      status: 'Submitted',
+      priority: formData.priority || 'Medium',
+      submissionDate: new Date().toISOString().split('T')[0],
+      incidentDate: formData.incidentDate || new Date().toISOString().split('T')[0],
+      description: formData.description || '',
+      assignedAdjuster: formData.assignedAdjuster || 'John Martinez',
       documents: [],
-      timeline: [
-        {
-          date: new Date().toISOString().split("T")[0],
-          action: "Claim Submitted",
-          user: formData.customerName || "Customer",
-        },
-      ],
+      timeline: [{
+        date: new Date().toISOString().split('T')[0],
+        action: 'Claim Submitted',
+        user: formData.customerName || 'Customer'
+      }]
     };
 
     setClaims([...claims, newClaim]);
@@ -145,7 +122,7 @@ export default function Claims() {
       return;
     }
 
-    const updatedClaims = claims.map((claim) =>
+    const updatedClaims = claims.map(claim =>
       claim.id === selectedClaim.id
         ? {
             ...claim,
@@ -153,19 +130,19 @@ export default function Claims() {
             timeline: [
               ...claim.timeline,
               {
-                date: new Date().toISOString().split("T")[0],
+                date: new Date().toISOString().split('T')[0],
                 action: `Status Updated to ${statusUpdate.status}`,
-                user: "Admin",
-                notes: statusUpdate.notes,
-              },
-            ],
+                user: 'Admin',
+                notes: statusUpdate.notes
+              }
+            ]
           }
-        : claim,
+        : claim
     );
 
     setClaims(updatedClaims);
     setShowStatusDialog(false);
-    setStatusUpdate({ status: "", notes: "" });
+    setStatusUpdate({ status: '', notes: '' });
     toast.success("Claim status updated successfully");
   };
 
@@ -181,7 +158,7 @@ export default function Claims() {
 
   const openStatusDialog = (claim: Claim) => {
     setSelectedClaim(claim);
-    setStatusUpdate({ status: claim.status, notes: "" });
+    setStatusUpdate({ status: claim.status, notes: '' });
     setShowStatusDialog(true);
   };
 
@@ -203,9 +180,7 @@ export default function Claims() {
         return (
           <div>
             <div className="font-medium">{claim.customerName}</div>
-            <div className="text-sm text-muted-foreground">
-              {claim.policyType}
-            </div>
+            <div className="text-sm text-muted-foreground">{claim.policyType}</div>
           </div>
         );
       },
@@ -240,10 +215,12 @@ export default function Claims() {
       accessorKey: "priority",
       header: "Priority",
       cell: ({ row }) => {
-        const priority = row.getValue(
-          "priority",
-        ) as keyof typeof priorityColors;
-        return <Badge className={priorityColors[priority]}>{priority}</Badge>;
+        const priority = row.getValue("priority") as keyof typeof priorityColors;
+        return (
+          <Badge className={priorityColors[priority]}>
+            {priority}
+          </Badge>
+        );
       },
     },
     {
@@ -294,20 +271,16 @@ export default function Claims() {
         <Label htmlFor="customerName">Customer Name *</Label>
         <Input
           id="customerName"
-          value={formData.customerName || ""}
-          onChange={(e) =>
-            setFormData({ ...formData, customerName: e.target.value })
-          }
+          value={formData.customerName || ''}
+          onChange={(e) => setFormData({ ...formData, customerName: e.target.value })}
           placeholder="Enter customer name"
         />
       </div>
       <div>
         <Label htmlFor="policyType">Policy Type *</Label>
         <Select
-          value={formData.policyType || ""}
-          onValueChange={(value) =>
-            setFormData({ ...formData, policyType: value })
-          }
+          value={formData.policyType || ''}
+          onValueChange={(value) => setFormData({ ...formData, policyType: value })}
         >
           <SelectTrigger>
             <SelectValue placeholder="Select policy type" />
@@ -324,10 +297,8 @@ export default function Claims() {
       <div>
         <Label htmlFor="claimType">Claim Type</Label>
         <Select
-          value={formData.claimType || ""}
-          onValueChange={(value) =>
-            setFormData({ ...formData, claimType: value as any })
-          }
+          value={formData.claimType || ''}
+          onValueChange={(value) => setFormData({ ...formData, claimType: value as any })}
         >
           <SelectTrigger>
             <SelectValue placeholder="Select claim type" />
@@ -347,10 +318,8 @@ export default function Claims() {
         <Input
           id="claimAmount"
           type="number"
-          value={formData.claimAmount || ""}
-          onChange={(e) =>
-            setFormData({ ...formData, claimAmount: Number(e.target.value) })
-          }
+          value={formData.claimAmount || ''}
+          onChange={(e) => setFormData({ ...formData, claimAmount: Number(e.target.value) })}
           placeholder="Enter claim amount"
         />
       </div>
@@ -359,19 +328,15 @@ export default function Claims() {
         <Input
           id="incidentDate"
           type="date"
-          value={formData.incidentDate || ""}
-          onChange={(e) =>
-            setFormData({ ...formData, incidentDate: e.target.value })
-          }
+          value={formData.incidentDate || ''}
+          onChange={(e) => setFormData({ ...formData, incidentDate: e.target.value })}
         />
       </div>
       <div>
         <Label htmlFor="priority">Priority</Label>
         <Select
-          value={formData.priority || ""}
-          onValueChange={(value) =>
-            setFormData({ ...formData, priority: value as any })
-          }
+          value={formData.priority || ''}
+          onValueChange={(value) => setFormData({ ...formData, priority: value as any })}
         >
           <SelectTrigger>
             <SelectValue placeholder="Select priority" />
@@ -387,10 +352,8 @@ export default function Claims() {
       <div>
         <Label htmlFor="assignedAdjuster">Assigned Adjuster</Label>
         <Select
-          value={formData.assignedAdjuster || ""}
-          onValueChange={(value) =>
-            setFormData({ ...formData, assignedAdjuster: value })
-          }
+          value={formData.assignedAdjuster || ''}
+          onValueChange={(value) => setFormData({ ...formData, assignedAdjuster: value })}
         >
           <SelectTrigger>
             <SelectValue placeholder="Select adjuster" />
@@ -408,10 +371,8 @@ export default function Claims() {
         <Label htmlFor="policyId">Policy ID</Label>
         <Input
           id="policyId"
-          value={formData.policyId || ""}
-          onChange={(e) =>
-            setFormData({ ...formData, policyId: e.target.value })
-          }
+          value={formData.policyId || ''}
+          onChange={(e) => setFormData({ ...formData, policyId: e.target.value })}
           placeholder="Enter policy ID (optional)"
         />
       </div>
@@ -419,10 +380,8 @@ export default function Claims() {
         <Label htmlFor="description">Description *</Label>
         <Textarea
           id="description"
-          value={formData.description || ""}
-          onChange={(e) =>
-            setFormData({ ...formData, description: e.target.value })
-          }
+          value={formData.description || ''}
+          onChange={(e) => setFormData({ ...formData, description: e.target.value })}
           placeholder="Describe the incident and claim details"
           rows={4}
         />
@@ -435,14 +394,17 @@ export default function Claims() {
       {/* Page Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-            Claims Management
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400 mt-2">
-            Process insurance claims, track status, and manage approval
-            workflows.
-          </p>
+        <div className="flex items-center space-x-3 mb-2">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Claims Management</h1>
+          <Badge className="bg-gradient-to-r from-purple-600 to-blue-600 text-white flex items-center space-x-1">
+            <Shield className="h-3 w-3" />
+            <span>AI-Protected</span>
+          </Badge>
         </div>
+        <p className="text-gray-600 dark:text-gray-400">
+          AI-powered fraud detection, automated processing, and smart claim routing.
+        </p>
+      </div>
         <Button onClick={openAddDialog} className="flex items-center space-x-2">
           <Plus className="h-4 w-4" />
           <span>New Claim</span>
@@ -455,10 +417,12 @@ export default function Claims() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">
-                  Total Claims
-                </p>
+                <p className="text-sm font-medium text-muted-foreground">Total Claims</p>
                 <p className="text-2xl font-bold">{claims.length}</p>
+                <div className="flex items-center text-xs text-purple-600 mt-1">
+                  <Brain className="h-3 w-3 mr-1" />
+                  <span>AI-analyzed</span>
+                </div>
               </div>
               <CreditCard className="h-8 w-8 text-blue-600" />
             </div>
@@ -468,11 +432,9 @@ export default function Claims() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">
-                  Under Review
-                </p>
+                <p className="text-sm font-medium text-muted-foreground">Under Review</p>
                 <p className="text-2xl font-bold">
-                  {claims.filter((c) => c.status === "Under Review").length}
+                  {claims.filter(c => c.status === 'Under Review').length}
                 </p>
               </div>
               <Clock className="h-8 w-8 text-yellow-600" />
@@ -483,11 +445,9 @@ export default function Claims() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">
-                  Approved
-                </p>
+                <p className="text-sm font-medium text-muted-foreground">Approved</p>
                 <p className="text-2xl font-bold">
-                  {claims.filter((c) => c.status === "Approved").length}
+                  {claims.filter(c => c.status === 'Approved').length}
                 </p>
               </div>
               <CheckCircle className="h-8 w-8 text-green-600" />
@@ -498,11 +458,9 @@ export default function Claims() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">
-                  Rejected
-                </p>
+                <p className="text-sm font-medium text-muted-foreground">Rejected</p>
                 <p className="text-2xl font-bold">
-                  {claims.filter((c) => c.status === "Rejected").length}
+                  {claims.filter(c => c.status === 'Rejected').length}
                 </p>
               </div>
               <XCircle className="h-8 w-8 text-red-600" />
@@ -513,13 +471,9 @@ export default function Claims() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">
-                  Total Amount
-                </p>
+                <p className="text-sm font-medium text-muted-foreground">Total Amount</p>
                 <p className="text-2xl font-bold">
-                  {formatCurrency(
-                    claims.reduce((sum, c) => sum + c.claimAmount, 0),
-                  )}
+                  {formatCurrency(claims.reduce((sum, c) => sum + c.claimAmount, 0))}
                 </p>
               </div>
               <DollarSign className="h-8 w-8 text-purple-600" />
@@ -533,8 +487,7 @@ export default function Claims() {
         <CardHeader>
           <CardTitle>All Claims</CardTitle>
           <CardDescription>
-            View and manage all insurance claims with status tracking and
-            approval workflows.
+            View and manage all insurance claims with status tracking and approval workflows.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -573,9 +526,7 @@ export default function Claims() {
             <Label htmlFor="status">New Status</Label>
             <Select
               value={statusUpdate.status}
-              onValueChange={(value) =>
-                setStatusUpdate({ ...statusUpdate, status: value })
-              }
+              onValueChange={(value) => setStatusUpdate({ ...statusUpdate, status: value })}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Select new status" />
@@ -595,9 +546,7 @@ export default function Claims() {
             <Textarea
               id="notes"
               value={statusUpdate.notes}
-              onChange={(e) =>
-                setStatusUpdate({ ...statusUpdate, notes: e.target.value })
-              }
+              onChange={(e) => setStatusUpdate({ ...statusUpdate, notes: e.target.value })}
               placeholder="Add notes about this status change"
               rows={3}
             />
@@ -621,69 +570,49 @@ export default function Claims() {
                 <h3 className="text-lg font-semibold">Claim Information</h3>
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      Customer:
-                    </span>
-                    <span className="font-medium">
-                      {selectedClaim.customerName}
-                    </span>
+                    <span className="text-sm text-muted-foreground">Customer:</span>
+                    <span className="font-medium">{selectedClaim.customerName}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      Policy Type:
-                    </span>
+                    <span className="text-sm text-muted-foreground">Policy Type:</span>
                     <span>{selectedClaim.policyType}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      Claim Type:
-                    </span>
+                    <span className="text-sm text-muted-foreground">Claim Type:</span>
                     <Badge variant="outline">{selectedClaim.claimType}</Badge>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      Priority:
-                    </span>
+                    <span className="text-sm text-muted-foreground">Priority:</span>
                     <Badge className={priorityColors[selectedClaim.priority]}>
                       {selectedClaim.priority}
                     </Badge>
                   </div>
                 </div>
               </div>
-
+              
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold">Status & Amounts</h3>
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      Status:
-                    </span>
+                    <span className="text-sm text-muted-foreground">Status:</span>
                     <Badge className={statusColors[selectedClaim.status]}>
                       {selectedClaim.status}
                     </Badge>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      Claim Amount:
-                    </span>
-                    <span className="font-medium">
-                      {formatCurrency(selectedClaim.claimAmount)}
-                    </span>
+                    <span className="text-sm text-muted-foreground">Claim Amount:</span>
+                    <span className="font-medium">{formatCurrency(selectedClaim.claimAmount)}</span>
                   </div>
                   {selectedClaim.approvedAmount && (
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted-foreground">
-                        Approved Amount:
-                      </span>
+                      <span className="text-sm text-muted-foreground">Approved Amount:</span>
                       <span className="font-medium text-green-600">
                         {formatCurrency(selectedClaim.approvedAmount)}
                       </span>
                     </div>
                   )}
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      Adjuster:
-                    </span>
+                    <span className="text-sm text-muted-foreground">Adjuster:</span>
                     <span>{selectedClaim.assignedAdjuster}</span>
                   </div>
                 </div>
@@ -697,12 +626,8 @@ export default function Claims() {
                   <div className="flex items-center space-x-2">
                     <Calendar className="h-4 w-4 text-muted-foreground" />
                     <div>
-                      <div className="text-sm text-muted-foreground">
-                        Incident Date
-                      </div>
-                      <div className="font-medium">
-                        {formatDate(selectedClaim.incidentDate)}
-                      </div>
+                      <div className="text-sm text-muted-foreground">Incident Date</div>
+                      <div className="font-medium">{formatDate(selectedClaim.incidentDate)}</div>
                     </div>
                   </div>
                 </CardContent>
@@ -712,12 +637,8 @@ export default function Claims() {
                   <div className="flex items-center space-x-2">
                     <FileText className="h-4 w-4 text-muted-foreground" />
                     <div>
-                      <div className="text-sm text-muted-foreground">
-                        Submission Date
-                      </div>
-                      <div className="font-medium">
-                        {formatDate(selectedClaim.submissionDate)}
-                      </div>
+                      <div className="text-sm text-muted-foreground">Submission Date</div>
+                      <div className="font-medium">{formatDate(selectedClaim.submissionDate)}</div>
                     </div>
                   </div>
                 </CardContent>
@@ -737,17 +658,12 @@ export default function Claims() {
               <h3 className="text-lg font-semibold mb-4">Documents</h3>
               <div className="space-y-2">
                 {selectedClaim.documents.map((doc, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between p-3 border rounded-lg dark:border-gray-700"
-                  >
+                  <div key={index} className="flex items-center justify-between p-3 border rounded-lg dark:border-gray-700">
                     <div className="flex items-center space-x-3">
                       <FileText className="h-4 w-4 text-muted-foreground" />
                       <div>
                         <div className="font-medium">{doc.name}</div>
-                        <div className="text-sm text-muted-foreground">
-                          {doc.type} • {formatDate(doc.uploadDate)}
-                        </div>
+                        <div className="text-sm text-muted-foreground">{doc.type} • {formatDate(doc.uploadDate)}</div>
                       </div>
                     </div>
                     <Button variant="ghost" size="sm">
@@ -773,13 +689,9 @@ export default function Claims() {
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
                         <div className="font-medium">{event.action}</div>
-                        <div className="text-sm text-muted-foreground">
-                          {formatDate(event.date)}
-                        </div>
+                        <div className="text-sm text-muted-foreground">{formatDate(event.date)}</div>
                       </div>
-                      <div className="text-sm text-muted-foreground">
-                        by {event.user}
-                      </div>
+                      <div className="text-sm text-muted-foreground">by {event.user}</div>
                       {event.notes && (
                         <div className="text-sm mt-1 p-2 bg-gray-50 dark:bg-gray-800 rounded">
                           {event.notes}
