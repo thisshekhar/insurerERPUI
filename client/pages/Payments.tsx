@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { ColumnDef } from "@tanstack/react-table";
-import { 
-  DollarSign, 
-  Plus, 
-  Eye, 
-  Edit, 
-  Download, 
-  Send, 
-  CreditCard, 
-  Building, 
-  Phone, 
+import {
+  DollarSign,
+  Plus,
+  Eye,
+  Edit,
+  Download,
+  Send,
+  CreditCard,
+  Building,
+  Phone,
   Mail,
   AlertTriangle,
   CheckCircle,
@@ -19,25 +19,37 @@ import {
   FileText,
   Calculator,
   TrendingUp,
-  TrendingDown
+  TrendingDown,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { DataTable } from "@/components/ui/data-table";
 import { FormDialog } from "@/components/ui/form-dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
-import { 
-  mockPayments, 
+import {
+  mockPayments,
   mockInvoices,
   mockReminders,
   mockPaymentMethods,
-  Payment, 
+  Payment,
   Invoice,
   PaymentReminder,
   getPaymentsByStatus,
@@ -45,48 +57,49 @@ import {
   getUpcomingPayments,
   calculateTotalRevenue,
   calculateOutstandingAmount,
-  getMonthlyRevenue
+  getMonthlyRevenue,
 } from "@/lib/payment-data";
 import { mockCustomers } from "@/lib/mock-data";
 import { mockPolicies } from "@/lib/policy-data";
 import { cn } from "@/lib/utils";
 
 const paymentStatusColors = {
-  'Pending': "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400",
-  'Paid': "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
-  'Overdue': "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400",
-  'Partial': "bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400",
-  'Failed': "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400",
-  'Refunded': "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400",
+  Pending:
+    "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400",
+  Paid: "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
+  Overdue: "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400",
+  Partial: "bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400",
+  Failed: "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400",
+  Refunded: "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400",
 };
 
 const invoiceStatusColors = {
-  'Draft': "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400",
-  'Sent': "bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400",
-  'Paid': "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
-  'Overdue': "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400",
-  'Cancelled': "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400",
+  Draft: "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400",
+  Sent: "bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400",
+  Paid: "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
+  Overdue: "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400",
+  Cancelled: "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400",
 };
 
 const statusIcons = {
-  'Pending': Clock,
-  'Paid': CheckCircle,
-  'Overdue': AlertTriangle,
-  'Partial': RefreshCw,
-  'Failed': XCircle,
-  'Refunded': RefreshCw,
-  'Draft': FileText,
-  'Sent': Send,
-  'Cancelled': XCircle,
+  Pending: Clock,
+  Paid: CheckCircle,
+  Overdue: AlertTriangle,
+  Partial: RefreshCw,
+  Failed: XCircle,
+  Refunded: RefreshCw,
+  Draft: FileText,
+  Sent: Send,
+  Cancelled: XCircle,
 };
 
 const paymentMethodIcons = {
-  'Credit Card': CreditCard,
-  'Bank Transfer': Building,
-  'Check': FileText,
-  'Cash': DollarSign,
-  'PayPal': DollarSign,
-  'Direct Debit': Building,
+  "Credit Card": CreditCard,
+  "Bank Transfer": Building,
+  Check: FileText,
+  Cash: DollarSign,
+  PayPal: DollarSign,
+  "Direct Debit": Building,
 };
 
 export default function Payments() {
@@ -95,26 +108,29 @@ export default function Payments() {
   const [reminders, setReminders] = useState<PaymentReminder[]>(mockReminders);
   const [selectedPayment, setSelectedPayment] = useState<Payment | null>(null);
   const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
-  const [showProcessPaymentDialog, setShowProcessPaymentDialog] = useState(false);
+  const [showProcessPaymentDialog, setShowProcessPaymentDialog] =
+    useState(false);
   const [showCreateInvoiceDialog, setShowCreateInvoiceDialog] = useState(false);
   const [showSendReminderDialog, setShowSendReminderDialog] = useState(false);
-  const [showPaymentDetailsDialog, setShowPaymentDetailsDialog] = useState(false);
-  const [showInvoiceDetailsDialog, setShowInvoiceDetailsDialog] = useState(false);
+  const [showPaymentDetailsDialog, setShowPaymentDetailsDialog] =
+    useState(false);
+  const [showInvoiceDetailsDialog, setShowInvoiceDetailsDialog] =
+    useState(false);
   const [formData, setFormData] = useState<any>({});
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
       minimumFractionDigits: 0,
     }).format(amount);
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
     });
   };
 
@@ -126,15 +142,17 @@ export default function Payments() {
 
     const updatedPayment = {
       ...selectedPayment,
-      status: 'Paid' as const,
-      paidDate: new Date().toISOString().split('T')[0],
+      status: "Paid" as const,
+      paidDate: new Date().toISOString().split("T")[0],
       paymentMethod: formData.paymentMethod,
       transactionId: `TXN-${Math.random().toString(36).substr(2, 9).toUpperCase()}`,
       processedBy: "Admin",
-      notes: formData.notes || undefined
+      notes: formData.notes || undefined,
     };
 
-    setPayments(payments.map(p => p.id === selectedPayment.id ? updatedPayment : p));
+    setPayments(
+      payments.map((p) => (p.id === selectedPayment.id ? updatedPayment : p)),
+    );
     setShowProcessPaymentDialog(false);
     setFormData({});
     toast.success("Payment processed successfully");
@@ -146,40 +164,48 @@ export default function Payments() {
       return;
     }
 
-    const customer = mockCustomers.find(c => c.id === formData.customerId);
-    const policy = mockPolicies.find(p => p.id === formData.policyId);
-    
+    const customer = mockCustomers.find((c) => c.id === formData.customerId);
+    const policy = mockPolicies.find((p) => p.id === formData.policyId);
+
     const newInvoice: Invoice = {
-      id: `INV-${String(invoices.length + 1).padStart(3, '0')}`,
-      invoiceNumber: `INV-${new Date().getFullYear()}-${String(invoices.length + 1).padStart(3, '0')}`,
-      policyId: formData.policyId || '',
+      id: `INV-${String(invoices.length + 1).padStart(3, "0")}`,
+      invoiceNumber: `INV-${new Date().getFullYear()}-${String(invoices.length + 1).padStart(3, "0")}`,
+      policyId: formData.policyId || "",
       customerId: formData.customerId,
-      customerName: customer ? `${customer.firstName} ${customer.lastName}` : '',
-      policyNumber: policy?.policyNumber || '',
-      issueDate: new Date().toISOString().split('T')[0],
-      dueDate: formData.dueDate || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+      customerName: customer
+        ? `${customer.firstName} ${customer.lastName}`
+        : "",
+      policyNumber: policy?.policyNumber || "",
+      issueDate: new Date().toISOString().split("T")[0],
+      dueDate:
+        formData.dueDate ||
+        new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+          .toISOString()
+          .split("T")[0],
       amount: formData.amount,
       taxAmount: formData.taxAmount || 0,
       totalAmount: (formData.amount || 0) + (formData.taxAmount || 0),
-      status: 'Draft',
-      paymentTerms: formData.paymentTerms || 'Net 30',
-      lineItems: [{
-        id: 'LI-001',
-        description: formData.description || 'Premium Payment',
-        quantity: 1,
-        unitPrice: formData.amount || 0,
-        totalPrice: formData.amount || 0,
-        taxRate: 0,
-        taxAmount: formData.taxAmount || 0
-      }],
+      status: "Draft",
+      paymentTerms: formData.paymentTerms || "Net 30",
+      lineItems: [
+        {
+          id: "LI-001",
+          description: formData.description || "Premium Payment",
+          quantity: 1,
+          unitPrice: formData.amount || 0,
+          totalPrice: formData.amount || 0,
+          taxRate: 0,
+          taxAmount: formData.taxAmount || 0,
+        },
+      ],
       payments: [],
       billingAddress: customer?.address || {
-        street: '',
-        city: '',
-        state: '',
-        zipCode: '',
-        country: 'USA'
-      }
+        street: "",
+        city: "",
+        state: "",
+        zipCode: "",
+        country: "USA",
+      },
     };
 
     setInvoices([...invoices, newInvoice]);
@@ -195,16 +221,16 @@ export default function Payments() {
     }
 
     const newReminder: PaymentReminder = {
-      id: `REM-${String(reminders.length + 1).padStart(3, '0')}`,
+      id: `REM-${String(reminders.length + 1).padStart(3, "0")}`,
       paymentId: selectedPayment.id,
       customerId: selectedPayment.customerId,
       customerName: selectedPayment.customerName,
       type: formData.type,
-      sentDate: new Date().toISOString().split('T')[0],
+      sentDate: new Date().toISOString().split("T")[0],
       dueDate: selectedPayment.dueDate,
       amount: selectedPayment.amount,
-      status: 'Sent',
-      template: formData.template || 'Payment Reminder'
+      status: "Sent",
+      template: formData.template || "Payment Reminder",
     };
 
     setReminders([...reminders, newReminder]);
@@ -231,7 +257,9 @@ export default function Payments() {
         return (
           <div>
             <div className="font-medium">{payment.customerName}</div>
-            <div className="text-sm text-muted-foreground">{payment.policyNumber}</div>
+            <div className="text-sm text-muted-foreground">
+              {payment.policyNumber}
+            </div>
           </div>
         );
       },
@@ -245,7 +273,9 @@ export default function Payments() {
           <div>
             <div className="font-medium">{formatCurrency(payment.amount)}</div>
             {payment.late_fee && (
-              <div className="text-sm text-red-600">+{formatCurrency(payment.late_fee)} late fee</div>
+              <div className="text-sm text-red-600">
+                +{formatCurrency(payment.late_fee)} late fee
+              </div>
             )}
           </div>
         );
@@ -260,7 +290,9 @@ export default function Payments() {
       accessorKey: "status",
       header: "Status",
       cell: ({ row }) => {
-        const status = row.getValue("status") as keyof typeof paymentStatusColors;
+        const status = row.getValue(
+          "status",
+        ) as keyof typeof paymentStatusColors;
         const Icon = statusIcons[status];
         return (
           <Badge className={paymentStatusColors[status]}>
@@ -276,7 +308,8 @@ export default function Payments() {
       cell: ({ row }) => {
         const method = row.getValue("paymentMethod") as string;
         if (!method) return <span className="text-muted-foreground">-</span>;
-        const Icon = paymentMethodIcons[method as keyof typeof paymentMethodIcons];
+        const Icon =
+          paymentMethodIcons[method as keyof typeof paymentMethodIcons];
         return (
           <div className="flex items-center space-x-2">
             <Icon className="h-4 w-4 text-muted-foreground" />
@@ -303,7 +336,7 @@ export default function Payments() {
             >
               <Eye className="h-4 w-4" />
             </Button>
-            {payment.status === 'Pending' && (
+            {payment.status === "Pending" && (
               <Button
                 variant="ghost"
                 size="sm"
@@ -317,7 +350,7 @@ export default function Payments() {
                 <CreditCard className="h-4 w-4" />
               </Button>
             )}
-            {(payment.status === 'Pending' || payment.status === 'Overdue') && (
+            {(payment.status === "Pending" || payment.status === "Overdue") && (
               <Button
                 variant="ghost"
                 size="sm"
@@ -354,7 +387,9 @@ export default function Payments() {
         return (
           <div>
             <div className="font-medium">{invoice.customerName}</div>
-            <div className="text-sm text-muted-foreground">{invoice.policyNumber}</div>
+            <div className="text-sm text-muted-foreground">
+              {invoice.policyNumber}
+            </div>
           </div>
         );
       },
@@ -378,7 +413,9 @@ export default function Payments() {
       accessorKey: "status",
       header: "Status",
       cell: ({ row }) => {
-        const status = row.getValue("status") as keyof typeof invoiceStatusColors;
+        const status = row.getValue(
+          "status",
+        ) as keyof typeof invoiceStatusColors;
         const Icon = statusIcons[status];
         return (
           <Badge className={invoiceStatusColors[status]}>
@@ -416,16 +453,20 @@ export default function Payments() {
             >
               <Download className="h-4 w-4" />
             </Button>
-            {invoice.status === 'Draft' && (
+            {invoice.status === "Draft" && (
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={(e) => {
                   e.stopPropagation();
-                  const updatedInvoices = invoices.map(inv => 
-                    inv.id === invoice.id 
-                      ? { ...inv, status: 'Sent' as const, sentDate: new Date().toISOString().split('T')[0] }
-                      : inv
+                  const updatedInvoices = invoices.map((inv) =>
+                    inv.id === invoice.id
+                      ? {
+                          ...inv,
+                          status: "Sent" as const,
+                          sentDate: new Date().toISOString().split("T")[0],
+                        }
+                      : inv,
                   );
                   setInvoices(updatedInvoices);
                   toast.success("Invoice sent to customer");
@@ -445,21 +486,30 @@ export default function Payments() {
   const outstandingAmount = calculateOutstandingAmount(payments);
   const overduePayments = getOverduePayments();
   const upcomingPayments = getUpcomingPayments(30);
-  const thisMonthRevenue = getMonthlyRevenue(new Date().getFullYear(), new Date().getMonth() + 1);
-  const lastMonthRevenue = getMonthlyRevenue(new Date().getFullYear(), new Date().getMonth());
+  const thisMonthRevenue = getMonthlyRevenue(
+    new Date().getFullYear(),
+    new Date().getMonth() + 1,
+  );
+  const lastMonthRevenue = getMonthlyRevenue(
+    new Date().getFullYear(),
+    new Date().getMonth(),
+  );
 
   return (
     <div className="space-y-6">
       {/* Page Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Payments & Premiums</h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            Payments & Premiums
+          </h1>
           <p className="text-gray-600 dark:text-gray-400 mt-2">
-            Track payment history, manage invoices, and handle premium collections.
+            Track payment history, manage invoices, and handle premium
+            collections.
           </p>
         </div>
         <div className="flex space-x-2">
-          <Button 
+          <Button
             variant="outline"
             onClick={() => setShowCreateInvoiceDialog(true)}
             className="flex items-center space-x-2"
@@ -467,7 +517,7 @@ export default function Payments() {
             <FileText className="h-4 w-4" />
             <span>Create Invoice</span>
           </Button>
-          <Button 
+          <Button
             onClick={() => {
               setSelectedPayment(null);
               setFormData({});
@@ -487,8 +537,12 @@ export default function Payments() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Total Revenue</p>
-                <p className="text-2xl font-bold">{formatCurrency(totalRevenue)}</p>
+                <p className="text-sm font-medium text-muted-foreground">
+                  Total Revenue
+                </p>
+                <p className="text-2xl font-bold">
+                  {formatCurrency(totalRevenue)}
+                </p>
                 <div className="flex items-center text-xs text-green-600 mt-1">
                   <TrendingUp className="h-3 w-3 mr-1" />
                   <span>+12.5% from last month</span>
@@ -498,44 +552,60 @@ export default function Payments() {
             </div>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Outstanding</p>
-                <p className="text-2xl font-bold">{formatCurrency(outstandingAmount)}</p>
+                <p className="text-sm font-medium text-muted-foreground">
+                  Outstanding
+                </p>
+                <p className="text-2xl font-bold">
+                  {formatCurrency(outstandingAmount)}
+                </p>
                 <div className="flex items-center text-xs text-muted-foreground mt-1">
-                  <span>{getPaymentsByStatus('Pending').length} pending payments</span>
+                  <span>
+                    {getPaymentsByStatus("Pending").length} pending payments
+                  </span>
                 </div>
               </div>
               <Clock className="h-8 w-8 text-yellow-600" />
             </div>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Overdue</p>
+                <p className="text-sm font-medium text-muted-foreground">
+                  Overdue
+                </p>
                 <p className="text-2xl font-bold">{overduePayments.length}</p>
                 <div className="flex items-center text-xs text-red-600 mt-1">
                   <AlertTriangle className="h-3 w-3 mr-1" />
-                  <span>{formatCurrency(overduePayments.reduce((sum, p) => sum + p.amount, 0))}</span>
+                  <span>
+                    {formatCurrency(
+                      overduePayments.reduce((sum, p) => sum + p.amount, 0),
+                    )}
+                  </span>
                 </div>
               </div>
               <AlertTriangle className="h-8 w-8 text-red-600" />
             </div>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">This Month</p>
-                <p className="text-2xl font-bold">{formatCurrency(thisMonthRevenue)}</p>
+                <p className="text-sm font-medium text-muted-foreground">
+                  This Month
+                </p>
+                <p className="text-2xl font-bold">
+                  {formatCurrency(thisMonthRevenue)}
+                </p>
                 <div className="flex items-center text-xs text-muted-foreground mt-1">
                   {thisMonthRevenue > lastMonthRevenue ? (
                     <TrendingUp className="h-3 w-3 mr-1 text-green-600" />
@@ -556,8 +626,12 @@ export default function Payments() {
         <TabsList>
           <TabsTrigger value="payments">Payments</TabsTrigger>
           <TabsTrigger value="invoices">Invoices</TabsTrigger>
-          <TabsTrigger value="overdue">Overdue ({overduePayments.length})</TabsTrigger>
-          <TabsTrigger value="upcoming">Upcoming ({upcomingPayments.length})</TabsTrigger>
+          <TabsTrigger value="overdue">
+            Overdue ({overduePayments.length})
+          </TabsTrigger>
+          <TabsTrigger value="upcoming">
+            Upcoming ({upcomingPayments.length})
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="payments">
@@ -648,16 +722,20 @@ export default function Payments() {
             <Input
               id="amount"
               type="number"
-              value={formData.amount || ''}
-              onChange={(e) => setFormData({ ...formData, amount: Number(e.target.value) })}
+              value={formData.amount || ""}
+              onChange={(e) =>
+                setFormData({ ...formData, amount: Number(e.target.value) })
+              }
               placeholder="Enter payment amount"
             />
           </div>
           <div>
             <Label htmlFor="paymentMethod">Payment Method *</Label>
             <Select
-              value={formData.paymentMethod || ''}
-              onValueChange={(value) => setFormData({ ...formData, paymentMethod: value })}
+              value={formData.paymentMethod || ""}
+              onValueChange={(value) =>
+                setFormData({ ...formData, paymentMethod: value })
+              }
             >
               <SelectTrigger>
                 <SelectValue placeholder="Select payment method" />
@@ -676,8 +754,10 @@ export default function Payments() {
             <Label htmlFor="notes">Notes</Label>
             <Textarea
               id="notes"
-              value={formData.notes || ''}
-              onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+              value={formData.notes || ""}
+              onChange={(e) =>
+                setFormData({ ...formData, notes: e.target.value })
+              }
               placeholder="Additional notes about this payment"
               rows={3}
             />
@@ -699,8 +779,10 @@ export default function Payments() {
           <div>
             <Label htmlFor="customerId">Customer *</Label>
             <Select
-              value={formData.customerId || ''}
-              onValueChange={(value) => setFormData({ ...formData, customerId: value })}
+              value={formData.customerId || ""}
+              onValueChange={(value) =>
+                setFormData({ ...formData, customerId: value })
+              }
             >
               <SelectTrigger>
                 <SelectValue placeholder="Select customer" />
@@ -717,8 +799,10 @@ export default function Payments() {
           <div>
             <Label htmlFor="policyId">Policy</Label>
             <Select
-              value={formData.policyId || ''}
-              onValueChange={(value) => setFormData({ ...formData, policyId: value })}
+              value={formData.policyId || ""}
+              onValueChange={(value) =>
+                setFormData({ ...formData, policyId: value })
+              }
             >
               <SelectTrigger>
                 <SelectValue placeholder="Select policy" />
@@ -737,8 +821,10 @@ export default function Payments() {
             <Input
               id="amount"
               type="number"
-              value={formData.amount || ''}
-              onChange={(e) => setFormData({ ...formData, amount: Number(e.target.value) })}
+              value={formData.amount || ""}
+              onChange={(e) =>
+                setFormData({ ...formData, amount: Number(e.target.value) })
+              }
               placeholder="Enter invoice amount"
             />
           </div>
@@ -747,8 +833,10 @@ export default function Payments() {
             <Input
               id="taxAmount"
               type="number"
-              value={formData.taxAmount || ''}
-              onChange={(e) => setFormData({ ...formData, taxAmount: Number(e.target.value) })}
+              value={formData.taxAmount || ""}
+              onChange={(e) =>
+                setFormData({ ...formData, taxAmount: Number(e.target.value) })
+              }
               placeholder="Enter tax amount"
             />
           </div>
@@ -757,15 +845,19 @@ export default function Payments() {
             <Input
               id="dueDate"
               type="date"
-              value={formData.dueDate || ''}
-              onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })}
+              value={formData.dueDate || ""}
+              onChange={(e) =>
+                setFormData({ ...formData, dueDate: e.target.value })
+              }
             />
           </div>
           <div>
             <Label htmlFor="paymentTerms">Payment Terms</Label>
             <Select
-              value={formData.paymentTerms || ''}
-              onValueChange={(value) => setFormData({ ...formData, paymentTerms: value })}
+              value={formData.paymentTerms || ""}
+              onValueChange={(value) =>
+                setFormData({ ...formData, paymentTerms: value })
+              }
             >
               <SelectTrigger>
                 <SelectValue placeholder="Select payment terms" />
@@ -783,8 +875,10 @@ export default function Payments() {
             <Label htmlFor="description">Description</Label>
             <Textarea
               id="description"
-              value={formData.description || ''}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              value={formData.description || ""}
+              onChange={(e) =>
+                setFormData({ ...formData, description: e.target.value })
+              }
               placeholder="Invoice description"
               rows={3}
             />
@@ -805,8 +899,10 @@ export default function Payments() {
           <div>
             <Label htmlFor="type">Reminder Type *</Label>
             <Select
-              value={formData.type || ''}
-              onValueChange={(value) => setFormData({ ...formData, type: value })}
+              value={formData.type || ""}
+              onValueChange={(value) =>
+                setFormData({ ...formData, type: value })
+              }
             >
               <SelectTrigger>
                 <SelectValue placeholder="Select reminder type" />
@@ -822,15 +918,21 @@ export default function Payments() {
           <div>
             <Label htmlFor="template">Template</Label>
             <Select
-              value={formData.template || ''}
-              onValueChange={(value) => setFormData({ ...formData, template: value })}
+              value={formData.template || ""}
+              onValueChange={(value) =>
+                setFormData({ ...formData, template: value })
+              }
             >
               <SelectTrigger>
                 <SelectValue placeholder="Select template" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Payment Reminder">Payment Reminder</SelectItem>
-                <SelectItem value="First Overdue Notice">First Overdue Notice</SelectItem>
+                <SelectItem value="Payment Reminder">
+                  Payment Reminder
+                </SelectItem>
+                <SelectItem value="First Overdue Notice">
+                  First Overdue Notice
+                </SelectItem>
                 <SelectItem value="Second Notice">Second Notice</SelectItem>
                 <SelectItem value="Final Notice">Final Notice</SelectItem>
               </SelectContent>
@@ -843,7 +945,9 @@ export default function Payments() {
       <FormDialog
         open={showPaymentDetailsDialog}
         onOpenChange={setShowPaymentDetailsDialog}
-        title={selectedPayment ? `Payment ${selectedPayment.id}` : "Payment Details"}
+        title={
+          selectedPayment ? `Payment ${selectedPayment.id}` : "Payment Details"
+        }
         description="View complete payment information and transaction details."
         maxWidth="max-w-2xl"
       >
@@ -860,7 +964,9 @@ export default function Payments() {
               </div>
               <div>
                 <Label className="text-sm font-medium">Amount</Label>
-                <p className="text-lg font-bold">{formatCurrency(selectedPayment.amount)}</p>
+                <p className="text-lg font-bold">
+                  {formatCurrency(selectedPayment.amount)}
+                </p>
               </div>
               <div>
                 <Label className="text-sm font-medium">Status</Label>
@@ -887,20 +993,26 @@ export default function Payments() {
               {selectedPayment.transactionId && (
                 <div>
                   <Label className="text-sm font-medium">Transaction ID</Label>
-                  <p className="font-mono text-sm">{selectedPayment.transactionId}</p>
+                  <p className="font-mono text-sm">
+                    {selectedPayment.transactionId}
+                  </p>
                 </div>
               )}
             </div>
             {selectedPayment.description && (
               <div>
                 <Label className="text-sm font-medium">Description</Label>
-                <p className="text-sm text-muted-foreground">{selectedPayment.description}</p>
+                <p className="text-sm text-muted-foreground">
+                  {selectedPayment.description}
+                </p>
               </div>
             )}
             {selectedPayment.notes && (
               <div>
                 <Label className="text-sm font-medium">Notes</Label>
-                <p className="text-sm text-muted-foreground">{selectedPayment.notes}</p>
+                <p className="text-sm text-muted-foreground">
+                  {selectedPayment.notes}
+                </p>
               </div>
             )}
           </div>
@@ -911,7 +1023,11 @@ export default function Payments() {
       <FormDialog
         open={showInvoiceDetailsDialog}
         onOpenChange={setShowInvoiceDetailsDialog}
-        title={selectedInvoice ? `Invoice ${selectedInvoice.invoiceNumber}` : "Invoice Details"}
+        title={
+          selectedInvoice
+            ? `Invoice ${selectedInvoice.invoiceNumber}`
+            : "Invoice Details"
+        }
         description="View complete invoice information and line items."
         maxWidth="max-w-4xl"
       >
@@ -947,7 +1063,9 @@ export default function Payments() {
             </div>
 
             <div>
-              <Label className="text-sm font-medium mb-2 block">Line Items</Label>
+              <Label className="text-sm font-medium mb-2 block">
+                Line Items
+              </Label>
               <div className="border rounded-lg">
                 <table className="w-full">
                   <thead className="border-b bg-muted/50">
@@ -963,25 +1081,41 @@ export default function Payments() {
                       <tr key={item.id} className="border-b">
                         <td className="p-3">{item.description}</td>
                         <td className="text-right p-3">{item.quantity}</td>
-                        <td className="text-right p-3">{formatCurrency(item.unitPrice)}</td>
-                        <td className="text-right p-3">{formatCurrency(item.totalPrice)}</td>
+                        <td className="text-right p-3">
+                          {formatCurrency(item.unitPrice)}
+                        </td>
+                        <td className="text-right p-3">
+                          {formatCurrency(item.totalPrice)}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
                   <tfoot className="bg-muted/50">
                     <tr>
-                      <td colSpan={3} className="text-right p-3 font-medium">Subtotal:</td>
-                      <td className="text-right p-3 font-medium">{formatCurrency(selectedInvoice.amount)}</td>
+                      <td colSpan={3} className="text-right p-3 font-medium">
+                        Subtotal:
+                      </td>
+                      <td className="text-right p-3 font-medium">
+                        {formatCurrency(selectedInvoice.amount)}
+                      </td>
                     </tr>
                     {selectedInvoice.taxAmount > 0 && (
                       <tr>
-                        <td colSpan={3} className="text-right p-3">Tax:</td>
-                        <td className="text-right p-3">{formatCurrency(selectedInvoice.taxAmount)}</td>
+                        <td colSpan={3} className="text-right p-3">
+                          Tax:
+                        </td>
+                        <td className="text-right p-3">
+                          {formatCurrency(selectedInvoice.taxAmount)}
+                        </td>
                       </tr>
                     )}
                     <tr>
-                      <td colSpan={3} className="text-right p-3 font-bold">Total:</td>
-                      <td className="text-right p-3 font-bold">{formatCurrency(selectedInvoice.totalAmount)}</td>
+                      <td colSpan={3} className="text-right p-3 font-bold">
+                        Total:
+                      </td>
+                      <td className="text-right p-3 font-bold">
+                        {formatCurrency(selectedInvoice.totalAmount)}
+                      </td>
                     </tr>
                   </tfoot>
                 </table>
@@ -992,7 +1126,11 @@ export default function Payments() {
               <Label className="text-sm font-medium">Billing Address</Label>
               <div className="text-sm text-muted-foreground">
                 <p>{selectedInvoice.billingAddress.street}</p>
-                <p>{selectedInvoice.billingAddress.city}, {selectedInvoice.billingAddress.state} {selectedInvoice.billingAddress.zipCode}</p>
+                <p>
+                  {selectedInvoice.billingAddress.city},{" "}
+                  {selectedInvoice.billingAddress.state}{" "}
+                  {selectedInvoice.billingAddress.zipCode}
+                </p>
                 <p>{selectedInvoice.billingAddress.country}</p>
               </div>
             </div>

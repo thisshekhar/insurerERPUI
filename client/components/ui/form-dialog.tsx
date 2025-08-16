@@ -53,11 +53,9 @@ export function FormDialog({
           <DialogTitle>{title}</DialogTitle>
           {description && <DialogDescription>{description}</DialogDescription>}
         </DialogHeader>
-        
+
         <ScrollArea className="max-h-[60vh] pr-4">
-          <div className="space-y-4 py-4">
-            {children}
-          </div>
+          <div className="space-y-4 py-4">{children}</div>
         </ScrollArea>
 
         {(onSubmit || onCancel) && (
@@ -71,11 +69,7 @@ export function FormDialog({
               {cancelLabel}
             </Button>
             {onSubmit && (
-              <Button
-                type="button"
-                onClick={handleSubmit}
-                disabled={isLoading}
-              >
+              <Button type="button" onClick={handleSubmit} disabled={isLoading}>
                 {isLoading ? "Saving..." : submitLabel}
               </Button>
             )}

@@ -1,79 +1,94 @@
 import { useState } from "react";
 import { ColumnDef } from "@tanstack/react-table";
-import { 
-  FileText, 
-  Plus, 
-  Eye, 
-  Edit, 
-  Calendar, 
-  DollarSign, 
-  Shield, 
-  User, 
-  Building, 
-  Car, 
-  Heart, 
-  Cross, 
-  Home, 
+import {
+  FileText,
+  Plus,
+  Eye,
+  Edit,
+  Calendar,
+  DollarSign,
+  Shield,
+  User,
+  Building,
+  Car,
+  Heart,
+  Cross,
+  Home,
   Plane,
   RefreshCw,
   AlertTriangle,
   CheckCircle,
   Clock,
-  XCircle
+  XCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { DataTable } from "@/components/ui/data-table";
 import { FormDialog } from "@/components/ui/form-dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { 
-  mockPolicies, 
-  Policy, 
-  policyTypeConfigs, 
+import {
+  mockPolicies,
+  Policy,
+  policyTypeConfigs,
   getPoliciesByStatus,
   getExpiringPolicies,
   calculateTotalPremiums,
-  calculateTotalCoverage
+  calculateTotalCoverage,
 } from "@/lib/policy-data";
 import { mockCustomers } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
 const statusColors = {
-  'Active': "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
-  'Pending': "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400",
-  'Expired': "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400",
-  'Cancelled': "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400",
-  'Under Review': "bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400",
+  Active:
+    "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
+  Pending:
+    "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400",
+  Expired: "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400",
+  Cancelled: "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400",
+  "Under Review":
+    "bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400",
 };
 
 const statusIcons = {
-  'Active': CheckCircle,
-  'Pending': Clock,
-  'Expired': XCircle,
-  'Cancelled': XCircle,
-  'Under Review': AlertTriangle,
+  Active: CheckCircle,
+  Pending: Clock,
+  Expired: XCircle,
+  Cancelled: XCircle,
+  "Under Review": AlertTriangle,
 };
 
 const policyTypeIcons = {
-  'Life Insurance': Heart,
-  'Health Insurance': Cross,
-  'Auto Insurance': Car,
-  'Home Insurance': Home,
-  'Travel Insurance': Plane,
-  'Business Insurance': Building,
+  "Life Insurance": Heart,
+  "Health Insurance": Cross,
+  "Auto Insurance": Car,
+  "Home Insurance": Home,
+  "Travel Insurance": Plane,
+  "Business Insurance": Building,
 };
 
 const agents = [
   "Mike Chen",
-  "Sarah Williams", 
+  "Sarah Williams",
   "James Brown",
   "Lisa Anderson",
-  "Robert Johnson"
+  "Robert Johnson",
 ];
 
 export default function Policies() {
@@ -86,52 +101,77 @@ export default function Policies() {
   const [formData, setFormData] = useState<Partial<Policy>>({});
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
       minimumFractionDigits: 0,
     }).format(amount);
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
     });
   };
 
   const generatePolicyNumber = (policyType: string, customerName: string) => {
-    const typeCode = policyType.split(' ')[0].substring(0, 3).toUpperCase();
+    const typeCode = policyType.split(" ")[0].substring(0, 3).toUpperCase();
     const year = new Date().getFullYear();
-    const customerCode = customerName.split(' ').map(n => n.substring(0, 1)).join('').toUpperCase();
+    const customerCode = customerName
+      .split(" ")
+      .map((n) => n.substring(0, 1))
+      .join("")
+      .toUpperCase();
     const random = Math.floor(Math.random() * 999) + 1;
-    return `${typeCode}-${year}-${String(random).padStart(3, '0')}-${customerCode}`;
+    return `${typeCode}-${year}-${String(random).padStart(3, "0")}-${customerCode}`;
   };
 
   const handleAddPolicy = () => {
-    if (!formData.customerName || !formData.policyType || !formData.premiumAmount || !formData.coverageAmount) {
+    if (
+      !formData.customerName ||
+      !formData.policyType ||
+      !formData.premiumAmount ||
+      !formData.coverageAmount
+    ) {
       toast.error("Please fill in all required fields");
       return;
     }
 
-    const customer = mockCustomers.find(c => `${c.firstName} ${c.lastName}` === formData.customerName);
+    const customer = mockCustomers.find(
+      (c) => `${c.firstName} ${c.lastName}` === formData.customerName,
+    );
     const newPolicy: Policy = {
-      id: `POL-${String(policies.length + 1).padStart(3, '0')}`,
-      policyNumber: generatePolicyNumber(formData.policyType || '', formData.customerName || ''),
-      customerId: customer?.id || `CUST-${String(Math.floor(Math.random() * 999) + 1).padStart(3, '0')}`,
-      customerName: formData.customerName || '',
-      agentId: `AGT-${String(Math.floor(Math.random() * 5) + 1).padStart(3, '0')}`,
-      agentName: formData.agentName || 'Mike Chen',
-      policyType: formData.policyType as any || 'Life Insurance',
-      coverageType: formData.coverageType || 'Standard',
-      status: 'Pending',
-      issueDate: new Date().toISOString().split('T')[0],
-      effectiveDate: formData.effectiveDate || new Date().toISOString().split('T')[0],
-      expiryDate: formData.expiryDate || new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-      renewalDate: formData.renewalDate || new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+      id: `POL-${String(policies.length + 1).padStart(3, "0")}`,
+      policyNumber: generatePolicyNumber(
+        formData.policyType || "",
+        formData.customerName || "",
+      ),
+      customerId:
+        customer?.id ||
+        `CUST-${String(Math.floor(Math.random() * 999) + 1).padStart(3, "0")}`,
+      customerName: formData.customerName || "",
+      agentId: `AGT-${String(Math.floor(Math.random() * 5) + 1).padStart(3, "0")}`,
+      agentName: formData.agentName || "Mike Chen",
+      policyType: (formData.policyType as any) || "Life Insurance",
+      coverageType: formData.coverageType || "Standard",
+      status: "Pending",
+      issueDate: new Date().toISOString().split("T")[0],
+      effectiveDate:
+        formData.effectiveDate || new Date().toISOString().split("T")[0],
+      expiryDate:
+        formData.expiryDate ||
+        new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
+          .toISOString()
+          .split("T")[0],
+      renewalDate:
+        formData.renewalDate ||
+        new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
+          .toISOString()
+          .split("T")[0],
       premiumAmount: formData.premiumAmount || 0,
-      premiumFrequency: formData.premiumFrequency as any || 'Annual',
+      premiumFrequency: (formData.premiumFrequency as any) || "Annual",
       coverageAmount: formData.coverageAmount || 0,
       deductible: formData.deductible || 0,
       beneficiaries: [],
@@ -139,9 +179,9 @@ export default function Policies() {
       documents: [],
       payments: [],
       renewalHistory: [],
-      notes: formData.notes || '',
-      riskAssessment: formData.riskAssessment as any || 'Medium',
-      commissionRate: formData.commissionRate || 5.0
+      notes: formData.notes || "",
+      riskAssessment: (formData.riskAssessment as any) || "Medium",
+      commissionRate: formData.commissionRate || 5.0,
     };
 
     setPolicies([...policies, newPolicy]);
@@ -156,10 +196,8 @@ export default function Policies() {
       return;
     }
 
-    const updatedPolicies = policies.map(policy =>
-      policy.id === selectedPolicy.id
-        ? { ...policy, ...formData }
-        : policy
+    const updatedPolicies = policies.map((policy) =>
+      policy.id === selectedPolicy.id ? { ...policy, ...formData } : policy,
     );
 
     setPolicies(updatedPolicies);
@@ -174,23 +212,27 @@ export default function Policies() {
 
     const renewedPolicy = {
       ...selectedPolicy,
-      status: 'Active' as const,
-      renewalDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-      expiryDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+      status: "Active" as const,
+      renewalDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
+        .toISOString()
+        .split("T")[0],
+      expiryDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
+        .toISOString()
+        .split("T")[0],
       renewalHistory: [
         ...selectedPolicy.renewalHistory,
         {
-          renewalDate: new Date().toISOString().split('T')[0],
+          renewalDate: new Date().toISOString().split("T")[0],
           previousPremium: selectedPolicy.premiumAmount,
           newPremium: formData.premiumAmount || selectedPolicy.premiumAmount,
           changes: formData.notes ? [formData.notes] : [],
-          status: 'Completed' as const
-        }
-      ]
+          status: "Completed" as const,
+        },
+      ],
     };
 
-    const updatedPolicies = policies.map(policy =>
-      policy.id === selectedPolicy.id ? renewedPolicy : policy
+    const updatedPolicies = policies.map((policy) =>
+      policy.id === selectedPolicy.id ? renewedPolicy : policy,
     );
 
     setPolicies(updatedPolicies);
@@ -242,7 +284,9 @@ export default function Policies() {
             <TypeIcon className="h-4 w-4 text-muted-foreground" />
             <div>
               <div className="font-medium">{policy.customerName}</div>
-              <div className="text-sm text-muted-foreground">{policy.policyType}</div>
+              <div className="text-sm text-muted-foreground">
+                {policy.policyType}
+              </div>
             </div>
           </div>
         );
@@ -262,8 +306,12 @@ export default function Policies() {
         const policy = row.original;
         return (
           <div>
-            <div className="font-medium">{formatCurrency(policy.premiumAmount)}</div>
-            <div className="text-sm text-muted-foreground">{policy.premiumFrequency}</div>
+            <div className="font-medium">
+              {formatCurrency(policy.premiumAmount)}
+            </div>
+            <div className="text-sm text-muted-foreground">
+              {policy.premiumFrequency}
+            </div>
           </div>
         );
       },
@@ -323,7 +371,7 @@ export default function Policies() {
             >
               <Edit className="h-4 w-4" />
             </Button>
-            {policy.status === 'Active' && (
+            {policy.status === "Active" && (
               <Button
                 variant="ghost"
                 size="sm"
@@ -346,15 +394,20 @@ export default function Policies() {
       <div>
         <Label htmlFor="customerName">Customer *</Label>
         <Select
-          value={formData.customerName || ''}
-          onValueChange={(value) => setFormData({ ...formData, customerName: value })}
+          value={formData.customerName || ""}
+          onValueChange={(value) =>
+            setFormData({ ...formData, customerName: value })
+          }
         >
           <SelectTrigger>
             <SelectValue placeholder="Select customer" />
           </SelectTrigger>
           <SelectContent>
             {mockCustomers.map((customer) => (
-              <SelectItem key={customer.id} value={`${customer.firstName} ${customer.lastName}`}>
+              <SelectItem
+                key={customer.id}
+                value={`${customer.firstName} ${customer.lastName}`}
+              >
                 {customer.firstName} {customer.lastName}
               </SelectItem>
             ))}
@@ -364,8 +417,10 @@ export default function Policies() {
       <div>
         <Label htmlFor="policyType">Policy Type *</Label>
         <Select
-          value={formData.policyType || ''}
-          onValueChange={(value) => setFormData({ ...formData, policyType: value as any })}
+          value={formData.policyType || ""}
+          onValueChange={(value) =>
+            setFormData({ ...formData, policyType: value as any })
+          }
         >
           <SelectTrigger>
             <SelectValue placeholder="Select policy type" />
@@ -382,26 +437,33 @@ export default function Policies() {
       <div>
         <Label htmlFor="coverageType">Coverage Type</Label>
         <Select
-          value={formData.coverageType || ''}
-          onValueChange={(value) => setFormData({ ...formData, coverageType: value })}
+          value={formData.coverageType || ""}
+          onValueChange={(value) =>
+            setFormData({ ...formData, coverageType: value })
+          }
         >
           <SelectTrigger>
             <SelectValue placeholder="Select coverage type" />
           </SelectTrigger>
           <SelectContent>
-            {formData.policyType && policyTypeConfigs[formData.policyType as keyof typeof policyTypeConfigs]?.coverageTypes.map((type) => (
-              <SelectItem key={type} value={type}>
-                {type}
-              </SelectItem>
-            ))}
+            {formData.policyType &&
+              policyTypeConfigs[
+                formData.policyType as keyof typeof policyTypeConfigs
+              ]?.coverageTypes.map((type) => (
+                <SelectItem key={type} value={type}>
+                  {type}
+                </SelectItem>
+              ))}
           </SelectContent>
         </Select>
       </div>
       <div>
         <Label htmlFor="agentName">Assigned Agent</Label>
         <Select
-          value={formData.agentName || ''}
-          onValueChange={(value) => setFormData({ ...formData, agentName: value })}
+          value={formData.agentName || ""}
+          onValueChange={(value) =>
+            setFormData({ ...formData, agentName: value })
+          }
         >
           <SelectTrigger>
             <SelectValue placeholder="Select agent" />
@@ -420,16 +482,20 @@ export default function Policies() {
         <Input
           id="premiumAmount"
           type="number"
-          value={formData.premiumAmount || ''}
-          onChange={(e) => setFormData({ ...formData, premiumAmount: Number(e.target.value) })}
+          value={formData.premiumAmount || ""}
+          onChange={(e) =>
+            setFormData({ ...formData, premiumAmount: Number(e.target.value) })
+          }
           placeholder="Enter premium amount"
         />
       </div>
       <div>
         <Label htmlFor="premiumFrequency">Premium Frequency</Label>
         <Select
-          value={formData.premiumFrequency || ''}
-          onValueChange={(value) => setFormData({ ...formData, premiumFrequency: value as any })}
+          value={formData.premiumFrequency || ""}
+          onValueChange={(value) =>
+            setFormData({ ...formData, premiumFrequency: value as any })
+          }
         >
           <SelectTrigger>
             <SelectValue placeholder="Select frequency" />
@@ -447,8 +513,10 @@ export default function Policies() {
         <Input
           id="coverageAmount"
           type="number"
-          value={formData.coverageAmount || ''}
-          onChange={(e) => setFormData({ ...formData, coverageAmount: Number(e.target.value) })}
+          value={formData.coverageAmount || ""}
+          onChange={(e) =>
+            setFormData({ ...formData, coverageAmount: Number(e.target.value) })
+          }
           placeholder="Enter coverage amount"
         />
       </div>
@@ -457,8 +525,10 @@ export default function Policies() {
         <Input
           id="deductible"
           type="number"
-          value={formData.deductible || ''}
-          onChange={(e) => setFormData({ ...formData, deductible: Number(e.target.value) })}
+          value={formData.deductible || ""}
+          onChange={(e) =>
+            setFormData({ ...formData, deductible: Number(e.target.value) })
+          }
           placeholder="Enter deductible amount"
         />
       </div>
@@ -467,8 +537,10 @@ export default function Policies() {
         <Input
           id="effectiveDate"
           type="date"
-          value={formData.effectiveDate || ''}
-          onChange={(e) => setFormData({ ...formData, effectiveDate: e.target.value })}
+          value={formData.effectiveDate || ""}
+          onChange={(e) =>
+            setFormData({ ...formData, effectiveDate: e.target.value })
+          }
         />
       </div>
       <div>
@@ -476,15 +548,19 @@ export default function Policies() {
         <Input
           id="expiryDate"
           type="date"
-          value={formData.expiryDate || ''}
-          onChange={(e) => setFormData({ ...formData, expiryDate: e.target.value })}
+          value={formData.expiryDate || ""}
+          onChange={(e) =>
+            setFormData({ ...formData, expiryDate: e.target.value })
+          }
         />
       </div>
       <div>
         <Label htmlFor="riskAssessment">Risk Assessment</Label>
         <Select
-          value={formData.riskAssessment || ''}
-          onValueChange={(value) => setFormData({ ...formData, riskAssessment: value as any })}
+          value={formData.riskAssessment || ""}
+          onValueChange={(value) =>
+            setFormData({ ...formData, riskAssessment: value as any })
+          }
         >
           <SelectTrigger>
             <SelectValue placeholder="Select risk level" />
@@ -502,8 +578,10 @@ export default function Policies() {
           id="commissionRate"
           type="number"
           step="0.1"
-          value={formData.commissionRate || ''}
-          onChange={(e) => setFormData({ ...formData, commissionRate: Number(e.target.value) })}
+          value={formData.commissionRate || ""}
+          onChange={(e) =>
+            setFormData({ ...formData, commissionRate: Number(e.target.value) })
+          }
           placeholder="Enter commission rate"
         />
       </div>
@@ -511,7 +589,7 @@ export default function Policies() {
         <Label htmlFor="notes">Notes</Label>
         <Textarea
           id="notes"
-          value={formData.notes || ''}
+          value={formData.notes || ""}
           onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
           placeholder="Additional notes about the policy"
           rows={3}
@@ -525,9 +603,12 @@ export default function Policies() {
       {/* Page Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Policy Management</h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            Policy Management
+          </h1>
           <p className="text-gray-600 dark:text-gray-400 mt-2">
-            Create, update, and manage insurance policies for customers and agents.
+            Create, update, and manage insurance policies for customers and
+            agents.
           </p>
         </div>
         <Button onClick={openAddDialog} className="flex items-center space-x-2">
@@ -542,7 +623,9 @@ export default function Policies() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Total Policies</p>
+                <p className="text-sm font-medium text-muted-foreground">
+                  Total Policies
+                </p>
                 <p className="text-2xl font-bold">{policies.length}</p>
               </div>
               <FileText className="h-8 w-8 text-blue-600" />
@@ -553,9 +636,11 @@ export default function Policies() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Active</p>
+                <p className="text-sm font-medium text-muted-foreground">
+                  Active
+                </p>
                 <p className="text-2xl font-bold">
-                  {getPoliciesByStatus('Active').length}
+                  {getPoliciesByStatus("Active").length}
                 </p>
               </div>
               <CheckCircle className="h-8 w-8 text-green-600" />
@@ -566,7 +651,9 @@ export default function Policies() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Expiring Soon</p>
+                <p className="text-sm font-medium text-muted-foreground">
+                  Expiring Soon
+                </p>
                 <p className="text-2xl font-bold">
                   {getExpiringPolicies(30).length}
                 </p>
@@ -579,7 +666,9 @@ export default function Policies() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Total Premiums</p>
+                <p className="text-sm font-medium text-muted-foreground">
+                  Total Premiums
+                </p>
                 <p className="text-2xl font-bold">
                   {formatCurrency(calculateTotalPremiums(policies))}
                 </p>
@@ -592,7 +681,9 @@ export default function Policies() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Total Coverage</p>
+                <p className="text-sm font-medium text-muted-foreground">
+                  Total Coverage
+                </p>
                 <p className="text-xl font-bold">
                   {formatCurrency(calculateTotalCoverage(policies))}
                 </p>
@@ -608,7 +699,8 @@ export default function Policies() {
         <CardHeader>
           <CardTitle>All Policies</CardTitle>
           <CardDescription>
-            View and manage all insurance policies with premium tracking and renewal management.
+            View and manage all insurance policies with premium tracking and
+            renewal management.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -660,8 +752,13 @@ export default function Policies() {
             <Input
               id="renewalPremium"
               type="number"
-              value={formData.premiumAmount || ''}
-              onChange={(e) => setFormData({ ...formData, premiumAmount: Number(e.target.value) })}
+              value={formData.premiumAmount || ""}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  premiumAmount: Number(e.target.value),
+                })
+              }
               placeholder="Enter new premium amount"
             />
           </div>
@@ -669,8 +766,10 @@ export default function Policies() {
             <Label htmlFor="renewalNotes">Changes/Notes</Label>
             <Textarea
               id="renewalNotes"
-              value={formData.notes || ''}
-              onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+              value={formData.notes || ""}
+              onChange={(e) =>
+                setFormData({ ...formData, notes: e.target.value })
+              }
               placeholder="Describe any changes made during renewal"
               rows={3}
             />
@@ -682,7 +781,11 @@ export default function Policies() {
       <FormDialog
         open={showDetailsDialog}
         onOpenChange={setShowDetailsDialog}
-        title={selectedPolicy ? `Policy ${selectedPolicy.policyNumber}` : "Policy Details"}
+        title={
+          selectedPolicy
+            ? `Policy ${selectedPolicy.policyNumber}`
+            : "Policy Details"
+        }
         description="View complete policy information and coverage details."
         maxWidth="max-w-6xl"
       >
@@ -694,11 +797,17 @@ export default function Policies() {
                 <h3 className="text-lg font-semibold">Policy Information</h3>
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Policy Number:</span>
-                    <span className="font-medium">{selectedPolicy.policyNumber}</span>
+                    <span className="text-sm text-muted-foreground">
+                      Policy Number:
+                    </span>
+                    <span className="font-medium">
+                      {selectedPolicy.policyNumber}
+                    </span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Customer:</span>
+                    <span className="text-sm text-muted-foreground">
+                      Customer:
+                    </span>
                     <span>{selectedPolicy.customerName}</span>
                   </div>
                   <div className="flex items-center justify-between">
@@ -706,39 +815,59 @@ export default function Policies() {
                     <span>{selectedPolicy.policyType}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Coverage:</span>
-                    <Badge variant="outline">{selectedPolicy.coverageType}</Badge>
+                    <span className="text-sm text-muted-foreground">
+                      Coverage:
+                    </span>
+                    <Badge variant="outline">
+                      {selectedPolicy.coverageType}
+                    </Badge>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Status:</span>
+                    <span className="text-sm text-muted-foreground">
+                      Status:
+                    </span>
                     <Badge className={statusColors[selectedPolicy.status]}>
                       {selectedPolicy.status}
                     </Badge>
                   </div>
                 </div>
               </div>
-              
+
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold">Financial Details</h3>
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Premium:</span>
-                    <span className="font-medium">{formatCurrency(selectedPolicy.premiumAmount)}</span>
+                    <span className="text-sm text-muted-foreground">
+                      Premium:
+                    </span>
+                    <span className="font-medium">
+                      {formatCurrency(selectedPolicy.premiumAmount)}
+                    </span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Frequency:</span>
+                    <span className="text-sm text-muted-foreground">
+                      Frequency:
+                    </span>
                     <span>{selectedPolicy.premiumFrequency}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Coverage Amount:</span>
-                    <span className="font-medium">{formatCurrency(selectedPolicy.coverageAmount)}</span>
+                    <span className="text-sm text-muted-foreground">
+                      Coverage Amount:
+                    </span>
+                    <span className="font-medium">
+                      {formatCurrency(selectedPolicy.coverageAmount)}
+                    </span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Deductible:</span>
+                    <span className="text-sm text-muted-foreground">
+                      Deductible:
+                    </span>
                     <span>{formatCurrency(selectedPolicy.deductible)}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Commission:</span>
+                    <span className="text-sm text-muted-foreground">
+                      Commission:
+                    </span>
                     <span>{selectedPolicy.commissionRate}%</span>
                   </div>
                 </div>
@@ -748,28 +877,43 @@ export default function Policies() {
                 <h3 className="text-lg font-semibold">Important Dates</h3>
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Issue Date:</span>
+                    <span className="text-sm text-muted-foreground">
+                      Issue Date:
+                    </span>
                     <span>{formatDate(selectedPolicy.issueDate)}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Effective:</span>
+                    <span className="text-sm text-muted-foreground">
+                      Effective:
+                    </span>
                     <span>{formatDate(selectedPolicy.effectiveDate)}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Expires:</span>
+                    <span className="text-sm text-muted-foreground">
+                      Expires:
+                    </span>
                     <span>{formatDate(selectedPolicy.expiryDate)}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Next Renewal:</span>
+                    <span className="text-sm text-muted-foreground">
+                      Next Renewal:
+                    </span>
                     <span>{formatDate(selectedPolicy.renewalDate)}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Risk Level:</span>
-                    <Badge className={cn(
-                      selectedPolicy.riskAssessment === 'Low' && "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
-                      selectedPolicy.riskAssessment === 'Medium' && "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400",
-                      selectedPolicy.riskAssessment === 'High' && "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400"
-                    )}>
+                    <span className="text-sm text-muted-foreground">
+                      Risk Level:
+                    </span>
+                    <Badge
+                      className={cn(
+                        selectedPolicy.riskAssessment === "Low" &&
+                          "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
+                        selectedPolicy.riskAssessment === "Medium" &&
+                          "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400",
+                        selectedPolicy.riskAssessment === "High" &&
+                          "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400",
+                      )}
+                    >
                       {selectedPolicy.riskAssessment}
                     </Badge>
                   </div>
@@ -787,14 +931,20 @@ export default function Policies() {
                       <CardContent className="p-4">
                         <div className="flex items-center justify-between mb-2">
                           <h4 className="font-medium">{coverage.type}</h4>
-                          <Badge variant={coverage.covered ? "default" : "secondary"}>
+                          <Badge
+                            variant={coverage.covered ? "default" : "secondary"}
+                          >
                             {coverage.covered ? "Covered" : "Not Covered"}
                           </Badge>
                         </div>
-                        <p className="text-sm text-muted-foreground mb-2">{coverage.description}</p>
+                        <p className="text-sm text-muted-foreground mb-2">
+                          {coverage.description}
+                        </p>
                         <div className="flex justify-between text-sm">
                           <span>Limit: {formatCurrency(coverage.limit)}</span>
-                          <span>Deductible: {formatCurrency(coverage.deductible)}</span>
+                          <span>
+                            Deductible: {formatCurrency(coverage.deductible)}
+                          </span>
                         </div>
                       </CardContent>
                     </Card>
@@ -809,15 +959,26 @@ export default function Policies() {
                 <h3 className="text-lg font-semibold mb-4">Beneficiaries</h3>
                 <div className="space-y-3">
                   {selectedPolicy.beneficiaries.map((beneficiary) => (
-                    <div key={beneficiary.id} className="flex items-center justify-between p-4 border rounded-lg dark:border-gray-700">
+                    <div
+                      key={beneficiary.id}
+                      className="flex items-center justify-between p-4 border rounded-lg dark:border-gray-700"
+                    >
                       <div>
                         <div className="font-medium">{beneficiary.name}</div>
-                        <div className="text-sm text-muted-foreground">{beneficiary.relationship}</div>
-                        <div className="text-sm text-muted-foreground">{beneficiary.contactInfo.email}</div>
+                        <div className="text-sm text-muted-foreground">
+                          {beneficiary.relationship}
+                        </div>
+                        <div className="text-sm text-muted-foreground">
+                          {beneficiary.contactInfo.email}
+                        </div>
                       </div>
                       <div className="text-right">
-                        <div className="font-medium">{beneficiary.percentage}%</div>
-                        <div className="text-sm text-muted-foreground">{beneficiary.contactInfo.phone}</div>
+                        <div className="font-medium">
+                          {beneficiary.percentage}%
+                        </div>
+                        <div className="text-sm text-muted-foreground">
+                          {beneficiary.contactInfo.phone}
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -831,15 +992,28 @@ export default function Policies() {
                 <h3 className="text-lg font-semibold mb-4">Renewal History</h3>
                 <div className="space-y-3">
                   {selectedPolicy.renewalHistory.map((renewal, index) => (
-                    <div key={index} className="p-4 border rounded-lg dark:border-gray-700">
+                    <div
+                      key={index}
+                      className="p-4 border rounded-lg dark:border-gray-700"
+                    >
                       <div className="flex items-center justify-between mb-2">
-                        <div className="font-medium">Renewed on {formatDate(renewal.renewalDate)}</div>
-                        <Badge className={renewal.status === 'Completed' ? statusColors.Active : statusColors.Pending}>
+                        <div className="font-medium">
+                          Renewed on {formatDate(renewal.renewalDate)}
+                        </div>
+                        <Badge
+                          className={
+                            renewal.status === "Completed"
+                              ? statusColors.Active
+                              : statusColors.Pending
+                          }
+                        >
                           {renewal.status}
                         </Badge>
                       </div>
                       <div className="flex justify-between text-sm text-muted-foreground mb-2">
-                        <span>Previous: {formatCurrency(renewal.previousPremium)}</span>
+                        <span>
+                          Previous: {formatCurrency(renewal.previousPremium)}
+                        </span>
                         <span>New: {formatCurrency(renewal.newPremium)}</span>
                       </div>
                       {renewal.changes.length > 0 && (

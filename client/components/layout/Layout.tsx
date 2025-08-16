@@ -1,19 +1,19 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { 
-  LayoutDashboard, 
-  Users, 
-  FileText, 
-  CreditCard, 
-  UserCheck, 
-  DollarSign, 
-  FolderOpen, 
-  Bell, 
-  Settings, 
-  Menu, 
+import {
+  LayoutDashboard,
+  Users,
+  FileText,
+  CreditCard,
+  UserCheck,
+  DollarSign,
+  FolderOpen,
+  Bell,
+  Settings,
+  Menu,
   X,
   Sun,
-  Moon
+  Moon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -44,10 +44,15 @@ export default function Layout({ children }: LayoutProps) {
   };
 
   return (
-    <div className={cn("min-h-screen bg-gray-50 dark:bg-gray-900", darkMode && "dark")}>
+    <div
+      className={cn(
+        "min-h-screen bg-gray-50 dark:bg-gray-900",
+        darkMode && "dark",
+      )}
+    >
       {/* Mobile sidebar overlay */}
       {sidebarOpen && (
-        <div 
+        <div
           className="fixed inset-0 z-40 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         >
@@ -56,10 +61,12 @@ export default function Layout({ children }: LayoutProps) {
       )}
 
       {/* Sidebar */}
-      <div className={cn(
-        "fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-800 shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0",
-        sidebarOpen ? "translate-x-0" : "-translate-x-full"
-      )}>
+      <div
+        className={cn(
+          "fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-800 shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0",
+          sidebarOpen ? "translate-x-0" : "-translate-x-full",
+        )}
+      >
         <div className="flex h-full flex-col">
           {/* Logo */}
           <div className="flex h-16 items-center justify-between px-6 border-b border-gray-200 dark:border-gray-700">
@@ -67,7 +74,9 @@ export default function Layout({ children }: LayoutProps) {
               <div className="h-8 w-8 bg-blue-600 rounded-lg flex items-center justify-center">
                 <FileText className="h-5 w-5 text-white" />
               </div>
-              <span className="text-xl font-bold text-gray-900 dark:text-white">InsurePro</span>
+              <span className="text-xl font-bold text-gray-900 dark:text-white">
+                InsurePro
+              </span>
             </div>
             <Button
               variant="ghost"
@@ -91,7 +100,7 @@ export default function Layout({ children }: LayoutProps) {
                     "flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors",
                     isActive
                       ? "bg-blue-50 text-blue-700 border-r-2 border-blue-700 dark:bg-blue-900/20 dark:text-blue-300"
-                      : "text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700"
+                      : "text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700",
                   )}
                   onClick={() => setSidebarOpen(false)}
                 >
@@ -148,15 +157,23 @@ export default function Layout({ children }: LayoutProps) {
 
               {/* Theme toggle */}
               <Button variant="ghost" size="sm" onClick={toggleDarkMode}>
-                {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+                {darkMode ? (
+                  <Sun className="h-5 w-5" />
+                ) : (
+                  <Moon className="h-5 w-5" />
+                )}
               </Button>
 
               {/* User profile */}
               <div className="flex items-center space-x-3">
                 <div className="h-8 w-8 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
                 <div className="hidden sm:block">
-                  <div className="text-sm font-medium text-gray-900 dark:text-white">John Doe</div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400">Admin</div>
+                  <div className="text-sm font-medium text-gray-900 dark:text-white">
+                    John Doe
+                  </div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400">
+                    Admin
+                  </div>
                 </div>
               </div>
             </div>
@@ -164,9 +181,7 @@ export default function Layout({ children }: LayoutProps) {
         </header>
 
         {/* Page content */}
-        <main className="p-6">
-          {children}
-        </main>
+        <main className="p-6">{children}</main>
       </div>
     </div>
   );

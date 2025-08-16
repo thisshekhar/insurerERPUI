@@ -14,8 +14,8 @@ export interface Document {
   uploadDate: string;
   lastModified: string;
   uploadedBy: string;
-  status: 'Active' | 'Archived' | 'Deleted' | 'Under Review';
-  accessLevel: 'Public' | 'Internal' | 'Confidential' | 'Restricted';
+  status: "Active" | "Archived" | "Deleted" | "Under Review";
+  accessLevel: "Public" | "Internal" | "Confidential" | "Restricted";
   relatedEntities: RelatedEntity[];
   versions: DocumentVersion[];
   metadata: DocumentMetadata;
@@ -28,35 +28,35 @@ export interface Document {
   checksum: string;
 }
 
-export type DocumentType = 
-  | 'Policy Document'
-  | 'Claim Document'
-  | 'Customer Document'
-  | 'Agent Document'
-  | 'Legal Document'
-  | 'Financial Document'
-  | 'Form'
-  | 'Certificate'
-  | 'Report'
-  | 'Image'
-  | 'Other';
+export type DocumentType =
+  | "Policy Document"
+  | "Claim Document"
+  | "Customer Document"
+  | "Agent Document"
+  | "Legal Document"
+  | "Financial Document"
+  | "Form"
+  | "Certificate"
+  | "Report"
+  | "Image"
+  | "Other";
 
-export type DocumentCategory = 
-  | 'KYC Documents'
-  | 'Policy Papers'
-  | 'Claims Evidence'
-  | 'Financial Records'
-  | 'Legal Agreements'
-  | 'Certificates'
-  | 'Forms & Applications'
-  | 'Reports & Analytics'
-  | 'Communication'
-  | 'Training Materials'
-  | 'Compliance'
-  | 'Marketing Materials';
+export type DocumentCategory =
+  | "KYC Documents"
+  | "Policy Papers"
+  | "Claims Evidence"
+  | "Financial Records"
+  | "Legal Agreements"
+  | "Certificates"
+  | "Forms & Applications"
+  | "Reports & Analytics"
+  | "Communication"
+  | "Training Materials"
+  | "Compliance"
+  | "Marketing Materials";
 
 export interface RelatedEntity {
-  type: 'Customer' | 'Policy' | 'Claim' | 'Agent' | 'Payment' | 'Invoice';
+  type: "Customer" | "Policy" | "Claim" | "Agent" | "Payment" | "Invoice";
   id: string;
   name: string;
 }
@@ -86,7 +86,7 @@ export interface DocumentMetadata {
 export interface DocumentPermission {
   userId: string;
   userName: string;
-  permission: 'View' | 'Download' | 'Edit' | 'Delete' | 'Share';
+  permission: "View" | "Download" | "Edit" | "Delete" | "Share";
   grantedBy: string;
   grantedDate: string;
   expiryDate?: string;
@@ -117,7 +117,7 @@ export interface DocumentFolder {
 export interface FolderPermission {
   userId: string;
   userName: string;
-  permission: 'View' | 'Upload' | 'Manage';
+  permission: "View" | "Upload" | "Manage";
   grantedBy: string;
   grantedDate: string;
 }
@@ -139,7 +139,7 @@ export interface TemplateField {
   id: string;
   name: string;
   label: string;
-  type: 'text' | 'number' | 'date' | 'dropdown' | 'checkbox' | 'signature';
+  type: "text" | "number" | "date" | "dropdown" | "checkbox" | "signature";
   required: boolean;
   defaultValue?: string;
   options?: string[];
@@ -155,7 +155,8 @@ export const mockDocuments: Document[] = [
     type: "Policy Document",
     category: "Policy Papers",
     tags: ["Life Insurance", "Active Policy", "Term Life"],
-    description: "Complete life insurance policy document for Alice Johnson including terms, conditions, and coverage details.",
+    description:
+      "Complete life insurance policy document for Alice Johnson including terms, conditions, and coverage details.",
     fileSize: 2621440, // 2.5 MB
     mimeType: "application/pdf",
     url: "/documents/policy/LIF-2024-001-AL_Policy.pdf",
@@ -168,7 +169,7 @@ export const mockDocuments: Document[] = [
     relatedEntities: [
       { type: "Customer", id: "CUST-001", name: "Alice Johnson" },
       { type: "Policy", id: "POL-001", name: "LIF-2024-001-AL" },
-      { type: "Agent", id: "AGT-001", name: "Mike Chen" }
+      { type: "Agent", id: "AGT-001", name: "Mike Chen" },
     ],
     versions: [
       {
@@ -179,8 +180,8 @@ export const mockDocuments: Document[] = [
         fileSize: 2621440,
         url: "/documents/policy/LIF-2024-001-AL_Policy_v1.pdf",
         changeNotes: "Initial policy document",
-        isActive: true
-      }
+        isActive: true,
+      },
     ],
     metadata: {
       author: "InsurePro System",
@@ -189,7 +190,7 @@ export const mockDocuments: Document[] = [
       keywords: ["life insurance", "term life", "policy"],
       pageCount: 12,
       language: "English",
-      security: "Password Protected"
+      security: "Password Protected",
     },
     permissions: [
       {
@@ -197,15 +198,15 @@ export const mockDocuments: Document[] = [
         userName: "Alice Johnson",
         permission: "View",
         grantedBy: "Mike Chen",
-        grantedDate: "2024-01-15T10:30:00Z"
+        grantedDate: "2024-01-15T10:30:00Z",
       },
       {
         userId: "AGT-001",
         userName: "Mike Chen",
         permission: "Edit",
         grantedBy: "System",
-        grantedDate: "2024-01-15T10:30:00Z"
-      }
+        grantedDate: "2024-01-15T10:30:00Z",
+      },
     ],
     comments: [
       {
@@ -214,13 +215,13 @@ export const mockDocuments: Document[] = [
         userName: "Mike Chen",
         comment: "Policy approved and sent to customer for review.",
         timestamp: "2024-01-15T11:00:00Z",
-        isInternal: true
-      }
+        isInternal: true,
+      },
     ],
     downloadCount: 3,
     lastAccessed: "2024-02-20T14:30:00Z",
     isEncrypted: true,
-    checksum: "sha256:a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6"
+    checksum: "sha256:a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6",
   },
   {
     id: "DOC-002",
@@ -240,7 +241,7 @@ export const mockDocuments: Document[] = [
     status: "Active",
     accessLevel: "Confidential",
     relatedEntities: [
-      { type: "Customer", id: "CUST-001", name: "Alice Johnson" }
+      { type: "Customer", id: "CUST-001", name: "Alice Johnson" },
     ],
     versions: [
       {
@@ -251,15 +252,15 @@ export const mockDocuments: Document[] = [
         fileSize: 1048576,
         url: "/documents/kyc/alice_johnson_drivers_license.jpg",
         changeNotes: "Initial KYC document upload",
-        isActive: true
-      }
+        isActive: true,
+      },
     ],
     metadata: {
       author: "Alice Johnson",
       createdDate: "2024-01-15",
       subject: "Driver's License",
       keywords: ["kyc", "identification", "license"],
-      language: "English"
+      language: "English",
     },
     permissions: [
       {
@@ -267,15 +268,15 @@ export const mockDocuments: Document[] = [
         userName: "Alice Johnson",
         permission: "View",
         grantedBy: "System",
-        grantedDate: "2024-01-15T09:15:00Z"
+        grantedDate: "2024-01-15T09:15:00Z",
       },
       {
         userId: "AGT-001",
         userName: "Mike Chen",
         permission: "View",
         grantedBy: "System",
-        grantedDate: "2024-01-15T09:15:00Z"
-      }
+        grantedDate: "2024-01-15T09:15:00Z",
+      },
     ],
     comments: [
       {
@@ -284,13 +285,13 @@ export const mockDocuments: Document[] = [
         userName: "Mike Chen",
         comment: "Document verified and approved for KYC.",
         timestamp: "2024-01-15T10:00:00Z",
-        isInternal: true
-      }
+        isInternal: true,
+      },
     ],
     downloadCount: 1,
     lastAccessed: "2024-01-15T10:00:00Z",
     isEncrypted: true,
-    checksum: "sha256:b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7"
+    checksum: "sha256:b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7",
   },
   {
     id: "DOC-003",
@@ -299,7 +300,8 @@ export const mockDocuments: Document[] = [
     type: "Claim Document",
     category: "Claims Evidence",
     tags: ["Claims", "Fire Damage", "Evidence", "Photos"],
-    description: "Photographic evidence of kitchen fire damage for home insurance claim CLM-003.",
+    description:
+      "Photographic evidence of kitchen fire damage for home insurance claim CLM-003.",
     fileSize: 15728640, // 15 MB
     mimeType: "application/zip",
     url: "/documents/claims/kitchen_fire_damage_photos.zip",
@@ -312,7 +314,7 @@ export const mockDocuments: Document[] = [
     relatedEntities: [
       { type: "Customer", id: "CUST-004", name: "David Wilson" },
       { type: "Claim", id: "CLM-003", name: "CLM-003 - Kitchen Fire" },
-      { type: "Policy", id: "POL-004", name: "HOM-2024-004-DW" }
+      { type: "Policy", id: "POL-004", name: "HOM-2024-004-DW" },
     ],
     versions: [
       {
@@ -323,15 +325,15 @@ export const mockDocuments: Document[] = [
         fileSize: 15728640,
         url: "/documents/claims/kitchen_fire_damage_photos.zip",
         changeNotes: "Initial evidence submission",
-        isActive: true
-      }
+        isActive: true,
+      },
     ],
     metadata: {
       author: "David Wilson",
       createdDate: "2024-02-22",
       subject: "Fire Damage Evidence",
       keywords: ["fire", "damage", "claim", "evidence"],
-      language: "English"
+      language: "English",
     },
     permissions: [
       {
@@ -339,30 +341,31 @@ export const mockDocuments: Document[] = [
         userName: "David Wilson",
         permission: "View",
         grantedBy: "System",
-        grantedDate: "2024-02-22T16:45:00Z"
+        grantedDate: "2024-02-22T16:45:00Z",
       },
       {
         userId: "ADJ-001",
         userName: "Robert Lee",
         permission: "Edit",
         grantedBy: "System",
-        grantedDate: "2024-02-22T16:45:00Z"
-      }
+        grantedDate: "2024-02-22T16:45:00Z",
+      },
     ],
     comments: [
       {
         id: "CMT-003",
         userId: "ADJ-001",
         userName: "Robert Lee",
-        comment: "Photos received. Scheduling site inspection for detailed assessment.",
+        comment:
+          "Photos received. Scheduling site inspection for detailed assessment.",
         timestamp: "2024-02-22T17:00:00Z",
-        isInternal: true
-      }
+        isInternal: true,
+      },
     ],
     downloadCount: 2,
     lastAccessed: "2024-02-22T17:00:00Z",
     isEncrypted: false,
-    checksum: "sha256:c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8"
+    checksum: "sha256:c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8",
   },
   {
     id: "DOC-004",
@@ -371,7 +374,8 @@ export const mockDocuments: Document[] = [
     type: "Claim Document",
     category: "Claims Evidence",
     tags: ["Medical", "Health Insurance", "Report"],
-    description: "Medical report and diagnosis for health insurance claim submission.",
+    description:
+      "Medical report and diagnosis for health insurance claim submission.",
     fileSize: 3145728, // 3 MB
     mimeType: "application/pdf",
     url: "/documents/claims/carol_davis_medical_report_2024.pdf",
@@ -384,7 +388,7 @@ export const mockDocuments: Document[] = [
     relatedEntities: [
       { type: "Customer", id: "CUST-003", name: "Carol Davis" },
       { type: "Claim", id: "CLM-002", name: "CLM-002 - Medical Checkup" },
-      { type: "Policy", id: "POL-003", name: "HLT-2024-003-CD" }
+      { type: "Policy", id: "POL-003", name: "HLT-2024-003-CD" },
     ],
     versions: [
       {
@@ -395,8 +399,8 @@ export const mockDocuments: Document[] = [
         fileSize: 3145728,
         url: "/documents/claims/carol_davis_medical_report_2024.pdf",
         changeNotes: "Initial medical report submission",
-        isActive: true
-      }
+        isActive: true,
+      },
     ],
     metadata: {
       author: "Dr. Smith Medical Center",
@@ -404,7 +408,7 @@ export const mockDocuments: Document[] = [
       subject: "Medical Examination Report",
       keywords: ["medical", "health", "examination"],
       pageCount: 8,
-      language: "English"
+      language: "English",
     },
     permissions: [
       {
@@ -412,21 +416,21 @@ export const mockDocuments: Document[] = [
         userName: "Carol Davis",
         permission: "View",
         grantedBy: "System",
-        grantedDate: "2024-02-20T11:20:00Z"
+        grantedDate: "2024-02-20T11:20:00Z",
       },
       {
         userId: "ADJ-002",
         userName: "Maria Rodriguez",
         permission: "View",
         grantedBy: "System",
-        grantedDate: "2024-02-20T11:20:00Z"
-      }
+        grantedDate: "2024-02-20T11:20:00Z",
+      },
     ],
     comments: [],
     downloadCount: 1,
     lastAccessed: "2024-02-21T09:30:00Z",
     isEncrypted: true,
-    checksum: "sha256:d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9"
+    checksum: "sha256:d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9",
   },
   {
     id: "DOC-005",
@@ -445,9 +449,7 @@ export const mockDocuments: Document[] = [
     uploadedBy: "Mike Chen",
     status: "Active",
     accessLevel: "Internal",
-    relatedEntities: [
-      { type: "Agent", id: "AGT-001", name: "Mike Chen" }
-    ],
+    relatedEntities: [{ type: "Agent", id: "AGT-001", name: "Mike Chen" }],
     versions: [
       {
         id: "VER-005",
@@ -457,8 +459,8 @@ export const mockDocuments: Document[] = [
         fileSize: 524288,
         url: "/documents/agents/mike_chen_insurance_license.pdf",
         changeNotes: "Initial certification upload",
-        isActive: true
-      }
+        isActive: true,
+      },
     ],
     metadata: {
       author: "New York Department of Financial Services",
@@ -466,7 +468,7 @@ export const mockDocuments: Document[] = [
       subject: "Insurance Producer License",
       keywords: ["license", "certification", "insurance"],
       pageCount: 2,
-      language: "English"
+      language: "English",
     },
     permissions: [
       {
@@ -474,22 +476,22 @@ export const mockDocuments: Document[] = [
         userName: "Mike Chen",
         permission: "View",
         grantedBy: "System",
-        grantedDate: "2023-02-01T14:00:00Z"
+        grantedDate: "2023-02-01T14:00:00Z",
       },
       {
         userId: "MGR-001",
         userName: "John Smith",
         permission: "View",
         grantedBy: "System",
-        grantedDate: "2023-02-01T14:00:00Z"
-      }
+        grantedDate: "2023-02-01T14:00:00Z",
+      },
     ],
     comments: [],
     downloadCount: 5,
     lastAccessed: "2024-01-15T10:00:00Z",
     expiryDate: "2026-02-01",
     isEncrypted: false,
-    checksum: "sha256:e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0"
+    checksum: "sha256:e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0",
   },
   {
     id: "DOC-006",
@@ -511,7 +513,7 @@ export const mockDocuments: Document[] = [
     relatedEntities: [
       { type: "Customer", id: "CUST-002", name: "Bob Smith" },
       { type: "Policy", id: "POL-002", name: "AUT-2024-002-BS" },
-      { type: "Agent", id: "AGT-002", name: "Sarah Williams" }
+      { type: "Agent", id: "AGT-002", name: "Sarah Williams" },
     ],
     versions: [
       {
@@ -522,8 +524,8 @@ export const mockDocuments: Document[] = [
         fileSize: 1572864,
         url: "/documents/forms/auto_insurance_application_bob_smith.pdf",
         changeNotes: "Initial application submission",
-        isActive: true
-      }
+        isActive: true,
+      },
     ],
     metadata: {
       author: "Bob Smith",
@@ -531,7 +533,7 @@ export const mockDocuments: Document[] = [
       subject: "Auto Insurance Application",
       keywords: ["application", "auto", "insurance"],
       pageCount: 6,
-      language: "English"
+      language: "English",
     },
     permissions: [
       {
@@ -539,15 +541,15 @@ export const mockDocuments: Document[] = [
         userName: "Bob Smith",
         permission: "View",
         grantedBy: "System",
-        grantedDate: "2024-02-01T13:45:00Z"
+        grantedDate: "2024-02-01T13:45:00Z",
       },
       {
         userId: "AGT-002",
         userName: "Sarah Williams",
         permission: "Edit",
         grantedBy: "System",
-        grantedDate: "2024-02-01T13:45:00Z"
-      }
+        grantedDate: "2024-02-01T13:45:00Z",
+      },
     ],
     comments: [
       {
@@ -556,13 +558,13 @@ export const mockDocuments: Document[] = [
         userName: "Sarah Williams",
         comment: "Application reviewed and approved. Policy issued.",
         timestamp: "2024-02-01T15:00:00Z",
-        isInternal: true
-      }
+        isInternal: true,
+      },
     ],
     downloadCount: 2,
     lastAccessed: "2024-02-01T15:00:00Z",
     isEncrypted: false,
-    checksum: "sha256:f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1"
+    checksum: "sha256:f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1",
   },
   {
     id: "DOC-007",
@@ -573,7 +575,8 @@ export const mockDocuments: Document[] = [
     tags: ["Sales Report", "Monthly", "Analytics"],
     description: "Comprehensive sales performance report for January 2024.",
     fileSize: 2097152, // 2 MB
-    mimeType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    mimeType:
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     url: "/documents/reports/sales_report_january_2024.xlsx",
     thumbnailUrl: "/thumbnails/DOC-007.jpg",
     uploadDate: "2024-02-01T09:00:00Z",
@@ -591,15 +594,15 @@ export const mockDocuments: Document[] = [
         fileSize: 2097152,
         url: "/documents/reports/sales_report_january_2024.xlsx",
         changeNotes: "Monthly report generation",
-        isActive: true
-      }
+        isActive: true,
+      },
     ],
     metadata: {
       author: "InsurePro Analytics",
       createdDate: "2024-02-01",
       subject: "Sales Performance Report",
       keywords: ["sales", "report", "analytics", "performance"],
-      language: "English"
+      language: "English",
     },
     permissions: [
       {
@@ -607,21 +610,21 @@ export const mockDocuments: Document[] = [
         userName: "John Smith",
         permission: "Edit",
         grantedBy: "System",
-        grantedDate: "2024-02-01T09:00:00Z"
+        grantedDate: "2024-02-01T09:00:00Z",
       },
       {
         userId: "AGT-001",
         userName: "Mike Chen",
         permission: "View",
         grantedBy: "John Smith",
-        grantedDate: "2024-02-01T09:00:00Z"
-      }
+        grantedDate: "2024-02-01T09:00:00Z",
+      },
     ],
     comments: [],
     downloadCount: 8,
     lastAccessed: "2024-02-15T11:30:00Z",
     isEncrypted: false,
-    checksum: "sha256:g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2"
+    checksum: "sha256:g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2",
   },
   {
     id: "DOC-008",
@@ -630,7 +633,8 @@ export const mockDocuments: Document[] = [
     type: "Legal Document",
     category: "Legal Agreements",
     tags: ["Privacy Policy", "Legal", "Compliance"],
-    description: "Updated company privacy policy and data protection guidelines.",
+    description:
+      "Updated company privacy policy and data protection guidelines.",
     fileSize: 1048576, // 1 MB
     mimeType: "application/pdf",
     url: "/documents/legal/insure_pro_privacy_policy_2024.pdf",
@@ -650,7 +654,7 @@ export const mockDocuments: Document[] = [
         fileSize: 1048576,
         url: "/documents/legal/insure_pro_privacy_policy_2024.pdf",
         changeNotes: "Updated for 2024 compliance requirements",
-        isActive: true
+        isActive: true,
       },
       {
         id: "VER-008-OLD",
@@ -660,8 +664,8 @@ export const mockDocuments: Document[] = [
         fileSize: 950000,
         url: "/documents/legal/insure_pro_privacy_policy_2023.pdf",
         changeNotes: "Initial version",
-        isActive: false
-      }
+        isActive: false,
+      },
     ],
     metadata: {
       author: "InsurePro Legal Department",
@@ -669,7 +673,7 @@ export const mockDocuments: Document[] = [
       subject: "Privacy Policy",
       keywords: ["privacy", "policy", "legal", "compliance"],
       pageCount: 15,
-      language: "English"
+      language: "English",
     },
     permissions: [
       {
@@ -677,15 +681,15 @@ export const mockDocuments: Document[] = [
         userName: "All Users",
         permission: "View",
         grantedBy: "System",
-        grantedDate: "2024-01-01T12:00:00Z"
-      }
+        grantedDate: "2024-01-01T12:00:00Z",
+      },
     ],
     comments: [],
     downloadCount: 45,
     lastAccessed: "2024-02-20T16:00:00Z",
     isEncrypted: false,
-    checksum: "sha256:h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3"
-  }
+    checksum: "sha256:h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3",
+  },
 ];
 
 // Mock Document Folders
@@ -693,7 +697,8 @@ export const mockFolders: DocumentFolder[] = [
   {
     id: "FOLD-001",
     name: "Customer Documents",
-    description: "All customer-related documents including KYC and personal documents",
+    description:
+      "All customer-related documents including KYC and personal documents",
     path: "/Customer Documents",
     createdBy: "System",
     createdDate: "2024-01-01T00:00:00Z",
@@ -703,11 +708,11 @@ export const mockFolders: DocumentFolder[] = [
         userName: "All Agents",
         permission: "View",
         grantedBy: "System",
-        grantedDate: "2024-01-01T00:00:00Z"
-      }
+        grantedDate: "2024-01-01T00:00:00Z",
+      },
     ],
     documentCount: 15,
-    subfolderCount: 3
+    subfolderCount: 3,
   },
   {
     id: "FOLD-002",
@@ -722,11 +727,11 @@ export const mockFolders: DocumentFolder[] = [
         userName: "All Agents",
         permission: "Upload",
         grantedBy: "System",
-        grantedDate: "2024-01-01T00:00:00Z"
-      }
+        grantedDate: "2024-01-01T00:00:00Z",
+      },
     ],
     documentCount: 22,
-    subfolderCount: 5
+    subfolderCount: 5,
   },
   {
     id: "FOLD-003",
@@ -741,12 +746,12 @@ export const mockFolders: DocumentFolder[] = [
         userName: "Claims Team",
         permission: "Manage",
         grantedBy: "System",
-        grantedDate: "2024-01-01T00:00:00Z"
-      }
+        grantedDate: "2024-01-01T00:00:00Z",
+      },
     ],
     documentCount: 8,
-    subfolderCount: 2
-  }
+    subfolderCount: 2,
+  },
 ];
 
 // Mock Document Templates
@@ -763,14 +768,14 @@ export const mockTemplates: DocumentTemplate[] = [
         name: "applicant_name",
         label: "Applicant Name",
         type: "text",
-        required: true
+        required: true,
       },
       {
         id: "field-002",
         name: "vehicle_year",
         label: "Vehicle Year",
         type: "number",
-        required: true
+        required: true,
       },
       {
         id: "field-003",
@@ -778,13 +783,13 @@ export const mockTemplates: DocumentTemplate[] = [
         label: "Coverage Type",
         type: "dropdown",
         required: true,
-        options: ["Liability", "Collision", "Comprehensive", "Full Coverage"]
-      }
+        options: ["Liability", "Collision", "Comprehensive", "Full Coverage"],
+      },
     ],
     isActive: true,
     createdBy: "System",
     createdDate: "2024-01-01T00:00:00Z",
-    usageCount: 45
+    usageCount: 45,
   },
   {
     id: "TMPL-002",
@@ -799,74 +804,87 @@ export const mockTemplates: DocumentTemplate[] = [
         label: "Claim Type",
         type: "dropdown",
         required: true,
-        options: ["Auto", "Home", "Health", "Life", "Travel"]
+        options: ["Auto", "Home", "Health", "Life", "Travel"],
       },
       {
         id: "field-005",
         name: "incident_date",
         label: "Incident Date",
         type: "date",
-        required: true
+        required: true,
       },
       {
         id: "field-006",
         name: "description",
         label: "Incident Description",
         type: "text",
-        required: true
-      }
+        required: true,
+      },
     ],
     isActive: true,
     createdBy: "Claims Department",
     createdDate: "2024-01-01T00:00:00Z",
-    usageCount: 28
-  }
+    usageCount: 28,
+  },
 ];
 
 // Utility functions
 export const getDocumentById = (id: string): Document | undefined => {
-  return mockDocuments.find(doc => doc.id === id);
+  return mockDocuments.find((doc) => doc.id === id);
 };
 
 export const getDocumentsByType = (type: DocumentType): Document[] => {
-  return mockDocuments.filter(doc => doc.type === type);
+  return mockDocuments.filter((doc) => doc.type === type);
 };
 
-export const getDocumentsByCategory = (category: DocumentCategory): Document[] => {
-  return mockDocuments.filter(doc => doc.category === category);
+export const getDocumentsByCategory = (
+  category: DocumentCategory,
+): Document[] => {
+  return mockDocuments.filter((doc) => doc.category === category);
 };
 
 export const getDocumentsByStatus = (status: string): Document[] => {
-  return mockDocuments.filter(doc => doc.status === status);
+  return mockDocuments.filter((doc) => doc.status === status);
 };
 
 export const getDocumentsByAccessLevel = (accessLevel: string): Document[] => {
-  return mockDocuments.filter(doc => doc.accessLevel === accessLevel);
+  return mockDocuments.filter((doc) => doc.accessLevel === accessLevel);
 };
 
 export const getDocumentsByTag = (tag: string): Document[] => {
-  return mockDocuments.filter(doc => doc.tags.includes(tag));
+  return mockDocuments.filter((doc) => doc.tags.includes(tag));
 };
 
-export const getDocumentsByRelatedEntity = (entityType: string, entityId: string): Document[] => {
-  return mockDocuments.filter(doc => 
-    doc.relatedEntities.some(entity => entity.type === entityType && entity.id === entityId)
+export const getDocumentsByRelatedEntity = (
+  entityType: string,
+  entityId: string,
+): Document[] => {
+  return mockDocuments.filter((doc) =>
+    doc.relatedEntities.some(
+      (entity) => entity.type === entityType && entity.id === entityId,
+    ),
   );
 };
 
 export const searchDocuments = (query: string): Document[] => {
   const lowercaseQuery = query.toLowerCase();
-  return mockDocuments.filter(doc => 
-    doc.name.toLowerCase().includes(lowercaseQuery) ||
-    doc.description.toLowerCase().includes(lowercaseQuery) ||
-    doc.tags.some(tag => tag.toLowerCase().includes(lowercaseQuery)) ||
-    doc.metadata.keywords?.some(keyword => keyword.toLowerCase().includes(lowercaseQuery))
+  return mockDocuments.filter(
+    (doc) =>
+      doc.name.toLowerCase().includes(lowercaseQuery) ||
+      doc.description.toLowerCase().includes(lowercaseQuery) ||
+      doc.tags.some((tag) => tag.toLowerCase().includes(lowercaseQuery)) ||
+      doc.metadata.keywords?.some((keyword) =>
+        keyword.toLowerCase().includes(lowercaseQuery),
+      ),
   );
 };
 
 export const getRecentDocuments = (limit: number = 10): Document[] => {
   return mockDocuments
-    .sort((a, b) => new Date(b.uploadDate).getTime() - new Date(a.uploadDate).getTime())
+    .sort(
+      (a, b) =>
+        new Date(b.uploadDate).getTime() - new Date(a.uploadDate).getTime(),
+    )
     .slice(0, limit);
 };
 
@@ -879,8 +897,8 @@ export const getPopularDocuments = (limit: number = 10): Document[] => {
 export const getExpiringDocuments = (daysFromNow: number = 30): Document[] => {
   const targetDate = new Date();
   targetDate.setDate(targetDate.getDate() + daysFromNow);
-  
-  return mockDocuments.filter(doc => {
+
+  return mockDocuments.filter((doc) => {
     if (!doc.expiryDate) return false;
     const expiryDate = new Date(doc.expiryDate);
     return expiryDate <= targetDate && expiryDate >= new Date();
@@ -892,39 +910,41 @@ export const calculateStorageUsed = (): number => {
 };
 
 export const getDocumentsByUploader = (uploader: string): Document[] => {
-  return mockDocuments.filter(doc => doc.uploadedBy === uploader);
+  return mockDocuments.filter((doc) => doc.uploadedBy === uploader);
 };
 
 export const getFolderById = (id: string): DocumentFolder | undefined => {
-  return mockFolders.find(folder => folder.id === id);
+  return mockFolders.find((folder) => folder.id === id);
 };
 
 export const getTemplateById = (id: string): DocumentTemplate | undefined => {
-  return mockTemplates.find(template => template.id === id);
+  return mockTemplates.find((template) => template.id === id);
 };
 
 export const getActiveTemplates = (): DocumentTemplate[] => {
-  return mockTemplates.filter(template => template.isActive);
+  return mockTemplates.filter((template) => template.isActive);
 };
 
 export const formatFileSize = (bytes: number): string => {
-  if (bytes === 0) return '0 Bytes';
+  if (bytes === 0) return "0 Bytes";
   const k = 1024;
-  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+  const sizes = ["Bytes", "KB", "MB", "GB"];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
 };
 
 export const getFileIcon = (mimeType: string): string => {
-  if (mimeType.includes('pdf')) return '📄';
-  if (mimeType.includes('image')) return '🖼️';
-  if (mimeType.includes('video')) return '🎥';
-  if (mimeType.includes('audio')) return '🎵';
-  if (mimeType.includes('zip') || mimeType.includes('compressed')) return '📦';
-  if (mimeType.includes('spreadsheet') || mimeType.includes('excel')) return '📊';
-  if (mimeType.includes('presentation') || mimeType.includes('powerpoint')) return '📈';
-  if (mimeType.includes('document') || mimeType.includes('word')) return '📝';
-  return '📄';
+  if (mimeType.includes("pdf")) return "📄";
+  if (mimeType.includes("image")) return "🖼️";
+  if (mimeType.includes("video")) return "🎥";
+  if (mimeType.includes("audio")) return "🎵";
+  if (mimeType.includes("zip") || mimeType.includes("compressed")) return "📦";
+  if (mimeType.includes("spreadsheet") || mimeType.includes("excel"))
+    return "📊";
+  if (mimeType.includes("presentation") || mimeType.includes("powerpoint"))
+    return "📈";
+  if (mimeType.includes("document") || mimeType.includes("word")) return "📝";
+  return "📄";
 };
 
 export const getDocumentStats = () => {
@@ -932,18 +952,24 @@ export const getDocumentStats = () => {
     totalDocuments: mockDocuments.length,
     totalSize: formatFileSize(calculateStorageUsed()),
     byType: Object.entries(
-      mockDocuments.reduce((acc, doc) => {
-        acc[doc.type] = (acc[doc.type] || 0) + 1;
-        return acc;
-      }, {} as Record<string, number>)
+      mockDocuments.reduce(
+        (acc, doc) => {
+          acc[doc.type] = (acc[doc.type] || 0) + 1;
+          return acc;
+        },
+        {} as Record<string, number>,
+      ),
     ),
     byCategory: Object.entries(
-      mockDocuments.reduce((acc, doc) => {
-        acc[doc.category] = (acc[doc.category] || 0) + 1;
-        return acc;
-      }, {} as Record<string, number>)
+      mockDocuments.reduce(
+        (acc, doc) => {
+          acc[doc.category] = (acc[doc.category] || 0) + 1;
+          return acc;
+        },
+        {} as Record<string, number>,
+      ),
     ),
     recentUploads: getRecentDocuments(5).length,
-    expiringCount: getExpiringDocuments().length
+    expiringCount: getExpiringDocuments().length,
   };
 };

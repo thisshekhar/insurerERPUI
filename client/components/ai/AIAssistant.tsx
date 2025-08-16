@@ -1,16 +1,16 @@
 import { useState } from "react";
-import { 
-  Bot, 
-  MessageCircle, 
-  X, 
-  Send, 
-  Sparkles, 
-  TrendingUp, 
-  AlertTriangle, 
+import {
+  Bot,
+  MessageCircle,
+  X,
+  Send,
+  Sparkles,
+  TrendingUp,
+  AlertTriangle,
   Lightbulb,
   FileText,
   Users,
-  DollarSign
+  DollarSign,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -21,7 +21,7 @@ import { cn } from "@/lib/utils";
 
 interface AIMessage {
   id: string;
-  type: 'user' | 'ai';
+  type: "user" | "ai";
   content: string;
   timestamp: string;
   suggestions?: string[];
@@ -29,7 +29,7 @@ interface AIMessage {
 }
 
 interface AIInsight {
-  type: 'risk' | 'opportunity' | 'recommendation' | 'alert';
+  type: "risk" | "opportunity" | "recommendation" | "alert";
   title: string;
   description: string;
   confidence: number;
@@ -38,41 +38,45 @@ interface AIInsight {
 
 const mockInsights: AIInsight[] = [
   {
-    type: 'opportunity',
-    title: 'Cross-sell Opportunity',
-    description: 'Alice Johnson shows high potential for home insurance based on recent life changes.',
+    type: "opportunity",
+    title: "Cross-sell Opportunity",
+    description:
+      "Alice Johnson shows high potential for home insurance based on recent life changes.",
     confidence: 92,
-    action: 'Contact for quote'
+    action: "Contact for quote",
   },
   {
-    type: 'risk',
-    title: 'Claim Risk Alert',
-    description: 'Bob Smith\'s claim pattern suggests 15% higher risk than average.',
+    type: "risk",
+    title: "Claim Risk Alert",
+    description:
+      "Bob Smith's claim pattern suggests 15% higher risk than average.",
     confidence: 87,
-    action: 'Review policy terms'
+    action: "Review policy terms",
   },
   {
-    type: 'recommendation',
-    title: 'Premium Optimization',
-    description: 'Adjusting Carol Davis\'s premium by 8% could improve retention by 23%.',
+    type: "recommendation",
+    title: "Premium Optimization",
+    description:
+      "Adjusting Carol Davis's premium by 8% could improve retention by 23%.",
     confidence: 94,
-    action: 'Schedule review call'
-  }
+    action: "Schedule review call",
+  },
 ];
 
 const predefinedMessages: AIMessage[] = [
   {
-    id: '1',
-    type: 'ai',
-    content: "👋 Hello! I'm your AI Insurance Assistant. I can help you with customer insights, risk assessments, claims analysis, and premium optimization. What would you like to explore?",
+    id: "1",
+    type: "ai",
+    content:
+      "👋 Hello! I'm your AI Insurance Assistant. I can help you with customer insights, risk assessments, claims analysis, and premium optimization. What would you like to explore?",
     timestamp: new Date().toISOString(),
     suggestions: [
       "Analyze customer risk profiles",
-      "Find cross-sell opportunities", 
+      "Find cross-sell opportunities",
       "Review pending claims",
-      "Optimize premium pricing"
-    ]
-  }
+      "Optimize premium pricing",
+    ],
+  },
 ];
 
 export default function AIAssistant() {
@@ -86,142 +90,169 @@ export default function AIAssistant() {
 
     const userMessage: AIMessage = {
       id: Date.now().toString(),
-      type: 'user',
+      type: "user",
       content: inputValue,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
 
-    setMessages(prev => [...prev, userMessage]);
+    setMessages((prev) => [...prev, userMessage]);
     setInputValue("");
     setIsTyping(true);
 
     // Simulate AI response based on input
     setTimeout(() => {
       const aiResponse = generateAIResponse(inputValue);
-      setMessages(prev => [...prev, aiResponse]);
+      setMessages((prev) => [...prev, aiResponse]);
       setIsTyping(false);
     }, 1500);
   };
 
   const generateAIResponse = (input: string): AIMessage => {
     const lowerInput = input.toLowerCase();
-    
-    if (lowerInput.includes('risk') || lowerInput.includes('assess')) {
+
+    if (lowerInput.includes("risk") || lowerInput.includes("assess")) {
       return {
         id: Date.now().toString(),
-        type: 'ai',
-        content: "🎯 I've analyzed your customer risk profiles. Here are the key insights:",
+        type: "ai",
+        content:
+          "🎯 I've analyzed your customer risk profiles. Here are the key insights:",
         timestamp: new Date().toISOString(),
         insights: [
           {
-            type: 'risk',
-            title: 'High-Risk Customers',
-            description: '3 customers show elevated risk scores above 75. Review recommended.',
+            type: "risk",
+            title: "High-Risk Customers",
+            description:
+              "3 customers show elevated risk scores above 75. Review recommended.",
             confidence: 89,
-            action: 'Review profiles'
+            action: "Review profiles",
           },
           {
-            type: 'recommendation',
-            title: 'Risk Mitigation',
-            description: 'Implementing enhanced verification could reduce risk by 24%.',
+            type: "recommendation",
+            title: "Risk Mitigation",
+            description:
+              "Implementing enhanced verification could reduce risk by 24%.",
             confidence: 91,
-            action: 'Implement changes'
-          }
+            action: "Implement changes",
+          },
         ],
-        suggestions: ["Show high-risk customers", "Generate risk report", "Set up alerts"]
+        suggestions: [
+          "Show high-risk customers",
+          "Generate risk report",
+          "Set up alerts",
+        ],
       };
     }
 
-    if (lowerInput.includes('cross-sell') || lowerInput.includes('opportunity')) {
+    if (
+      lowerInput.includes("cross-sell") ||
+      lowerInput.includes("opportunity")
+    ) {
       return {
         id: Date.now().toString(),
-        type: 'ai',
-        content: "💡 I've identified several cross-selling opportunities based on customer behavior and life events:",
+        type: "ai",
+        content:
+          "💡 I've identified several cross-selling opportunities based on customer behavior and life events:",
         timestamp: new Date().toISOString(),
         insights: [
           {
-            type: 'opportunity',
-            title: 'Home Insurance Prospects',
-            description: '2 life insurance customers recently purchased homes.',
+            type: "opportunity",
+            title: "Home Insurance Prospects",
+            description: "2 life insurance customers recently purchased homes.",
             confidence: 94,
-            action: 'Contact immediately'
+            action: "Contact immediately",
           },
           {
-            type: 'opportunity',
-            title: 'Auto Insurance Upsell',
-            description: '1 customer eligible for multi-vehicle discount.',
+            type: "opportunity",
+            title: "Auto Insurance Upsell",
+            description: "1 customer eligible for multi-vehicle discount.",
             confidence: 88,
-            action: 'Send quote'
-          }
+            action: "Send quote",
+          },
         ],
-        suggestions: ["Contact these customers", "Generate quote proposals", "Set follow-up reminders"]
+        suggestions: [
+          "Contact these customers",
+          "Generate quote proposals",
+          "Set follow-up reminders",
+        ],
       };
     }
 
-    if (lowerInput.includes('claims') || lowerInput.includes('pending')) {
+    if (lowerInput.includes("claims") || lowerInput.includes("pending")) {
       return {
         id: Date.now().toString(),
-        type: 'ai',
+        type: "ai",
         content: "📋 Claims analysis complete. Here's what needs attention:",
         timestamp: new Date().toISOString(),
         insights: [
           {
-            type: 'alert',
-            title: 'Overdue Claims Review',
-            description: '2 claims have been pending for over 14 days.',
+            type: "alert",
+            title: "Overdue Claims Review",
+            description: "2 claims have been pending for over 14 days.",
             confidence: 100,
-            action: 'Prioritize review'
+            action: "Prioritize review",
           },
           {
-            type: 'recommendation',
-            title: 'Fraud Detection',
-            description: '1 claim shows patterns consistent with fraud (83% confidence).',
+            type: "recommendation",
+            title: "Fraud Detection",
+            description:
+              "1 claim shows patterns consistent with fraud (83% confidence).",
             confidence: 83,
-            action: 'Investigate further'
-          }
+            action: "Investigate further",
+          },
         ],
-        suggestions: ["Show overdue claims", "Run fraud analysis", "Generate claims report"]
+        suggestions: [
+          "Show overdue claims",
+          "Run fraud analysis",
+          "Generate claims report",
+        ],
       };
     }
 
-    if (lowerInput.includes('premium') || lowerInput.includes('pricing')) {
+    if (lowerInput.includes("premium") || lowerInput.includes("pricing")) {
       return {
         id: Date.now().toString(),
-        type: 'ai',
-        content: "💰 Premium optimization analysis reveals significant opportunities:",
+        type: "ai",
+        content:
+          "💰 Premium optimization analysis reveals significant opportunities:",
         timestamp: new Date().toISOString(),
         insights: [
           {
-            type: 'opportunity',
-            title: 'Retention Improvement',
-            description: 'Adjusting 4 customer premiums could prevent churn.',
+            type: "opportunity",
+            title: "Retention Improvement",
+            description: "Adjusting 4 customer premiums could prevent churn.",
             confidence: 92,
-            action: 'Apply recommendations'
+            action: "Apply recommendations",
           },
           {
-            type: 'recommendation',
-            title: 'Competitive Pricing',
-            description: 'Market analysis suggests 12% pricing adjustment opportunity.',
+            type: "recommendation",
+            title: "Competitive Pricing",
+            description:
+              "Market analysis suggests 12% pricing adjustment opportunity.",
             confidence: 86,
-            action: 'Review market data'
-          }
+            action: "Review market data",
+          },
         ],
-        suggestions: ["Apply price adjustments", "Contact at-risk customers", "Generate pricing report"]
+        suggestions: [
+          "Apply price adjustments",
+          "Contact at-risk customers",
+          "Generate pricing report",
+        ],
       };
     }
 
     // Default response
     return {
       id: Date.now().toString(),
-      type: 'ai',
-      content: "🤖 I'm here to help! I can assist with customer insights, risk assessment, claims analysis, premium optimization, and fraud detection. What specific area would you like me to analyze?",
+      type: "ai",
+      content:
+        "🤖 I'm here to help! I can assist with customer insights, risk assessment, claims analysis, premium optimization, and fraud detection. What specific area would you like me to analyze?",
       timestamp: new Date().toISOString(),
       suggestions: [
         "Analyze customer behavior",
         "Detect potential fraud",
         "Optimize pricing strategy",
-        "Predict customer churn"
-      ]
+        "Predict customer churn",
+      ],
     };
   };
 
@@ -231,21 +262,31 @@ export default function AIAssistant() {
 
   const getInsightIcon = (type: string) => {
     switch (type) {
-      case 'risk': return <AlertTriangle className="h-4 w-4 text-red-500" />;
-      case 'opportunity': return <TrendingUp className="h-4 w-4 text-green-500" />;
-      case 'recommendation': return <Lightbulb className="h-4 w-4 text-blue-500" />;
-      case 'alert': return <AlertTriangle className="h-4 w-4 text-orange-500" />;
-      default: return <Bot className="h-4 w-4 text-gray-500" />;
+      case "risk":
+        return <AlertTriangle className="h-4 w-4 text-red-500" />;
+      case "opportunity":
+        return <TrendingUp className="h-4 w-4 text-green-500" />;
+      case "recommendation":
+        return <Lightbulb className="h-4 w-4 text-blue-500" />;
+      case "alert":
+        return <AlertTriangle className="h-4 w-4 text-orange-500" />;
+      default:
+        return <Bot className="h-4 w-4 text-gray-500" />;
     }
   };
 
   const getInsightColor = (type: string) => {
     switch (type) {
-      case 'risk': return 'bg-red-50 border-red-200 dark:bg-red-900/10 dark:border-red-800';
-      case 'opportunity': return 'bg-green-50 border-green-200 dark:bg-green-900/10 dark:border-green-800';
-      case 'recommendation': return 'bg-blue-50 border-blue-200 dark:bg-blue-900/10 dark:border-blue-800';
-      case 'alert': return 'bg-orange-50 border-orange-200 dark:bg-orange-900/10 dark:border-orange-800';
-      default: return 'bg-gray-50 border-gray-200 dark:bg-gray-900/10 dark:border-gray-800';
+      case "risk":
+        return "bg-red-50 border-red-200 dark:bg-red-900/10 dark:border-red-800";
+      case "opportunity":
+        return "bg-green-50 border-green-200 dark:bg-green-900/10 dark:border-green-800";
+      case "recommendation":
+        return "bg-blue-50 border-blue-200 dark:bg-blue-900/10 dark:border-blue-800";
+      case "alert":
+        return "bg-orange-50 border-orange-200 dark:bg-orange-900/10 dark:border-orange-800";
+      default:
+        return "bg-gray-50 border-gray-200 dark:bg-gray-900/10 dark:border-gray-800";
     }
   };
 
@@ -292,35 +333,57 @@ export default function AIAssistant() {
           <ScrollArea className="flex-1 p-4">
             <div className="space-y-4">
               {messages.map((message) => (
-                <div key={message.id} className={cn(
-                  "flex",
-                  message.type === 'user' ? "justify-end" : "justify-start"
-                )}>
-                  <div className={cn(
-                    "max-w-[85%] p-3 rounded-lg",
-                    message.type === 'user'
-                      ? "bg-blue-600 text-white"
-                      : "bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-                  )}>
+                <div
+                  key={message.id}
+                  className={cn(
+                    "flex",
+                    message.type === "user" ? "justify-end" : "justify-start",
+                  )}
+                >
+                  <div
+                    className={cn(
+                      "max-w-[85%] p-3 rounded-lg",
+                      message.type === "user"
+                        ? "bg-blue-600 text-white"
+                        : "bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100",
+                    )}
+                  >
                     <p className="text-sm">{message.content}</p>
-                    
+
                     {/* AI Insights */}
                     {message.insights && (
                       <div className="mt-3 space-y-2">
                         {message.insights.map((insight, index) => (
-                          <Card key={index} className={cn("border", getInsightColor(insight.type))}>
+                          <Card
+                            key={index}
+                            className={cn(
+                              "border",
+                              getInsightColor(insight.type),
+                            )}
+                          >
                             <CardContent className="p-3">
                               <div className="flex items-start space-x-2">
                                 {getInsightIcon(insight.type)}
                                 <div className="flex-1">
-                                  <h4 className="font-semibold text-xs">{insight.title}</h4>
-                                  <p className="text-xs text-muted-foreground mt-1">{insight.description}</p>
+                                  <h4 className="font-semibold text-xs">
+                                    {insight.title}
+                                  </h4>
+                                  <p className="text-xs text-muted-foreground mt-1">
+                                    {insight.description}
+                                  </p>
                                   <div className="flex items-center justify-between mt-2">
-                                    <Badge variant="outline" className="text-xs">
+                                    <Badge
+                                      variant="outline"
+                                      className="text-xs"
+                                    >
                                       {insight.confidence}% confidence
                                     </Badge>
                                     {insight.action && (
-                                      <Button size="sm" variant="outline" className="text-xs h-6">
+                                      <Button
+                                        size="sm"
+                                        variant="outline"
+                                        className="text-xs h-6"
+                                      >
                                         {insight.action}
                                       </Button>
                                     )}
@@ -353,15 +416,21 @@ export default function AIAssistant() {
                   </div>
                 </div>
               ))}
-              
+
               {/* Typing Indicator */}
               {isTyping && (
                 <div className="flex justify-start">
                   <div className="bg-gray-100 dark:bg-gray-700 p-3 rounded-lg">
                     <div className="flex space-x-1">
                       <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                      <div
+                        className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                        style={{ animationDelay: "0.1s" }}
+                      ></div>
+                      <div
+                        className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                        style={{ animationDelay: "0.2s" }}
+                      ></div>
                     </div>
                   </div>
                 </div>
@@ -376,10 +445,10 @@ export default function AIAssistant() {
                 placeholder="Ask me anything about your insurance data..."
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
                 className="flex-1"
               />
-              <Button 
+              <Button
                 onClick={handleSendMessage}
                 disabled={!inputValue.trim() || isTyping}
                 size="icon"

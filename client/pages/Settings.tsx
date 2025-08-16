@@ -1,17 +1,29 @@
 import { useState } from "react";
-import { 
-  Globe, 
-  DollarSign, 
-  Clock, 
-  Palette, 
-  Bell, 
-  Shield, 
+import {
+  Globe,
+  DollarSign,
+  Clock,
+  Palette,
+  Bell,
+  Shield,
   User,
-  Save
+  Save,
 } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -63,14 +75,16 @@ export default function Settings() {
   };
 
   const handleNotificationChange = (type: string, value: boolean) => {
-    setNotifications(prev => ({ ...prev, [type]: value }));
+    setNotifications((prev) => ({ ...prev, [type]: value }));
   };
 
   return (
     <div className="space-y-6">
       {/* Page Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Settings</h1>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+          Settings
+        </h1>
         <p className="text-gray-600 dark:text-gray-400 mt-2">
           Manage your application preferences and global settings.
         </p>
@@ -119,7 +133,9 @@ export default function Settings() {
                     <SelectItem key={curr.code} value={curr.code}>
                       <span className="flex items-center space-x-2">
                         <span>{curr.symbol}</span>
-                        <span>{curr.name} ({curr.code})</span>
+                        <span>
+                          {curr.name} ({curr.code})
+                        </span>
                       </span>
                     </SelectItem>
                   ))}
@@ -176,12 +192,14 @@ export default function Settings() {
             <div className="space-y-4">
               <Label>Theme Color</Label>
               <div className="grid grid-cols-6 gap-2">
-                {["blue", "green", "purple", "red", "orange", "teal"].map((color) => (
-                  <button
-                    key={color}
-                    className={`h-8 w-8 rounded-full bg-${color}-500 ring-2 ring-offset-2 ring-${color}-500`}
-                  />
-                ))}
+                {["blue", "green", "purple", "red", "orange", "teal"].map(
+                  (color) => (
+                    <button
+                      key={color}
+                      className={`h-8 w-8 rounded-full bg-${color}-500 ring-2 ring-offset-2 ring-${color}-500`}
+                    />
+                  ),
+                )}
               </div>
             </div>
           </CardContent>
@@ -201,7 +219,9 @@ export default function Settings() {
           <CardContent className="space-y-6">
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
-                <Label htmlFor="claims-notifications">Claims Notifications</Label>
+                <Label htmlFor="claims-notifications">
+                  Claims Notifications
+                </Label>
                 <div className="text-sm text-muted-foreground">
                   Get notified about claim updates and approvals
                 </div>
@@ -209,13 +229,17 @@ export default function Settings() {
               <Switch
                 id="claims-notifications"
                 checked={notifications.claims}
-                onCheckedChange={(value) => handleNotificationChange("claims", value)}
+                onCheckedChange={(value) =>
+                  handleNotificationChange("claims", value)
+                }
               />
             </div>
 
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
-                <Label htmlFor="policies-notifications">Policy Notifications</Label>
+                <Label htmlFor="policies-notifications">
+                  Policy Notifications
+                </Label>
                 <div className="text-sm text-muted-foreground">
                   Get notified about policy renewals and updates
                 </div>
@@ -223,13 +247,17 @@ export default function Settings() {
               <Switch
                 id="policies-notifications"
                 checked={notifications.policies}
-                onCheckedChange={(value) => handleNotificationChange("policies", value)}
+                onCheckedChange={(value) =>
+                  handleNotificationChange("policies", value)
+                }
               />
             </div>
 
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
-                <Label htmlFor="payments-notifications">Payment Notifications</Label>
+                <Label htmlFor="payments-notifications">
+                  Payment Notifications
+                </Label>
                 <div className="text-sm text-muted-foreground">
                   Get notified about payment reminders and receipts
                 </div>
@@ -237,13 +265,17 @@ export default function Settings() {
               <Switch
                 id="payments-notifications"
                 checked={notifications.payments}
-                onCheckedChange={(value) => handleNotificationChange("payments", value)}
+                onCheckedChange={(value) =>
+                  handleNotificationChange("payments", value)
+                }
               />
             </div>
 
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
-                <Label htmlFor="system-notifications">System Notifications</Label>
+                <Label htmlFor="system-notifications">
+                  System Notifications
+                </Label>
                 <div className="text-sm text-muted-foreground">
                   Get notified about system updates and maintenance
                 </div>
@@ -251,7 +283,9 @@ export default function Settings() {
               <Switch
                 id="system-notifications"
                 checked={notifications.system}
-                onCheckedChange={(value) => handleNotificationChange("system", value)}
+                onCheckedChange={(value) =>
+                  handleNotificationChange("system", value)
+                }
               />
             </div>
           </CardContent>
@@ -274,7 +308,9 @@ export default function Settings() {
               <Input
                 id="name"
                 value={profile.name}
-                onChange={(e) => setProfile(prev => ({ ...prev, name: e.target.value }))}
+                onChange={(e) =>
+                  setProfile((prev) => ({ ...prev, name: e.target.value }))
+                }
               />
             </div>
 
@@ -284,7 +320,9 @@ export default function Settings() {
                 id="email"
                 type="email"
                 value={profile.email}
-                onChange={(e) => setProfile(prev => ({ ...prev, email: e.target.value }))}
+                onChange={(e) =>
+                  setProfile((prev) => ({ ...prev, email: e.target.value }))
+                }
               />
             </div>
 

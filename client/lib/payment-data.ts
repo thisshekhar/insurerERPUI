@@ -9,8 +9,14 @@ export interface Payment {
   amount: number;
   dueDate: string;
   paidDate?: string;
-  status: 'Pending' | 'Paid' | 'Overdue' | 'Partial' | 'Failed' | 'Refunded';
-  paymentMethod?: 'Credit Card' | 'Bank Transfer' | 'Check' | 'Cash' | 'PayPal' | 'Direct Debit';
+  status: "Pending" | "Paid" | "Overdue" | "Partial" | "Failed" | "Refunded";
+  paymentMethod?:
+    | "Credit Card"
+    | "Bank Transfer"
+    | "Check"
+    | "Cash"
+    | "PayPal"
+    | "Direct Debit";
   transactionId?: string;
   reference: string;
   description: string;
@@ -34,7 +40,7 @@ export interface Invoice {
   amount: number;
   taxAmount: number;
   totalAmount: number;
-  status: 'Draft' | 'Sent' | 'Paid' | 'Overdue' | 'Cancelled';
+  status: "Draft" | "Sent" | "Paid" | "Overdue" | "Cancelled";
   paymentTerms: string;
   lineItems: InvoiceLineItem[];
   payments: string[]; // Payment IDs
@@ -67,11 +73,11 @@ export interface PaymentReminder {
   paymentId: string;
   customerId: string;
   customerName: string;
-  type: 'Email' | 'SMS' | 'Phone Call' | 'Letter';
+  type: "Email" | "SMS" | "Phone Call" | "Letter";
   sentDate: string;
   dueDate: string;
   amount: number;
-  status: 'Sent' | 'Delivered' | 'Failed' | 'Responded';
+  status: "Sent" | "Delivered" | "Failed" | "Responded";
   template: string;
   notes?: string;
 }
@@ -79,7 +85,7 @@ export interface PaymentReminder {
 export interface PaymentMethod {
   id: string;
   customerId: string;
-  type: 'Credit Card' | 'Bank Account' | 'PayPal';
+  type: "Credit Card" | "Bank Account" | "PayPal";
   isDefault: boolean;
   details: {
     cardLast4?: string;
@@ -113,7 +119,7 @@ export const mockPayments: Payment[] = [
     description: "Annual premium payment for Term Life Insurance policy",
     createdDate: "2024-01-15",
     processedBy: "System",
-    receiptUrl: "/receipts/pay-001.pdf"
+    receiptUrl: "/receipts/pay-001.pdf",
   },
   {
     id: "PAY-002",
@@ -127,7 +133,7 @@ export const mockPayments: Payment[] = [
     status: "Pending",
     reference: "Premium Payment - Life Insurance",
     description: "Annual premium payment for Term Life Insurance policy",
-    createdDate: "2024-01-15"
+    createdDate: "2024-01-15",
   },
   {
     id: "PAY-003",
@@ -145,7 +151,7 @@ export const mockPayments: Payment[] = [
     reference: "Premium Payment - Auto Insurance",
     description: "Annual premium payment for Auto Insurance policy",
     createdDate: "2024-02-01",
-    processedBy: "Sarah Williams"
+    processedBy: "Sarah Williams",
   },
   {
     id: "PAY-004",
@@ -163,7 +169,7 @@ export const mockPayments: Payment[] = [
     reference: "Premium Payment - Health Insurance",
     description: "Quarterly premium payment for Family Health Insurance",
     createdDate: "2023-12-10",
-    processedBy: "James Brown"
+    processedBy: "James Brown",
   },
   {
     id: "PAY-005",
@@ -181,7 +187,7 @@ export const mockPayments: Payment[] = [
     reference: "Premium Payment - Health Insurance",
     description: "Quarterly premium payment for Family Health Insurance",
     createdDate: "2024-03-01",
-    processedBy: "James Brown"
+    processedBy: "James Brown",
   },
   {
     id: "PAY-006",
@@ -196,7 +202,7 @@ export const mockPayments: Payment[] = [
     reference: "Premium Payment - Health Insurance",
     description: "Quarterly premium payment for Family Health Insurance",
     late_fee: 50,
-    createdDate: "2024-06-01"
+    createdDate: "2024-06-01",
   },
   {
     id: "PAY-007",
@@ -210,7 +216,7 @@ export const mockPayments: Payment[] = [
     status: "Pending",
     reference: "Premium Payment - Home Insurance",
     description: "Annual premium payment for Homeowner's Insurance",
-    createdDate: "2024-01-20"
+    createdDate: "2024-01-20",
   },
   {
     id: "PAY-008",
@@ -228,7 +234,7 @@ export const mockPayments: Payment[] = [
     reference: "Premium Payment - Whole Life Insurance",
     description: "Annual premium payment for Whole Life Insurance policy",
     createdDate: "2023-11-05",
-    processedBy: "Mike Chen"
+    processedBy: "Mike Chen",
   },
   {
     id: "PAY-009",
@@ -242,7 +248,7 @@ export const mockPayments: Payment[] = [
     status: "Pending",
     reference: "Premium Payment - Whole Life Insurance",
     description: "Annual premium payment for Whole Life Insurance policy",
-    createdDate: "2024-11-01"
+    createdDate: "2024-11-01",
   },
   {
     id: "PAY-010",
@@ -260,7 +266,7 @@ export const mockPayments: Payment[] = [
     reference: "Premium Payment - Travel Insurance",
     description: "One-time premium for International Travel Insurance",
     createdDate: "2024-01-10",
-    processedBy: "Sarah Williams"
+    processedBy: "Sarah Williams",
   },
   {
     id: "PAY-011",
@@ -276,8 +282,8 @@ export const mockPayments: Payment[] = [
     reference: "Premium Payment - Auto Insurance",
     description: "Quarterly premium payment for Auto Insurance policy",
     notes: "Payment failed due to insufficient funds",
-    createdDate: "2024-03-01"
-  }
+    createdDate: "2024-03-01",
+  },
 ];
 
 // Mock Invoices Data
@@ -304,8 +310,8 @@ export const mockInvoices: Invoice[] = [
         unitPrice: 2400,
         totalPrice: 2400,
         taxRate: 0,
-        taxAmount: 0
-      }
+        taxAmount: 0,
+      },
     ],
     payments: ["PAY-001"],
     sentDate: "2024-01-15",
@@ -315,8 +321,8 @@ export const mockInvoices: Invoice[] = [
       city: "New York",
       state: "NY",
       zipCode: "10001",
-      country: "USA"
-    }
+      country: "USA",
+    },
   },
   {
     id: "INV-002",
@@ -340,8 +346,8 @@ export const mockInvoices: Invoice[] = [
         unitPrice: 2400,
         totalPrice: 2400,
         taxRate: 0,
-        taxAmount: 0
-      }
+        taxAmount: 0,
+      },
     ],
     payments: ["PAY-002"],
     sentDate: "2024-12-01",
@@ -350,8 +356,8 @@ export const mockInvoices: Invoice[] = [
       city: "New York",
       state: "NY",
       zipCode: "10001",
-      country: "USA"
-    }
+      country: "USA",
+    },
   },
   {
     id: "INV-006",
@@ -375,8 +381,8 @@ export const mockInvoices: Invoice[] = [
         unitPrice: 1200,
         totalPrice: 1200,
         taxRate: 5,
-        taxAmount: 60
-      }
+        taxAmount: 60,
+      },
     ],
     payments: ["PAY-006"],
     sentDate: "2024-06-01",
@@ -385,10 +391,10 @@ export const mockInvoices: Invoice[] = [
       city: "Chicago",
       state: "IL",
       zipCode: "60601",
-      country: "USA"
+      country: "USA",
     },
-    notes: "Payment overdue. Late fees may apply."
-  }
+    notes: "Payment overdue. Late fees may apply.",
+  },
 ];
 
 // Mock Payment Reminders
@@ -403,7 +409,7 @@ export const mockReminders: PaymentReminder[] = [
     dueDate: "2024-07-01",
     amount: 1200,
     status: "Delivered",
-    template: "First Overdue Notice"
+    template: "First Overdue Notice",
   },
   {
     id: "REM-002",
@@ -416,7 +422,7 @@ export const mockReminders: PaymentReminder[] = [
     amount: 1200,
     status: "Delivered",
     template: "Second Notice - SMS",
-    notes: "Customer responded via phone"
+    notes: "Customer responded via phone",
   },
   {
     id: "REM-003",
@@ -428,8 +434,8 @@ export const mockReminders: PaymentReminder[] = [
     dueDate: "2024-02-01",
     amount: 1800,
     status: "Sent",
-    template: "Payment Reminder - Due Soon"
-  }
+    template: "Payment Reminder - Due Soon",
+  },
 ];
 
 // Mock Payment Methods
@@ -442,10 +448,10 @@ export const mockPaymentMethods: PaymentMethod[] = [
     details: {
       bankName: "Chase Bank",
       accountLast4: "1234",
-      accountType: "Checking"
+      accountType: "Checking",
     },
     createdDate: "2024-01-15",
-    isActive: true
+    isActive: true,
   },
   {
     id: "PM-002",
@@ -455,10 +461,10 @@ export const mockPaymentMethods: PaymentMethod[] = [
     details: {
       cardLast4: "5678",
       cardType: "Visa",
-      expiryDate: "12/26"
+      expiryDate: "12/26",
     },
     createdDate: "2024-02-01",
-    isActive: true
+    isActive: true,
   },
   {
     id: "PM-003",
@@ -468,35 +474,36 @@ export const mockPaymentMethods: PaymentMethod[] = [
     details: {
       bankName: "Bank of America",
       accountLast4: "9012",
-      accountType: "Checking"
+      accountType: "Checking",
     },
     createdDate: "2023-12-10",
-    isActive: true
-  }
+    isActive: true,
+  },
 ];
 
 // Utility functions
 export const getPaymentById = (id: string): Payment | undefined => {
-  return mockPayments.find(payment => payment.id === id);
+  return mockPayments.find((payment) => payment.id === id);
 };
 
 export const getPaymentsByCustomer = (customerId: string): Payment[] => {
-  return mockPayments.filter(payment => payment.customerId === customerId);
+  return mockPayments.filter((payment) => payment.customerId === customerId);
 };
 
 export const getPaymentsByPolicy = (policyId: string): Payment[] => {
-  return mockPayments.filter(payment => payment.policyId === policyId);
+  return mockPayments.filter((payment) => payment.policyId === policyId);
 };
 
 export const getPaymentsByStatus = (status: string): Payment[] => {
-  return mockPayments.filter(payment => payment.status === status);
+  return mockPayments.filter((payment) => payment.status === status);
 };
 
 export const getOverduePayments = (): Payment[] => {
-  const today = new Date().toISOString().split('T')[0];
-  return mockPayments.filter(payment => 
-    (payment.status === 'Pending' && payment.dueDate < today) || 
-    payment.status === 'Overdue'
+  const today = new Date().toISOString().split("T")[0];
+  return mockPayments.filter(
+    (payment) =>
+      (payment.status === "Pending" && payment.dueDate < today) ||
+      payment.status === "Overdue",
   );
 };
 
@@ -504,9 +511,9 @@ export const getUpcomingPayments = (daysFromNow: number = 30): Payment[] => {
   const today = new Date();
   const targetDate = new Date();
   targetDate.setDate(today.getDate() + daysFromNow);
-  
-  return mockPayments.filter(payment => {
-    if (payment.status !== 'Pending') return false;
+
+  return mockPayments.filter((payment) => {
+    if (payment.status !== "Pending") return false;
     const dueDate = new Date(payment.dueDate);
     return dueDate >= today && dueDate <= targetDate;
   });
@@ -514,55 +521,68 @@ export const getUpcomingPayments = (daysFromNow: number = 30): Payment[] => {
 
 export const calculateTotalRevenue = (payments: Payment[]): number => {
   return payments
-    .filter(payment => payment.status === 'Paid')
+    .filter((payment) => payment.status === "Paid")
     .reduce((total, payment) => total + payment.amount, 0);
 };
 
 export const calculateOutstandingAmount = (payments: Payment[]): number => {
   return payments
-    .filter(payment => payment.status === 'Pending' || payment.status === 'Overdue')
+    .filter(
+      (payment) => payment.status === "Pending" || payment.status === "Overdue",
+    )
     .reduce((total, payment) => total + payment.amount, 0);
 };
 
 export const getMonthlyRevenue = (year: number, month: number): number => {
   return mockPayments
-    .filter(payment => {
-      if (payment.status !== 'Paid' || !payment.paidDate) return false;
+    .filter((payment) => {
+      if (payment.status !== "Paid" || !payment.paidDate) return false;
       const paidDate = new Date(payment.paidDate);
-      return paidDate.getFullYear() === year && paidDate.getMonth() === month - 1;
+      return (
+        paidDate.getFullYear() === year && paidDate.getMonth() === month - 1
+      );
     })
     .reduce((total, payment) => total + payment.amount, 0);
 };
 
 // Payment method utilities
-export const getPaymentMethodsByCustomer = (customerId: string): PaymentMethod[] => {
-  return mockPaymentMethods.filter(method => method.customerId === customerId);
+export const getPaymentMethodsByCustomer = (
+  customerId: string,
+): PaymentMethod[] => {
+  return mockPaymentMethods.filter(
+    (method) => method.customerId === customerId,
+  );
 };
 
-export const getDefaultPaymentMethod = (customerId: string): PaymentMethod | undefined => {
-  return mockPaymentMethods.find(method => 
-    method.customerId === customerId && method.isDefault && method.isActive
+export const getDefaultPaymentMethod = (
+  customerId: string,
+): PaymentMethod | undefined => {
+  return mockPaymentMethods.find(
+    (method) =>
+      method.customerId === customerId && method.isDefault && method.isActive,
   );
 };
 
 // Invoice utilities
 export const getInvoiceById = (id: string): Invoice | undefined => {
-  return mockInvoices.find(invoice => invoice.id === id);
+  return mockInvoices.find((invoice) => invoice.id === id);
 };
 
 export const getInvoicesByCustomer = (customerId: string): Invoice[] => {
-  return mockInvoices.filter(invoice => invoice.customerId === customerId);
+  return mockInvoices.filter((invoice) => invoice.customerId === customerId);
 };
 
 export const getInvoicesByStatus = (status: string): Invoice[] => {
-  return mockInvoices.filter(invoice => invoice.status === status);
+  return mockInvoices.filter((invoice) => invoice.status === status);
 };
 
 // Reminder utilities
-export const getRemindersByCustomer = (customerId: string): PaymentReminder[] => {
-  return mockReminders.filter(reminder => reminder.customerId === customerId);
+export const getRemindersByCustomer = (
+  customerId: string,
+): PaymentReminder[] => {
+  return mockReminders.filter((reminder) => reminder.customerId === customerId);
 };
 
 export const getRemindersByPayment = (paymentId: string): PaymentReminder[] => {
-  return mockReminders.filter(reminder => reminder.paymentId === paymentId);
+  return mockReminders.filter((reminder) => reminder.paymentId === paymentId);
 };

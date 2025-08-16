@@ -1,5 +1,11 @@
 import { Construction, ArrowRight } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
 interface PlaceholderPageProps {
@@ -9,20 +15,20 @@ interface PlaceholderPageProps {
   features?: string[];
 }
 
-export default function PlaceholderPage({ 
-  title, 
-  description, 
+export default function PlaceholderPage({
+  title,
+  description,
   icon: Icon = Construction,
-  features = []
+  features = [],
 }: PlaceholderPageProps) {
   return (
     <div className="space-y-6">
       {/* Page Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{title}</h1>
-        <p className="text-gray-600 dark:text-gray-400 mt-2">
-          {description}
-        </p>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+          {title}
+        </h1>
+        <p className="text-gray-600 dark:text-gray-400 mt-2">{description}</p>
       </div>
 
       {/* Placeholder Content */}
@@ -34,7 +40,8 @@ export default function PlaceholderPage({
             </div>
             <CardTitle>Coming Soon</CardTitle>
             <CardDescription>
-              This module is currently under development and will be available soon.
+              This module is currently under development and will be available
+              soon.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -53,7 +60,8 @@ export default function PlaceholderPage({
             )}
             <div className="text-center pt-4">
               <p className="text-sm text-muted-foreground mb-4">
-                Continue prompting to help build out this page's content and functionality.
+                Continue prompting to help build out this page's content and
+                functionality.
               </p>
               <Button variant="outline" className="w-full">
                 Request Development

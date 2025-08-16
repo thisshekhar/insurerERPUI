@@ -1,18 +1,18 @@
 import { useState } from "react";
 import { ColumnDef } from "@tanstack/react-table";
-import { 
-  FolderOpen, 
-  Plus, 
-  Eye, 
-  Download, 
-  Upload, 
-  Search, 
-  Filter, 
-  File, 
-  FileText, 
-  Image, 
-  Archive, 
-  Share, 
+import {
+  FolderOpen,
+  Plus,
+  Eye,
+  Download,
+  Upload,
+  Search,
+  Filter,
+  File,
+  FileText,
+  Image,
+  Archive,
+  Share,
   Trash2,
   Calendar,
   User,
@@ -24,25 +24,42 @@ import {
   MoreHorizontal,
   Folder,
   Star,
-  History
+  History,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { DataTable } from "@/components/ui/data-table";
 import { FormDialog } from "@/components/ui/form-dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
-import { 
-  mockDocuments, 
+import {
+  mockDocuments,
   mockFolders,
   mockTemplates,
-  Document, 
+  Document,
   DocumentFolder,
   DocumentTemplate,
   getDocumentsByType,
@@ -54,50 +71,57 @@ import {
   searchDocuments,
   formatFileSize,
   getFileIcon,
-  getDocumentStats
+  getDocumentStats,
 } from "@/lib/document-data";
 import { cn } from "@/lib/utils";
 
 const statusColors = {
-  'Active': "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
-  'Archived': "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400",
-  'Deleted': "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400",
-  'Under Review': "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400",
+  Active:
+    "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
+  Archived: "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400",
+  Deleted: "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400",
+  "Under Review":
+    "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400",
 };
 
 const accessLevelColors = {
-  'Public': "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
-  'Internal': "bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400",
-  'Confidential': "bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400",
-  'Restricted': "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400",
+  Public:
+    "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
+  Internal: "bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400",
+  Confidential:
+    "bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400",
+  Restricted: "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400",
 };
 
 const statusIcons = {
-  'Active': CheckCircle,
-  'Archived': Archive,
-  'Deleted': Trash2,
-  'Under Review': AlertTriangle,
+  Active: CheckCircle,
+  Archived: Archive,
+  Deleted: Trash2,
+  "Under Review": AlertTriangle,
 };
 
 export default function Documents() {
   const [documents, setDocuments] = useState<Document[]>(mockDocuments);
   const [folders] = useState<DocumentFolder[]>(mockFolders);
   const [templates] = useState<DocumentTemplate[]>(mockTemplates);
-  const [selectedDocument, setSelectedDocument] = useState<Document | null>(null);
+  const [selectedDocument, setSelectedDocument] = useState<Document | null>(
+    null,
+  );
   const [showUploadDialog, setShowUploadDialog] = useState(false);
   const [showCreateFolderDialog, setShowCreateFolderDialog] = useState(false);
-  const [showDocumentDetailsDialog, setShowDocumentDetailsDialog] = useState(false);
+  const [showDocumentDetailsDialog, setShowDocumentDetailsDialog] =
+    useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [selectedType, setSelectedType] = useState<string>("All");
   const [formData, setFormData] = useState<any>({});
-  const [view, setView] = useState<'grid' | 'list'>('list');
+  const [view, setView] = useState<"grid" | "list">("list");
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
     });
   };
 
@@ -108,44 +132,52 @@ export default function Documents() {
     }
 
     const newDocument: Document = {
-      id: `DOC-${String(documents.length + 1).padStart(3, '0')}`,
+      id: `DOC-${String(documents.length + 1).padStart(3, "0")}`,
       name: formData.name,
       originalName: formData.originalName || formData.name,
       type: formData.type,
       category: formData.category,
-      tags: formData.tags ? formData.tags.split(',').map((tag: string) => tag.trim()) : [],
-      description: formData.description || '',
+      tags: formData.tags
+        ? formData.tags.split(",").map((tag: string) => tag.trim())
+        : [],
+      description: formData.description || "",
       fileSize: formData.fileSize || 1048576,
-      mimeType: formData.mimeType || 'application/pdf',
+      mimeType: formData.mimeType || "application/pdf",
       url: `/documents/${formData.name}`,
       uploadDate: new Date().toISOString(),
       lastModified: new Date().toISOString(),
       uploadedBy: "Current User",
-      status: 'Active',
-      accessLevel: formData.accessLevel || 'Internal',
+      status: "Active",
+      accessLevel: formData.accessLevel || "Internal",
       relatedEntities: [],
-      versions: [{
-        id: `VER-${String(documents.length + 1).padStart(3, '0')}`,
-        version: "1.0",
-        uploadDate: new Date().toISOString(),
-        uploadedBy: "Current User",
-        fileSize: formData.fileSize || 1048576,
-        url: `/documents/${formData.name}`,
-        changeNotes: "Initial upload",
-        isActive: true
-      }],
+      versions: [
+        {
+          id: `VER-${String(documents.length + 1).padStart(3, "0")}`,
+          version: "1.0",
+          uploadDate: new Date().toISOString(),
+          uploadedBy: "Current User",
+          fileSize: formData.fileSize || 1048576,
+          url: `/documents/${formData.name}`,
+          changeNotes: "Initial upload",
+          isActive: true,
+        },
+      ],
       metadata: {
         author: "Current User",
-        createdDate: new Date().toISOString().split('T')[0],
+        createdDate: new Date().toISOString().split("T")[0],
         subject: formData.name,
-        keywords: formData.tags ? formData.tags.split(',').map((tag: string) => tag.trim()) : [],
-        language: "English"
+        keywords: formData.tags
+          ? formData.tags.split(",").map((tag: string) => tag.trim())
+          : [],
+        language: "English",
       },
       permissions: [],
       comments: [],
       downloadCount: 0,
-      isEncrypted: formData.accessLevel === 'Confidential' || formData.accessLevel === 'Restricted',
-      checksum: `sha256:${Math.random().toString(36).substring(2, 15)}`
+      isEncrypted:
+        formData.accessLevel === "Confidential" ||
+        formData.accessLevel === "Restricted",
+      checksum: `sha256:${Math.random().toString(36).substring(2, 15)}`,
     };
 
     setDocuments([...documents, newDocument]);
@@ -156,20 +188,22 @@ export default function Documents() {
 
   const handleDownloadDocument = (document: Document) => {
     // Update download count
-    const updatedDocuments = documents.map(doc =>
+    const updatedDocuments = documents.map((doc) =>
       doc.id === document.id
-        ? { ...doc, downloadCount: doc.downloadCount + 1, lastAccessed: new Date().toISOString() }
-        : doc
+        ? {
+            ...doc,
+            downloadCount: doc.downloadCount + 1,
+            lastAccessed: new Date().toISOString(),
+          }
+        : doc,
     );
     setDocuments(updatedDocuments);
     toast.success(`Downloading ${document.name}`);
   };
 
   const handleDeleteDocument = (document: Document) => {
-    const updatedDocuments = documents.map(doc =>
-      doc.id === document.id
-        ? { ...doc, status: 'Deleted' as const }
-        : doc
+    const updatedDocuments = documents.map((doc) =>
+      doc.id === document.id ? { ...doc, status: "Deleted" as const } : doc,
     );
     setDocuments(updatedDocuments);
     toast.success("Document moved to trash");
@@ -181,11 +215,13 @@ export default function Documents() {
   };
 
   // Filter documents based on search and filters
-  const filteredDocuments = documents.filter(doc => {
-    if (searchQuery && !searchDocuments(searchQuery).includes(doc)) return false;
-    if (selectedCategory !== "All" && doc.category !== selectedCategory) return false;
+  const filteredDocuments = documents.filter((doc) => {
+    if (searchQuery && !searchDocuments(searchQuery).includes(doc))
+      return false;
+    if (selectedCategory !== "All" && doc.category !== selectedCategory)
+      return false;
     if (selectedType !== "All" && doc.type !== selectedType) return false;
-    return doc.status === 'Active'; // Only show active documents by default
+    return doc.status === "Active"; // Only show active documents by default
   });
 
   const documentColumns: ColumnDef<Document>[] = [
@@ -200,7 +236,9 @@ export default function Documents() {
             <div className="text-xl">{icon}</div>
             <div>
               <div className="font-medium">{document.name}</div>
-              <div className="text-sm text-muted-foreground">{document.type}</div>
+              <div className="text-sm text-muted-foreground">
+                {document.type}
+              </div>
             </div>
           </div>
         );
@@ -231,7 +269,9 @@ export default function Documents() {
       accessorKey: "accessLevel",
       header: "Access",
       cell: ({ row }) => {
-        const accessLevel = row.getValue("accessLevel") as keyof typeof accessLevelColors;
+        const accessLevel = row.getValue(
+          "accessLevel",
+        ) as keyof typeof accessLevelColors;
         return (
           <Badge className={accessLevelColors[accessLevel]}>
             <Lock className="h-3 w-3 mr-1" />
@@ -264,7 +304,9 @@ export default function Documents() {
                 <Eye className="h-4 w-4 mr-2" />
                 View Details
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleDownloadDocument(document)}>
+              <DropdownMenuItem
+                onClick={() => handleDownloadDocument(document)}
+              >
                 <Download className="h-4 w-4 mr-2" />
                 Download
               </DropdownMenuItem>
@@ -272,7 +314,7 @@ export default function Documents() {
                 <Share className="h-4 w-4 mr-2" />
                 Share
               </DropdownMenuItem>
-              <DropdownMenuItem 
+              <DropdownMenuItem
                 onClick={() => handleDeleteDocument(document)}
                 className="text-red-600"
               >
@@ -292,21 +334,23 @@ export default function Documents() {
   const popularDocs = getPopularDocuments(5);
   const expiringDocs = getExpiringDocuments(30);
 
-  const categories = Array.from(new Set(documents.map(doc => doc.category)));
-  const types = Array.from(new Set(documents.map(doc => doc.type)));
+  const categories = Array.from(new Set(documents.map((doc) => doc.category)));
+  const types = Array.from(new Set(documents.map((doc) => doc.type)));
 
   return (
     <div className="space-y-6">
       {/* Page Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Document Management</h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            Document Management
+          </h1>
           <p className="text-gray-600 dark:text-gray-400 mt-2">
             Upload, organize, and manage all insurance-related documents.
           </p>
         </div>
         <div className="flex space-x-2">
-          <Button 
+          <Button
             variant="outline"
             onClick={() => setShowCreateFolderDialog(true)}
             className="flex items-center space-x-2"
@@ -314,7 +358,7 @@ export default function Documents() {
             <Folder className="h-4 w-4" />
             <span>New Folder</span>
           </Button>
-          <Button 
+          <Button
             onClick={() => setShowUploadDialog(true)}
             className="flex items-center space-x-2"
           >
@@ -330,7 +374,9 @@ export default function Documents() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Total Documents</p>
+                <p className="text-sm font-medium text-muted-foreground">
+                  Total Documents
+                </p>
                 <p className="text-2xl font-bold">{stats.totalDocuments}</p>
                 <div className="flex items-center text-xs text-muted-foreground mt-1">
                   <span>{stats.recentUploads} this week</span>
@@ -340,12 +386,14 @@ export default function Documents() {
             </div>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Storage Used</p>
+                <p className="text-sm font-medium text-muted-foreground">
+                  Storage Used
+                </p>
                 <p className="text-2xl font-bold">{stats.totalSize}</p>
                 <div className="flex items-center text-xs text-muted-foreground mt-1">
                   <span>across all documents</span>
@@ -355,12 +403,14 @@ export default function Documents() {
             </div>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Folders</p>
+                <p className="text-sm font-medium text-muted-foreground">
+                  Folders
+                </p>
                 <p className="text-2xl font-bold">{folders.length}</p>
                 <div className="flex items-center text-xs text-muted-foreground mt-1">
                   <span>organized collections</span>
@@ -370,12 +420,14 @@ export default function Documents() {
             </div>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Expiring Soon</p>
+                <p className="text-sm font-medium text-muted-foreground">
+                  Expiring Soon
+                </p>
                 <p className="text-2xl font-bold">{expiringDocs.length}</p>
                 <div className="flex items-center text-xs text-red-600 mt-1">
                   <AlertTriangle className="h-3 w-3 mr-1" />
@@ -404,7 +456,10 @@ export default function Documents() {
               </div>
             </div>
             <div className="flex gap-2">
-              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+              <Select
+                value={selectedCategory}
+                onValueChange={setSelectedCategory}
+              >
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Category" />
                 </SelectTrigger>
@@ -417,7 +472,7 @@ export default function Documents() {
                   ))}
                 </SelectContent>
               </Select>
-              
+
               <Select value={selectedType} onValueChange={setSelectedType}>
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Type" />
@@ -451,7 +506,8 @@ export default function Documents() {
             <CardHeader>
               <CardTitle>All Documents</CardTitle>
               <CardDescription>
-                Complete document library with search and filtering capabilities.
+                Complete document library with search and filtering
+                capabilities.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -476,13 +532,21 @@ export default function Documents() {
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {recentDocs.map((doc) => (
-                  <Card key={doc.id} className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => openDocumentDetails(doc)}>
+                  <Card
+                    key={doc.id}
+                    className="cursor-pointer hover:shadow-md transition-shadow"
+                    onClick={() => openDocumentDetails(doc)}
+                  >
                     <CardContent className="p-4">
                       <div className="flex items-start space-x-3">
-                        <div className="text-2xl">{getFileIcon(doc.mimeType)}</div>
+                        <div className="text-2xl">
+                          {getFileIcon(doc.mimeType)}
+                        </div>
                         <div className="flex-1 min-w-0">
                           <h4 className="font-medium truncate">{doc.name}</h4>
-                          <p className="text-sm text-muted-foreground">{doc.category}</p>
+                          <p className="text-sm text-muted-foreground">
+                            {doc.category}
+                          </p>
                           <div className="flex items-center justify-between mt-2">
                             <span className="text-xs text-muted-foreground">
                               {formatDate(doc.uploadDate)}
@@ -512,7 +576,11 @@ export default function Documents() {
             <CardContent>
               <div className="space-y-4">
                 {popularDocs.map((doc, index) => (
-                  <div key={doc.id} className="flex items-center justify-between p-4 border rounded-lg dark:border-gray-700 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800" onClick={() => openDocumentDetails(doc)}>
+                  <div
+                    key={doc.id}
+                    className="flex items-center justify-between p-4 border rounded-lg dark:border-gray-700 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800"
+                    onClick={() => openDocumentDetails(doc)}
+                  >
                     <div className="flex items-center space-x-4">
                       <div className="flex items-center justify-center w-8 h-8 bg-blue-100 dark:bg-blue-900/20 rounded-full text-sm font-medium">
                         {index + 1}
@@ -520,12 +588,18 @@ export default function Documents() {
                       <div className="text-xl">{getFileIcon(doc.mimeType)}</div>
                       <div>
                         <div className="font-medium">{doc.name}</div>
-                        <div className="text-sm text-muted-foreground">{doc.category}</div>
+                        <div className="text-sm text-muted-foreground">
+                          {doc.category}
+                        </div>
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="font-medium">{doc.downloadCount} downloads</div>
-                      <div className="text-sm text-muted-foreground">{formatFileSize(doc.fileSize)}</div>
+                      <div className="font-medium">
+                        {doc.downloadCount} downloads
+                      </div>
+                      <div className="text-sm text-muted-foreground">
+                        {formatFileSize(doc.fileSize)}
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -545,13 +619,18 @@ export default function Documents() {
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {folders.map((folder) => (
-                  <Card key={folder.id} className="cursor-pointer hover:shadow-md transition-shadow">
+                  <Card
+                    key={folder.id}
+                    className="cursor-pointer hover:shadow-md transition-shadow"
+                  >
                     <CardContent className="p-6">
                       <div className="flex items-center space-x-3 mb-4">
                         <FolderOpen className="h-8 w-8 text-blue-600" />
                         <div>
                           <h4 className="font-medium">{folder.name}</h4>
-                          <p className="text-sm text-muted-foreground">{folder.description}</p>
+                          <p className="text-sm text-muted-foreground">
+                            {folder.description}
+                          </p>
                         </div>
                       </div>
                       <div className="flex justify-between text-sm text-muted-foreground">
@@ -577,14 +656,19 @@ export default function Documents() {
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {templates.map((template) => (
-                  <Card key={template.id} className="cursor-pointer hover:shadow-md transition-shadow">
+                  <Card
+                    key={template.id}
+                    className="cursor-pointer hover:shadow-md transition-shadow"
+                  >
                     <CardContent className="p-6">
                       <div className="flex items-start justify-between mb-4">
                         <div className="flex items-center space-x-3">
                           <FileText className="h-8 w-8 text-green-600" />
                           <div>
                             <h4 className="font-medium">{template.name}</h4>
-                            <p className="text-sm text-muted-foreground">{template.description}</p>
+                            <p className="text-sm text-muted-foreground">
+                              {template.description}
+                            </p>
                           </div>
                         </div>
                         <Badge variant="outline">{template.category}</Badge>
@@ -620,16 +704,20 @@ export default function Documents() {
             <Label htmlFor="name">Document Name *</Label>
             <Input
               id="name"
-              value={formData.name || ''}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              value={formData.name || ""}
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
               placeholder="Enter document name"
             />
           </div>
           <div>
             <Label htmlFor="type">Document Type *</Label>
             <Select
-              value={formData.type || ''}
-              onValueChange={(value) => setFormData({ ...formData, type: value })}
+              value={formData.type || ""}
+              onValueChange={(value) =>
+                setFormData({ ...formData, type: value })
+              }
             >
               <SelectTrigger>
                 <SelectValue placeholder="Select document type" />
@@ -646,8 +734,10 @@ export default function Documents() {
           <div>
             <Label htmlFor="category">Category *</Label>
             <Select
-              value={formData.category || ''}
-              onValueChange={(value) => setFormData({ ...formData, category: value })}
+              value={formData.category || ""}
+              onValueChange={(value) =>
+                setFormData({ ...formData, category: value })
+              }
             >
               <SelectTrigger>
                 <SelectValue placeholder="Select category" />
@@ -664,8 +754,10 @@ export default function Documents() {
           <div>
             <Label htmlFor="accessLevel">Access Level</Label>
             <Select
-              value={formData.accessLevel || ''}
-              onValueChange={(value) => setFormData({ ...formData, accessLevel: value })}
+              value={formData.accessLevel || ""}
+              onValueChange={(value) =>
+                setFormData({ ...formData, accessLevel: value })
+              }
             >
               <SelectTrigger>
                 <SelectValue placeholder="Select access level" />
@@ -682,8 +774,10 @@ export default function Documents() {
             <Label htmlFor="tags">Tags (comma-separated)</Label>
             <Input
               id="tags"
-              value={formData.tags || ''}
-              onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
+              value={formData.tags || ""}
+              onChange={(e) =>
+                setFormData({ ...formData, tags: e.target.value })
+              }
               placeholder="Enter tags separated by commas"
             />
           </div>
@@ -691,8 +785,10 @@ export default function Documents() {
             <Label htmlFor="description">Description</Label>
             <Textarea
               id="description"
-              value={formData.description || ''}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              value={formData.description || ""}
+              onChange={(e) =>
+                setFormData({ ...formData, description: e.target.value })
+              }
               placeholder="Enter document description"
               rows={3}
             />
@@ -720,7 +816,9 @@ export default function Documents() {
                     <span>{selectedDocument.type}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Category:</span>
+                    <span className="text-sm text-muted-foreground">
+                      Category:
+                    </span>
                     <Badge variant="outline">{selectedDocument.category}</Badge>
                   </div>
                   <div className="flex items-center justify-between">
@@ -728,43 +826,61 @@ export default function Documents() {
                     <span>{formatFileSize(selectedDocument.fileSize)}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Status:</span>
+                    <span className="text-sm text-muted-foreground">
+                      Status:
+                    </span>
                     <Badge className={statusColors[selectedDocument.status]}>
                       {selectedDocument.status}
                     </Badge>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Access Level:</span>
-                    <Badge className={accessLevelColors[selectedDocument.accessLevel]}>
+                    <span className="text-sm text-muted-foreground">
+                      Access Level:
+                    </span>
+                    <Badge
+                      className={
+                        accessLevelColors[selectedDocument.accessLevel]
+                      }
+                    >
                       <Lock className="h-3 w-3 mr-1" />
                       {selectedDocument.accessLevel}
                     </Badge>
                   </div>
                 </div>
               </div>
-              
+
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold">Upload Details</h3>
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Uploaded By:</span>
+                    <span className="text-sm text-muted-foreground">
+                      Uploaded By:
+                    </span>
                     <span>{selectedDocument.uploadedBy}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Upload Date:</span>
+                    <span className="text-sm text-muted-foreground">
+                      Upload Date:
+                    </span>
                     <span>{formatDate(selectedDocument.uploadDate)}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Last Modified:</span>
+                    <span className="text-sm text-muted-foreground">
+                      Last Modified:
+                    </span>
                     <span>{formatDate(selectedDocument.lastModified)}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Downloads:</span>
+                    <span className="text-sm text-muted-foreground">
+                      Downloads:
+                    </span>
                     <span>{selectedDocument.downloadCount}</span>
                   </div>
                   {selectedDocument.lastAccessed && (
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted-foreground">Last Accessed:</span>
+                      <span className="text-sm text-muted-foreground">
+                        Last Accessed:
+                      </span>
                       <span>{formatDate(selectedDocument.lastAccessed)}</span>
                     </div>
                   )}
@@ -788,7 +904,11 @@ export default function Documents() {
                 <h3 className="text-lg font-semibold mb-4">Tags</h3>
                 <div className="flex flex-wrap gap-2">
                   {selectedDocument.tags.map((tag) => (
-                    <Badge key={tag} variant="secondary" className="flex items-center space-x-1">
+                    <Badge
+                      key={tag}
+                      variant="secondary"
+                      className="flex items-center space-x-1"
+                    >
                       <Tag className="h-3 w-3" />
                       <span>{tag}</span>
                     </Badge>
@@ -803,10 +923,15 @@ export default function Documents() {
                 <h3 className="text-lg font-semibold mb-4">Related Entities</h3>
                 <div className="space-y-2">
                   {selectedDocument.relatedEntities.map((entity, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 border rounded-lg dark:border-gray-700">
+                    <div
+                      key={index}
+                      className="flex items-center justify-between p-3 border rounded-lg dark:border-gray-700"
+                    >
                       <div>
                         <div className="font-medium">{entity.name}</div>
-                        <div className="text-sm text-muted-foreground">{entity.type}</div>
+                        <div className="text-sm text-muted-foreground">
+                          {entity.type}
+                        </div>
                       </div>
                       <Badge variant="outline">{entity.id}</Badge>
                     </div>
@@ -821,17 +946,28 @@ export default function Documents() {
                 <h3 className="text-lg font-semibold mb-4">Version History</h3>
                 <div className="space-y-3">
                   {selectedDocument.versions.map((version) => (
-                    <div key={version.id} className="flex items-center justify-between p-3 border rounded-lg dark:border-gray-700">
+                    <div
+                      key={version.id}
+                      className="flex items-center justify-between p-3 border rounded-lg dark:border-gray-700"
+                    >
                       <div className="flex items-center space-x-3">
                         <History className="h-4 w-4 text-muted-foreground" />
                         <div>
-                          <div className="font-medium">Version {version.version}</div>
-                          <div className="text-sm text-muted-foreground">{version.changeNotes}</div>
+                          <div className="font-medium">
+                            Version {version.version}
+                          </div>
+                          <div className="text-sm text-muted-foreground">
+                            {version.changeNotes}
+                          </div>
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className="text-sm">{formatDate(version.uploadDate)}</div>
-                        <div className="text-sm text-muted-foreground">{version.uploadedBy}</div>
+                        <div className="text-sm">
+                          {formatDate(version.uploadDate)}
+                        </div>
+                        <div className="text-sm text-muted-foreground">
+                          {version.uploadedBy}
+                        </div>
                       </div>
                     </div>
                   ))}

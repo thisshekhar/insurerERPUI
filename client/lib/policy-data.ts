@@ -6,15 +6,21 @@ export interface Policy {
   customerName: string;
   agentId: string;
   agentName: string;
-  policyType: 'Life Insurance' | 'Health Insurance' | 'Auto Insurance' | 'Home Insurance' | 'Travel Insurance' | 'Business Insurance';
+  policyType:
+    | "Life Insurance"
+    | "Health Insurance"
+    | "Auto Insurance"
+    | "Home Insurance"
+    | "Travel Insurance"
+    | "Business Insurance";
   coverageType: string;
-  status: 'Active' | 'Pending' | 'Expired' | 'Cancelled' | 'Under Review';
+  status: "Active" | "Pending" | "Expired" | "Cancelled" | "Under Review";
   issueDate: string;
   effectiveDate: string;
   expiryDate: string;
   renewalDate: string;
   premiumAmount: number;
-  premiumFrequency: 'Monthly' | 'Quarterly' | 'Semi-Annual' | 'Annual';
+  premiumFrequency: "Monthly" | "Quarterly" | "Semi-Annual" | "Annual";
   coverageAmount: number;
   deductible: number;
   beneficiaries: Beneficiary[];
@@ -23,7 +29,7 @@ export interface Policy {
   payments: PolicyPayment[];
   renewalHistory: RenewalRecord[];
   notes: string;
-  riskAssessment: 'Low' | 'Medium' | 'High';
+  riskAssessment: "Low" | "Medium" | "High";
   commissionRate: number;
 }
 
@@ -49,7 +55,12 @@ export interface CoverageDetail {
 export interface PolicyDocument {
   id: string;
   name: string;
-  type: 'Policy Document' | 'Terms & Conditions' | 'Amendment' | 'Certificate' | 'Claim Form';
+  type:
+    | "Policy Document"
+    | "Terms & Conditions"
+    | "Amendment"
+    | "Certificate"
+    | "Claim Form";
   uploadDate: string;
   size: string;
   url: string;
@@ -60,7 +71,7 @@ export interface PolicyPayment {
   amount: number;
   dueDate: string;
   paidDate?: string;
-  status: 'Pending' | 'Paid' | 'Overdue' | 'Partial';
+  status: "Pending" | "Paid" | "Overdue" | "Partial";
   paymentMethod?: string;
   transactionId?: string;
 }
@@ -70,7 +81,7 @@ export interface RenewalRecord {
   previousPremium: number;
   newPremium: number;
   changes: string[];
-  status: 'Completed' | 'Pending' | 'Declined';
+  status: "Completed" | "Pending" | "Declined";
 }
 
 // Mock Policies Data
@@ -99,15 +110,15 @@ export const mockPolicies: Policy[] = [
         name: "John Johnson",
         relationship: "Spouse",
         percentage: 70,
-        contactInfo: { phone: "+1-555-0200", email: "john.johnson@email.com" }
+        contactInfo: { phone: "+1-555-0200", email: "john.johnson@email.com" },
       },
       {
         id: "BEN-002",
         name: "Emma Johnson",
         relationship: "Daughter",
         percentage: 30,
-        contactInfo: { phone: "+1-555-0201", email: "emma.johnson@email.com" }
-      }
+        contactInfo: { phone: "+1-555-0201", email: "emma.johnson@email.com" },
+      },
     ],
     coverageDetails: [
       {
@@ -115,15 +126,15 @@ export const mockPolicies: Policy[] = [
         description: "Lump sum payment to beneficiaries upon death",
         limit: 500000,
         deductible: 0,
-        covered: true
+        covered: true,
       },
       {
         type: "Accidental Death",
         description: "Additional coverage for accidental death",
         limit: 100000,
         deductible: 0,
-        covered: true
-      }
+        covered: true,
+      },
     ],
     documents: [
       {
@@ -132,8 +143,8 @@ export const mockPolicies: Policy[] = [
         type: "Policy Document",
         uploadDate: "2024-01-15",
         size: "2.5 MB",
-        url: "/documents/life-policy-001.pdf"
-      }
+        url: "/documents/life-policy-001.pdf",
+      },
     ],
     payments: [
       {
@@ -143,19 +154,19 @@ export const mockPolicies: Policy[] = [
         paidDate: "2024-01-28",
         status: "Paid",
         paymentMethod: "Bank Transfer",
-        transactionId: "TXN-001-2024"
+        transactionId: "TXN-001-2024",
       },
       {
         id: "PAY-002",
         amount: 2400,
         dueDate: "2025-02-01",
-        status: "Pending"
-      }
+        status: "Pending",
+      },
     ],
     renewalHistory: [],
     notes: "Customer opted for maximum coverage with accidental death benefit.",
     riskAssessment: "Low",
-    commissionRate: 5.0
+    commissionRate: 5.0,
   },
   {
     id: "POL-002",
@@ -182,22 +193,22 @@ export const mockPolicies: Policy[] = [
         description: "Bodily injury and property damage liability",
         limit: 100000,
         deductible: 0,
-        covered: true
+        covered: true,
       },
       {
         type: "Collision Coverage",
         description: "Damage to your vehicle from collision",
         limit: 50000,
         deductible: 500,
-        covered: true
+        covered: true,
       },
       {
         type: "Comprehensive Coverage",
         description: "Non-collision damage (theft, vandalism, weather)",
         limit: 50000,
         deductible: 250,
-        covered: true
-      }
+        covered: true,
+      },
     ],
     documents: [
       {
@@ -206,8 +217,8 @@ export const mockPolicies: Policy[] = [
         type: "Policy Document",
         uploadDate: "2024-02-01",
         size: "1.8 MB",
-        url: "/documents/auto-policy-002.pdf"
-      }
+        url: "/documents/auto-policy-002.pdf",
+      },
     ],
     payments: [
       {
@@ -217,13 +228,13 @@ export const mockPolicies: Policy[] = [
         paidDate: "2024-02-10",
         status: "Paid",
         paymentMethod: "Credit Card",
-        transactionId: "TXN-002-2024"
-      }
+        transactionId: "TXN-002-2024",
+      },
     ],
     renewalHistory: [],
     notes: "Comprehensive coverage for 2019 Honda Civic. Clean driving record.",
     riskAssessment: "Low",
-    commissionRate: 3.5
+    commissionRate: 3.5,
   },
   {
     id: "POL-003",
@@ -250,29 +261,29 @@ export const mockPolicies: Policy[] = [
         description: "In-patient hospital treatment and surgery",
         limit: 500000,
         deductible: 2000,
-        covered: true
+        covered: true,
       },
       {
         type: "Outpatient Care",
         description: "Doctor visits, diagnostics, and specialist consultations",
         limit: 200000,
         deductible: 500,
-        covered: true
+        covered: true,
       },
       {
         type: "Prescription Drugs",
         description: "Medication coverage",
         limit: 50000,
         deductible: 100,
-        covered: true
+        covered: true,
       },
       {
         type: "Preventive Care",
         description: "Annual checkups, vaccinations, screenings",
         limit: 10000,
         deductible: 0,
-        covered: true
-      }
+        covered: true,
+      },
     ],
     documents: [
       {
@@ -281,8 +292,8 @@ export const mockPolicies: Policy[] = [
         type: "Policy Document",
         uploadDate: "2023-12-10",
         size: "3.2 MB",
-        url: "/documents/health-policy-003.pdf"
-      }
+        url: "/documents/health-policy-003.pdf",
+      },
     ],
     payments: [
       {
@@ -292,7 +303,7 @@ export const mockPolicies: Policy[] = [
         paidDate: "2023-12-28",
         status: "Paid",
         paymentMethod: "Bank Transfer",
-        transactionId: "TXN-003-2024"
+        transactionId: "TXN-003-2024",
       },
       {
         id: "PAY-005",
@@ -301,27 +312,31 @@ export const mockPolicies: Policy[] = [
         paidDate: "2024-03-25",
         status: "Paid",
         paymentMethod: "Bank Transfer",
-        transactionId: "TXN-004-2024"
+        transactionId: "TXN-004-2024",
       },
       {
         id: "PAY-006",
         amount: 1200,
         dueDate: "2024-07-01",
-        status: "Pending"
-      }
+        status: "Pending",
+      },
     ],
     renewalHistory: [
       {
         renewalDate: "2024-01-01",
         previousPremium: 4200,
         newPremium: 4800,
-        changes: ["Increased coverage limit", "Added prescription drug coverage"],
-        status: "Completed"
-      }
+        changes: [
+          "Increased coverage limit",
+          "Added prescription drug coverage",
+        ],
+        status: "Completed",
+      },
     ],
-    notes: "Family health plan covering spouse and two children. Includes dental coverage.",
+    notes:
+      "Family health plan covering spouse and two children. Includes dental coverage.",
     riskAssessment: "Medium",
-    commissionRate: 4.0
+    commissionRate: 4.0,
   },
   {
     id: "POL-004",
@@ -348,29 +363,29 @@ export const mockPolicies: Policy[] = [
         description: "Structure of the home and attached structures",
         limit: 400000,
         deductible: 1000,
-        covered: true
+        covered: true,
       },
       {
         type: "Personal Property",
         description: "Contents and personal belongings",
         limit: 200000,
         deductible: 500,
-        covered: true
+        covered: true,
       },
       {
         type: "Liability Protection",
         description: "Personal liability and medical payments",
         limit: 300000,
         deductible: 0,
-        covered: true
+        covered: true,
       },
       {
         type: "Additional Living Expenses",
         description: "Temporary housing if home is uninhabitable",
         limit: 80000,
         deductible: 0,
-        covered: true
-      }
+        covered: true,
+      },
     ],
     documents: [
       {
@@ -379,21 +394,21 @@ export const mockPolicies: Policy[] = [
         type: "Policy Document",
         uploadDate: "2024-01-20",
         size: "2.1 MB",
-        url: "/documents/home-policy-004.pdf"
-      }
+        url: "/documents/home-policy-004.pdf",
+      },
     ],
     payments: [
       {
         id: "PAY-007",
         amount: 1800,
         dueDate: "2024-02-01",
-        status: "Pending"
-      }
+        status: "Pending",
+      },
     ],
     renewalHistory: [],
     notes: "Home insurance for newly purchased property. Inspection pending.",
     riskAssessment: "Medium",
-    commissionRate: 4.5
+    commissionRate: 4.5,
   },
   {
     id: "POL-005",
@@ -419,8 +434,8 @@ export const mockPolicies: Policy[] = [
         name: "Michael Brown",
         relationship: "Spouse",
         percentage: 100,
-        contactInfo: { phone: "+1-555-0300", email: "michael.brown@email.com" }
-      }
+        contactInfo: { phone: "+1-555-0300", email: "michael.brown@email.com" },
+      },
     ],
     coverageDetails: [
       {
@@ -428,15 +443,15 @@ export const mockPolicies: Policy[] = [
         description: "Guaranteed death benefit",
         limit: 750000,
         deductible: 0,
-        covered: true
+        covered: true,
       },
       {
         type: "Cash Value",
         description: "Investment component with guaranteed growth",
         limit: 0,
         deductible: 0,
-        covered: true
-      }
+        covered: true,
+      },
     ],
     documents: [
       {
@@ -445,8 +460,8 @@ export const mockPolicies: Policy[] = [
         type: "Policy Document",
         uploadDate: "2023-11-05",
         size: "4.1 MB",
-        url: "/documents/whole-life-policy-005.pdf"
-      }
+        url: "/documents/whole-life-policy-005.pdf",
+      },
     ],
     payments: [
       {
@@ -456,19 +471,20 @@ export const mockPolicies: Policy[] = [
         paidDate: "2023-11-28",
         status: "Paid",
         paymentMethod: "Bank Transfer",
-        transactionId: "TXN-005-2023"
+        transactionId: "TXN-005-2023",
       },
       {
         id: "PAY-009",
         amount: 3600,
         dueDate: "2024-12-01",
-        status: "Pending"
-      }
+        status: "Pending",
+      },
     ],
     renewalHistory: [],
-    notes: "Young professional seeking long-term financial protection and investment.",
+    notes:
+      "Young professional seeking long-term financial protection and investment.",
     riskAssessment: "Low",
-    commissionRate: 6.0
+    commissionRate: 6.0,
   },
   {
     id: "POL-006",
@@ -495,22 +511,22 @@ export const mockPolicies: Policy[] = [
         description: "Emergency medical treatment abroad",
         limit: 100000,
         deductible: 100,
-        covered: true
+        covered: true,
       },
       {
         type: "Trip Cancellation",
         description: "Non-refundable trip costs if cancelled",
         limit: 10000,
         deductible: 0,
-        covered: true
+        covered: true,
       },
       {
         type: "Lost Luggage",
         description: "Compensation for lost or delayed luggage",
         limit: 2000,
         deductible: 0,
-        covered: true
-      }
+        covered: true,
+      },
     ],
     documents: [
       {
@@ -519,8 +535,8 @@ export const mockPolicies: Policy[] = [
         type: "Certificate",
         uploadDate: "2024-01-10",
         size: "0.8 MB",
-        url: "/documents/travel-cert-006.pdf"
-      }
+        url: "/documents/travel-cert-006.pdf",
+      },
     ],
     payments: [
       {
@@ -530,44 +546,44 @@ export const mockPolicies: Policy[] = [
         paidDate: "2024-01-10",
         status: "Paid",
         paymentMethod: "Credit Card",
-        transactionId: "TXN-006-2024"
-      }
+        transactionId: "TXN-006-2024",
+      },
     ],
     renewalHistory: [],
     notes: "Short-term travel insurance for European vacation.",
     riskAssessment: "Low",
-    commissionRate: 10.0
-  }
+    commissionRate: 10.0,
+  },
 ];
 
 // Utility functions
 export const getPolicyById = (id: string): Policy | undefined => {
-  return mockPolicies.find(policy => policy.id === id);
+  return mockPolicies.find((policy) => policy.id === id);
 };
 
 export const getPoliciesByCustomer = (customerId: string): Policy[] => {
-  return mockPolicies.filter(policy => policy.customerId === customerId);
+  return mockPolicies.filter((policy) => policy.customerId === customerId);
 };
 
 export const getPoliciesByAgent = (agentName: string): Policy[] => {
-  return mockPolicies.filter(policy => policy.agentName === agentName);
+  return mockPolicies.filter((policy) => policy.agentName === agentName);
 };
 
 export const getPoliciesByType = (policyType: string): Policy[] => {
-  return mockPolicies.filter(policy => policy.policyType === policyType);
+  return mockPolicies.filter((policy) => policy.policyType === policyType);
 };
 
 export const getPoliciesByStatus = (status: string): Policy[] => {
-  return mockPolicies.filter(policy => policy.status === status);
+  return mockPolicies.filter((policy) => policy.status === status);
 };
 
 export const getExpiringPolicies = (daysFromNow: number = 30): Policy[] => {
   const targetDate = new Date();
   targetDate.setDate(targetDate.getDate() + daysFromNow);
-  
-  return mockPolicies.filter(policy => {
+
+  return mockPolicies.filter((policy) => {
     const expiryDate = new Date(policy.expiryDate);
-    return expiryDate <= targetDate && policy.status === 'Active';
+    return expiryDate <= targetDate && policy.status === "Active";
   });
 };
 
@@ -581,46 +597,71 @@ export const calculateTotalCoverage = (policies: Policy[]): number => {
 
 // Policy type configurations
 export const policyTypeConfigs = {
-  'Life Insurance': {
-    color: 'blue',
-    icon: 'Heart',
-    coverageTypes: ['Term Life', 'Whole Life', 'Universal Life', 'Variable Life'],
+  "Life Insurance": {
+    color: "blue",
+    icon: "Heart",
+    coverageTypes: [
+      "Term Life",
+      "Whole Life",
+      "Universal Life",
+      "Variable Life",
+    ],
     typicalCoverage: { min: 50000, max: 5000000 },
-    typicalPremium: { min: 500, max: 10000 }
+    typicalPremium: { min: 500, max: 10000 },
   },
-  'Health Insurance': {
-    color: 'green',
-    icon: 'Cross',
-    coverageTypes: ['Individual', 'Family Plan', 'Group Plan', 'Medicare Supplement'],
+  "Health Insurance": {
+    color: "green",
+    icon: "Cross",
+    coverageTypes: [
+      "Individual",
+      "Family Plan",
+      "Group Plan",
+      "Medicare Supplement",
+    ],
     typicalCoverage: { min: 100000, max: 2000000 },
-    typicalPremium: { min: 1200, max: 8000 }
+    typicalPremium: { min: 1200, max: 8000 },
   },
-  'Auto Insurance': {
-    color: 'orange',
-    icon: 'Car',
-    coverageTypes: ['Liability Only', 'Collision', 'Comprehensive', 'Full Coverage'],
+  "Auto Insurance": {
+    color: "orange",
+    icon: "Car",
+    coverageTypes: [
+      "Liability Only",
+      "Collision",
+      "Comprehensive",
+      "Full Coverage",
+    ],
     typicalCoverage: { min: 25000, max: 500000 },
-    typicalPremium: { min: 800, max: 3000 }
+    typicalPremium: { min: 800, max: 3000 },
   },
-  'Home Insurance': {
-    color: 'purple',
-    icon: 'Home',
-    coverageTypes: ['Homeowner\'s', 'Condo', 'Renter\'s', 'Landlord'],
+  "Home Insurance": {
+    color: "purple",
+    icon: "Home",
+    coverageTypes: ["Homeowner's", "Condo", "Renter's", "Landlord"],
     typicalCoverage: { min: 100000, max: 2000000 },
-    typicalPremium: { min: 800, max: 5000 }
+    typicalPremium: { min: 800, max: 5000 },
   },
-  'Travel Insurance': {
-    color: 'teal',
-    icon: 'Plane',
-    coverageTypes: ['Domestic', 'International', 'Business Travel', 'Adventure Travel'],
+  "Travel Insurance": {
+    color: "teal",
+    icon: "Plane",
+    coverageTypes: [
+      "Domestic",
+      "International",
+      "Business Travel",
+      "Adventure Travel",
+    ],
     typicalCoverage: { min: 50000, max: 500000 },
-    typicalPremium: { min: 50, max: 1000 }
+    typicalPremium: { min: 50, max: 1000 },
   },
-  'Business Insurance': {
-    color: 'indigo',
-    icon: 'Building',
-    coverageTypes: ['General Liability', 'Professional Liability', 'Property', 'Workers\' Comp'],
+  "Business Insurance": {
+    color: "indigo",
+    icon: "Building",
+    coverageTypes: [
+      "General Liability",
+      "Professional Liability",
+      "Property",
+      "Workers' Comp",
+    ],
     typicalCoverage: { min: 500000, max: 10000000 },
-    typicalPremium: { min: 2000, max: 25000 }
-  }
+    typicalPremium: { min: 2000, max: 25000 },
+  },
 };
