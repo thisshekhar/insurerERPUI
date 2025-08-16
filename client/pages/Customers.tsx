@@ -14,44 +14,32 @@ import {
   XCircle,
   Clock,
   AlertTriangle,
+  Brain,
+  Sparkles,
+  Target
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { DataTable } from "@/components/ui/data-table";
 import { FormDialog } from "@/components/ui/form-dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { mockCustomers, Customer, getClaimsByCustomer } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
 const statusColors = {
-  Active:
-    "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
+  Active: "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
   Inactive: "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400",
   Suspended: "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400",
 };
 
 const kycStatusColors = {
-  Verified:
-    "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
-  Pending:
-    "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400",
+  Verified: "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
+  Pending: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400",
   Rejected: "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400",
 };
 
@@ -63,27 +51,25 @@ const kycStatusIcons = {
 
 export default function Customers() {
   const [customers, setCustomers] = useState<Customer[]>(mockCustomers);
-  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(
-    null,
-  );
+  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [showDetailsDialog, setShowDetailsDialog] = useState(false);
   const [formData, setFormData] = useState<Partial<Customer>>({});
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
       minimumFractionDigits: 0,
     }).format(amount);
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
     });
   };
 
@@ -94,27 +80,27 @@ export default function Customers() {
     }
 
     const newCustomer: Customer = {
-      id: `CUST-${String(customers.length + 1).padStart(3, "0")}`,
-      firstName: formData.firstName || "",
-      lastName: formData.lastName || "",
-      email: formData.email || "",
-      phone: formData.phone || "",
-      dateOfBirth: formData.dateOfBirth || "",
+      id: `CUST-${String(customers.length + 1).padStart(3, '0')}`,
+      firstName: formData.firstName || '',
+      lastName: formData.lastName || '',
+      email: formData.email || '',
+      phone: formData.phone || '',
+      dateOfBirth: formData.dateOfBirth || '',
       address: formData.address || {
-        street: "",
-        city: "",
-        state: "",
-        zipCode: "",
-        country: "USA",
+        street: '',
+        city: '',
+        state: '',
+        zipCode: '',
+        country: 'USA'
       },
-      kycStatus: "Pending",
+      kycStatus: 'Pending',
       kycDocuments: [],
-      registrationDate: new Date().toISOString().split("T")[0],
-      status: "Active",
-      assignedAgent: formData.assignedAgent || "Mike Chen",
+      registrationDate: new Date().toISOString().split('T')[0],
+      status: 'Active',
+      assignedAgent: formData.assignedAgent || 'Mike Chen',
       totalPolicies: 0,
       totalPremium: 0,
-      notes: formData.notes || "",
+      notes: formData.notes || '',
     };
 
     setCustomers([...customers, newCustomer]);
@@ -124,20 +110,15 @@ export default function Customers() {
   };
 
   const handleEditCustomer = () => {
-    if (
-      !selectedCustomer ||
-      !formData.firstName ||
-      !formData.lastName ||
-      !formData.email
-    ) {
+    if (!selectedCustomer || !formData.firstName || !formData.lastName || !formData.email) {
       toast.error("Please fill in all required fields");
       return;
     }
 
-    const updatedCustomers = customers.map((customer) =>
+    const updatedCustomers = customers.map(customer =>
       customer.id === selectedCustomer.id
         ? { ...customer, ...formData }
-        : customer,
+        : customer
     );
 
     setCustomers(updatedCustomers);
@@ -148,13 +129,13 @@ export default function Customers() {
   };
 
   const handleDeleteCustomer = (customer: Customer) => {
-    setCustomers(customers.filter((c) => c.id !== customer.id));
+    setCustomers(customers.filter(c => c.id !== customer.id));
     toast.success("Customer deleted successfully");
   };
 
   const openAddDialog = () => {
     setFormData({
-      address: { street: "", city: "", state: "", zipCode: "", country: "USA" },
+      address: { street: '', city: '', state: '', zipCode: '', country: 'USA' }
     });
     setShowAddDialog(true);
   };
@@ -190,9 +171,7 @@ export default function Customers() {
             <div className="font-medium">
               {customer.firstName} {customer.lastName}
             </div>
-            <div className="text-sm text-muted-foreground">
-              {customer.email}
-            </div>
+            <div className="text-sm text-muted-foreground">{customer.email}</div>
           </div>
         );
       },
@@ -211,9 +190,7 @@ export default function Customers() {
       accessorKey: "kycStatus",
       header: "KYC Status",
       cell: ({ row }) => {
-        const status = row.getValue(
-          "kycStatus",
-        ) as keyof typeof kycStatusColors;
+        const status = row.getValue("kycStatus") as keyof typeof kycStatusColors;
         const Icon = kycStatusIcons[status];
         return (
           <Badge className={kycStatusColors[status]}>
@@ -228,7 +205,11 @@ export default function Customers() {
       header: "Status",
       cell: ({ row }) => {
         const status = row.getValue("status") as keyof typeof statusColors;
-        return <Badge className={statusColors[status]}>{status}</Badge>;
+        return (
+          <Badge className={statusColors[status]}>
+            {status}
+          </Badge>
+        );
       },
     },
     {
@@ -297,10 +278,8 @@ export default function Customers() {
         <Label htmlFor="firstName">First Name *</Label>
         <Input
           id="firstName"
-          value={formData.firstName || ""}
-          onChange={(e) =>
-            setFormData({ ...formData, firstName: e.target.value })
-          }
+          value={formData.firstName || ''}
+          onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
           placeholder="Enter first name"
         />
       </div>
@@ -308,10 +287,8 @@ export default function Customers() {
         <Label htmlFor="lastName">Last Name *</Label>
         <Input
           id="lastName"
-          value={formData.lastName || ""}
-          onChange={(e) =>
-            setFormData({ ...formData, lastName: e.target.value })
-          }
+          value={formData.lastName || ''}
+          onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
           placeholder="Enter last name"
         />
       </div>
@@ -320,7 +297,7 @@ export default function Customers() {
         <Input
           id="email"
           type="email"
-          value={formData.email || ""}
+          value={formData.email || ''}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           placeholder="Enter email address"
         />
@@ -329,7 +306,7 @@ export default function Customers() {
         <Label htmlFor="phone">Phone</Label>
         <Input
           id="phone"
-          value={formData.phone || ""}
+          value={formData.phone || ''}
           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
           placeholder="Enter phone number"
         />
@@ -339,19 +316,15 @@ export default function Customers() {
         <Input
           id="dateOfBirth"
           type="date"
-          value={formData.dateOfBirth || ""}
-          onChange={(e) =>
-            setFormData({ ...formData, dateOfBirth: e.target.value })
-          }
+          value={formData.dateOfBirth || ''}
+          onChange={(e) => setFormData({ ...formData, dateOfBirth: e.target.value })}
         />
       </div>
       <div>
         <Label htmlFor="assignedAgent">Assigned Agent</Label>
         <Select
-          value={formData.assignedAgent || ""}
-          onValueChange={(value) =>
-            setFormData({ ...formData, assignedAgent: value })
-          }
+          value={formData.assignedAgent || ''}
+          onValueChange={(value) => setFormData({ ...formData, assignedAgent: value })}
         >
           <SelectTrigger>
             <SelectValue placeholder="Select agent" />
@@ -368,13 +341,11 @@ export default function Customers() {
         <Label htmlFor="street">Street Address</Label>
         <Input
           id="street"
-          value={formData.address?.street || ""}
-          onChange={(e) =>
-            setFormData({
-              ...formData,
-              address: { ...formData.address, street: e.target.value } as any,
-            })
-          }
+          value={formData.address?.street || ''}
+          onChange={(e) => setFormData({ 
+            ...formData, 
+            address: { ...formData.address, street: e.target.value } as any 
+          })}
           placeholder="Enter street address"
         />
       </div>
@@ -382,13 +353,11 @@ export default function Customers() {
         <Label htmlFor="city">City</Label>
         <Input
           id="city"
-          value={formData.address?.city || ""}
-          onChange={(e) =>
-            setFormData({
-              ...formData,
-              address: { ...formData.address, city: e.target.value } as any,
-            })
-          }
+          value={formData.address?.city || ''}
+          onChange={(e) => setFormData({ 
+            ...formData, 
+            address: { ...formData.address, city: e.target.value } as any 
+          })}
           placeholder="Enter city"
         />
       </div>
@@ -396,13 +365,11 @@ export default function Customers() {
         <Label htmlFor="state">State</Label>
         <Input
           id="state"
-          value={formData.address?.state || ""}
-          onChange={(e) =>
-            setFormData({
-              ...formData,
-              address: { ...formData.address, state: e.target.value } as any,
-            })
-          }
+          value={formData.address?.state || ''}
+          onChange={(e) => setFormData({ 
+            ...formData, 
+            address: { ...formData.address, state: e.target.value } as any 
+          })}
           placeholder="Enter state"
         />
       </div>
@@ -410,13 +377,11 @@ export default function Customers() {
         <Label htmlFor="zipCode">ZIP Code</Label>
         <Input
           id="zipCode"
-          value={formData.address?.zipCode || ""}
-          onChange={(e) =>
-            setFormData({
-              ...formData,
-              address: { ...formData.address, zipCode: e.target.value } as any,
-            })
-          }
+          value={formData.address?.zipCode || ''}
+          onChange={(e) => setFormData({ 
+            ...formData, 
+            address: { ...formData.address, zipCode: e.target.value } as any 
+          })}
           placeholder="Enter ZIP code"
         />
       </div>
@@ -424,13 +389,11 @@ export default function Customers() {
         <Label htmlFor="country">Country</Label>
         <Input
           id="country"
-          value={formData.address?.country || "USA"}
-          onChange={(e) =>
-            setFormData({
-              ...formData,
-              address: { ...formData.address, country: e.target.value } as any,
-            })
-          }
+          value={formData.address?.country || 'USA'}
+          onChange={(e) => setFormData({ 
+            ...formData, 
+            address: { ...formData.address, country: e.target.value } as any 
+          })}
           placeholder="Enter country"
         />
       </div>
@@ -438,7 +401,7 @@ export default function Customers() {
         <Label htmlFor="notes">Notes</Label>
         <Textarea
           id="notes"
-          value={formData.notes || ""}
+          value={formData.notes || ''}
           onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
           placeholder="Additional notes about the customer"
           rows={3}
@@ -452,14 +415,17 @@ export default function Customers() {
       {/* Page Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-            Customer Management
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400 mt-2">
-            Manage customer information, KYC verification, and policy
-            assignments.
-          </p>
+        <div className="flex items-center space-x-3 mb-2">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Customer Management</h1>
+          <Badge className="bg-gradient-to-r from-purple-600 to-blue-600 text-white flex items-center space-x-1">
+            <Brain className="h-3 w-3" />
+            <span>AI-Enhanced</span>
+          </Badge>
         </div>
+        <p className="text-gray-600 dark:text-gray-400">
+          AI-powered customer insights, risk assessment, and KYC verification.
+        </p>
+      </div>
         <Button onClick={openAddDialog} className="flex items-center space-x-2">
           <Plus className="h-4 w-4" />
           <span>Add Customer</span>
@@ -472,10 +438,12 @@ export default function Customers() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">
-                  Total Customers
-                </p>
+                <p className="text-sm font-medium text-muted-foreground">Total Customers</p>
                 <p className="text-2xl font-bold">{customers.length}</p>
+                <div className="flex items-center text-xs text-purple-600 mt-1">
+                  <Sparkles className="h-3 w-3 mr-1" />
+                  <span>AI-scored</span>
+                </div>
               </div>
               <Users className="h-8 w-8 text-blue-600" />
             </div>
@@ -485,12 +453,14 @@ export default function Customers() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">
-                  KYC Verified
-                </p>
+                <p className="text-sm font-medium text-muted-foreground">KYC Verified</p>
                 <p className="text-2xl font-bold">
-                  {customers.filter((c) => c.kycStatus === "Verified").length}
+                  {customers.filter(c => c.kycStatus === 'Verified').length}
                 </p>
+                <div className="flex items-center text-xs text-green-600 mt-1">
+                  <Brain className="h-3 w-3 mr-1" />
+                  <span>AI-verified</span>
+                </div>
               </div>
               <CheckCircle className="h-8 w-8 text-green-600" />
             </div>
@@ -500,11 +470,9 @@ export default function Customers() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">
-                  Active Customers
-                </p>
+                <p className="text-sm font-medium text-muted-foreground">Active Customers</p>
                 <p className="text-2xl font-bold">
-                  {customers.filter((c) => c.status === "Active").length}
+                  {customers.filter(c => c.status === 'Active').length}
                 </p>
               </div>
               <AlertTriangle className="h-8 w-8 text-yellow-600" />
@@ -515,13 +483,9 @@ export default function Customers() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">
-                  Total Premium
-                </p>
+                <p className="text-sm font-medium text-muted-foreground">Total Premium</p>
                 <p className="text-2xl font-bold">
-                  {formatCurrency(
-                    customers.reduce((sum, c) => sum + c.totalPremium, 0),
-                  )}
+                  {formatCurrency(customers.reduce((sum, c) => sum + c.totalPremium, 0))}
                 </p>
               </div>
               <FileText className="h-8 w-8 text-purple-600" />
@@ -535,8 +499,7 @@ export default function Customers() {
         <CardHeader>
           <CardTitle>All Customers</CardTitle>
           <CardDescription>
-            View and manage all customer records, KYC status, and policy
-            information.
+            View and manage all customer records, KYC status, and policy information.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -577,11 +540,7 @@ export default function Customers() {
       <FormDialog
         open={showDetailsDialog}
         onOpenChange={setShowDetailsDialog}
-        title={
-          selectedCustomer
-            ? `${selectedCustomer.firstName} ${selectedCustomer.lastName}`
-            : "Customer Details"
-        }
+        title={selectedCustomer ? `${selectedCustomer.firstName} ${selectedCustomer.lastName}` : "Customer Details"}
         description="View complete customer information and activity."
         maxWidth="max-w-4xl"
       >
@@ -603,23 +562,18 @@ export default function Customers() {
                   <div className="flex items-center space-x-2">
                     <MapPin className="h-4 w-4 text-muted-foreground" />
                     <span>
-                      {selectedCustomer.address.street},{" "}
-                      {selectedCustomer.address.city},{" "}
-                      {selectedCustomer.address.state}{" "}
-                      {selectedCustomer.address.zipCode}
+                      {selectedCustomer.address.street}, {selectedCustomer.address.city}, {selectedCustomer.address.state} {selectedCustomer.address.zipCode}
                     </span>
                   </div>
                 </div>
               </div>
-
+              
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold">Account Status</h3>
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <span>KYC Status:</span>
-                    <Badge
-                      className={kycStatusColors[selectedCustomer.kycStatus]}
-                    >
+                    <Badge className={kycStatusColors[selectedCustomer.kycStatus]}>
                       {selectedCustomer.kycStatus}
                     </Badge>
                   </div>
@@ -648,12 +602,8 @@ export default function Customers() {
                 <Card>
                   <CardContent className="p-4">
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-blue-600">
-                        {selectedCustomer.totalPolicies}
-                      </div>
-                      <div className="text-sm text-muted-foreground">
-                        Active Policies
-                      </div>
+                      <div className="text-2xl font-bold text-blue-600">{selectedCustomer.totalPolicies}</div>
+                      <div className="text-sm text-muted-foreground">Active Policies</div>
                     </div>
                   </CardContent>
                 </Card>
@@ -663,9 +613,7 @@ export default function Customers() {
                       <div className="text-2xl font-bold text-green-600">
                         {formatCurrency(selectedCustomer.totalPremium)}
                       </div>
-                      <div className="text-sm text-muted-foreground">
-                        Total Premium
-                      </div>
+                      <div className="text-sm text-muted-foreground">Total Premium</div>
                     </div>
                   </CardContent>
                 </Card>
@@ -676,41 +624,26 @@ export default function Customers() {
             <div>
               <h3 className="text-lg font-semibold mb-4">Recent Claims</h3>
               <div className="space-y-2">
-                {getClaimsByCustomer(selectedCustomer.id)
-                  .slice(0, 3)
-                  .map((claim) => (
-                    <div
-                      key={claim.id}
-                      className="flex items-center justify-between p-3 border rounded-lg dark:border-gray-700"
-                    >
-                      <div>
-                        <div className="font-medium">{claim.id}</div>
-                        <div className="text-sm text-muted-foreground">
-                          {claim.description.substring(0, 50)}...
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <div className="font-medium">
-                          {formatCurrency(claim.claimAmount)}
-                        </div>
-                        <Badge
-                          className={cn(
-                            "text-xs",
-                            claim.status === "Approved" &&
-                              "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
-                            claim.status === "Rejected" &&
-                              "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400",
-                            claim.status === "Under Review" &&
-                              "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400",
-                            claim.status === "Paid" &&
-                              "bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400",
-                          )}
-                        >
-                          {claim.status}
-                        </Badge>
-                      </div>
+                {getClaimsByCustomer(selectedCustomer.id).slice(0, 3).map((claim) => (
+                  <div key={claim.id} className="flex items-center justify-between p-3 border rounded-lg dark:border-gray-700">
+                    <div>
+                      <div className="font-medium">{claim.id}</div>
+                      <div className="text-sm text-muted-foreground">{claim.description.substring(0, 50)}...</div>
                     </div>
-                  ))}
+                    <div className="text-right">
+                      <div className="font-medium">{formatCurrency(claim.claimAmount)}</div>
+                      <Badge className={cn(
+                        "text-xs",
+                        claim.status === 'Approved' && "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
+                        claim.status === 'Rejected' && "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400",
+                        claim.status === 'Under Review' && "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400",
+                        claim.status === 'Paid' && "bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400"
+                      )}>
+                        {claim.status}
+                      </Badge>
+                    </div>
+                  </div>
+                ))}
                 {getClaimsByCustomer(selectedCustomer.id).length === 0 && (
                   <div className="text-center text-muted-foreground py-4">
                     No claims found for this customer.
