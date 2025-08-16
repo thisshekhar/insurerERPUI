@@ -1,22 +1,25 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import {
-  LayoutDashboard,
-  Users,
-  FileText,
-  CreditCard,
-  UserCheck,
-  DollarSign,
-  FolderOpen,
-  Bell,
-  Settings,
-  Menu,
+import { 
+  LayoutDashboard, 
+  Users, 
+  FileText, 
+  CreditCard, 
+  UserCheck, 
+  DollarSign, 
+  FolderOpen, 
+  Bell, 
+  Settings, 
+  Menu, 
   X,
   Sun,
   Moon,
+  Sparkles
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import AIAssistant from "@/components/ai/AIAssistant";
 
 const navigation = [
   { name: "Dashboard", href: "/", icon: LayoutDashboard },
@@ -44,15 +47,10 @@ export default function Layout({ children }: LayoutProps) {
   };
 
   return (
-    <div
-      className={cn(
-        "min-h-screen bg-gray-50 dark:bg-gray-900",
-        darkMode && "dark",
-      )}
-    >
+    <div className={cn("min-h-screen bg-gray-50 dark:bg-gray-900", darkMode && "dark")}>
       {/* Mobile sidebar overlay */}
       {sidebarOpen && (
-        <div
+        <div 
           className="fixed inset-0 z-40 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         >
@@ -61,22 +59,24 @@ export default function Layout({ children }: LayoutProps) {
       )}
 
       {/* Sidebar */}
-      <div
-        className={cn(
-          "fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-800 shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0",
-          sidebarOpen ? "translate-x-0" : "-translate-x-full",
-        )}
-      >
+      <div className={cn(
+        "fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-800 shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0",
+        sidebarOpen ? "translate-x-0" : "-translate-x-full"
+      )}>
         <div className="flex h-full flex-col">
           {/* Logo */}
           <div className="flex h-16 items-center justify-between px-6 border-b border-gray-200 dark:border-gray-700">
             <div className="flex items-center space-x-3">
-              <div className="h-8 w-8 bg-blue-600 rounded-lg flex items-center justify-center">
+              <div className="h-8 w-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
                 <FileText className="h-5 w-5 text-white" />
               </div>
-              <span className="text-xl font-bold text-gray-900 dark:text-white">
-                InsurePro
-              </span>
+              <div>
+                <span className="text-xl font-bold text-gray-900 dark:text-white">InsurePro</span>
+                <div className="flex items-center space-x-1 mt-0.5">
+                  <Sparkles className="h-3 w-3 text-purple-500" />
+                  <span className="text-xs text-purple-600 dark:text-purple-400 font-medium">AI-Powered</span>
+                </div>
+              </div>
             </div>
             <Button
               variant="ghost"
@@ -99,17 +99,53 @@ export default function Layout({ children }: LayoutProps) {
                   className={cn(
                     "flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors",
                     isActive
-                      ? "bg-blue-50 text-blue-700 border-r-2 border-blue-700 dark:bg-blue-900/20 dark:text-blue-300"
-                      : "text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700",
+                      ? "bg-gradient-to-r from-blue-50 to-purple-50 text-blue-700 border-r-2 border-blue-700 dark:from-blue-900/20 dark:to-purple-900/20 dark:text-blue-300"
+                      : "text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700"
                   )}
                   onClick={() => setSidebarOpen(false)}
                 >
                   <item.icon className="h-5 w-5" />
                   <span>{item.name}</span>
+                  {item.name === "Dashboard" && (
+                    <Badge className="ml-auto bg-gradient-to-r from-purple-600 to-blue-600 text-white text-xs">
+                      AI
+                    </Badge>
+                  )}
                 </Link>
               );
             })}
           </nav>
+
+          {/* AI Features Highlight */}
+          <div className="px-4 pb-4">
+            <div className="p-4 bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 rounded-lg border border-purple-200 dark:border-purple-800">
+              <div className="flex items-center space-x-2 mb-2">
+                <Sparkles className="h-4 w-4 text-purple-600" />
+                <span className="text-sm font-semibold text-purple-900 dark:text-purple-300">AI Features</span>
+              </div>
+              <p className="text-xs text-purple-700 dark:text-purple-400 mb-3">
+                Experience next-gen insurance management with AI-powered insights, predictions, and automation.
+              </p>
+              <div className="space-y-1 text-xs">
+                <div className="flex items-center space-x-2">
+                  <div className="h-1 w-1 bg-purple-500 rounded-full"></div>
+                  <span className="text-purple-600 dark:text-purple-400">Smart Risk Assessment</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <div className="h-1 w-1 bg-purple-500 rounded-full"></div>
+                  <span className="text-purple-600 dark:text-purple-400">Fraud Detection</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <div className="h-1 w-1 bg-purple-500 rounded-full"></div>
+                  <span className="text-purple-600 dark:text-purple-400">Predictive Analytics</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <div className="h-1 w-1 bg-purple-500 rounded-full"></div>
+                  <span className="text-purple-600 dark:text-purple-400">Customer Insights</span>
+                </div>
+              </div>
+            </div>
+          </div>
 
           {/* Settings */}
           <div className="border-t border-gray-200 dark:border-gray-700 p-4">
@@ -142,6 +178,9 @@ export default function Layout({ children }: LayoutProps) {
               <h1 className="text-lg font-semibold text-gray-900 dark:text-white">
                 Insurance Broker ERP
               </h1>
+              <Badge className="bg-gradient-to-r from-purple-600 to-blue-600 text-white">
+                AI-Enhanced
+              </Badge>
             </div>
 
             <div className="flex items-center space-x-4">
@@ -157,23 +196,17 @@ export default function Layout({ children }: LayoutProps) {
 
               {/* Theme toggle */}
               <Button variant="ghost" size="sm" onClick={toggleDarkMode}>
-                {darkMode ? (
-                  <Sun className="h-5 w-5" />
-                ) : (
-                  <Moon className="h-5 w-5" />
-                )}
+                {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
               </Button>
 
               {/* User profile */}
               <div className="flex items-center space-x-3">
-                <div className="h-8 w-8 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
+                <div className="h-8 w-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
+                  <span className="text-sm font-medium text-white">JD</span>
+                </div>
                 <div className="hidden sm:block">
-                  <div className="text-sm font-medium text-gray-900 dark:text-white">
-                    John Doe
-                  </div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400">
-                    Admin
-                  </div>
+                  <div className="text-sm font-medium text-gray-900 dark:text-white">John Doe</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400">Admin</div>
                 </div>
               </div>
             </div>
@@ -181,8 +214,13 @@ export default function Layout({ children }: LayoutProps) {
         </header>
 
         {/* Page content */}
-        <main className="p-6">{children}</main>
+        <main className="p-6">
+          {children}
+        </main>
       </div>
+
+      {/* AI Assistant */}
+      <AIAssistant />
     </div>
   );
 }
