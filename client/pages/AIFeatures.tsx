@@ -1,24 +1,30 @@
-import { 
-  Brain, 
-  Sparkles, 
-  Zap, 
-  Shield, 
-  Target, 
-  TrendingUp, 
-  MessageCircle, 
-  FileSearch, 
-  BarChart3, 
-  Lock, 
-  Clock, 
+import {
+  Brain,
+  Sparkles,
+  Zap,
+  Shield,
+  Target,
+  TrendingUp,
+  MessageCircle,
+  FileSearch,
+  BarChart3,
+  Lock,
+  Clock,
   CheckCircle,
   Lightbulb,
   AlertTriangle,
   Star,
   Rocket,
   Eye,
-  ArrowRight
+  ArrowRight,
 } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -26,156 +32,195 @@ import { cn } from "@/lib/utils";
 
 const aiFeatures = [
   {
-    id: 'fraud-detection',
-    title: 'AI Fraud Detection',
-    description: 'Advanced machine learning algorithms detect fraudulent claims with 94% accuracy',
+    id: "fraud-detection",
+    title: "AI Fraud Detection",
+    description:
+      "Advanced machine learning algorithms detect fraudulent claims with 94% accuracy",
     icon: Shield,
-    status: 'active',
+    status: "active",
     progress: 100,
-    category: 'Security',
-    benefits: ['Reduce fraud losses by 60%', 'Automated risk scoring', 'Pattern recognition'],
-    color: 'red'
+    category: "Security",
+    benefits: [
+      "Reduce fraud losses by 60%",
+      "Automated risk scoring",
+      "Pattern recognition",
+    ],
+    color: "red",
   },
   {
-    id: 'predictive-analytics',
-    title: 'Predictive Customer Analytics',
-    description: 'Predict customer churn, identify cross-sell opportunities, and optimize retention',
+    id: "predictive-analytics",
+    title: "Predictive Customer Analytics",
+    description:
+      "Predict customer churn, identify cross-sell opportunities, and optimize retention",
     icon: TrendingUp,
-    status: 'active',
+    status: "active",
     progress: 100,
-    category: 'Analytics',
-    benefits: ['23% increase in retention', 'Proactive customer care', 'Revenue optimization'],
-    color: 'blue'
+    category: "Analytics",
+    benefits: [
+      "23% increase in retention",
+      "Proactive customer care",
+      "Revenue optimization",
+    ],
+    color: "blue",
   },
   {
-    id: 'smart-underwriting',
-    title: 'Intelligent Underwriting',
-    description: 'AI-powered risk assessment and automated policy pricing optimization',
+    id: "smart-underwriting",
+    title: "Intelligent Underwriting",
+    description:
+      "AI-powered risk assessment and automated policy pricing optimization",
     icon: Target,
-    status: 'beta',
+    status: "beta",
     progress: 85,
-    category: 'Underwriting',
-    benefits: ['40% faster processing', 'Consistent risk scoring', 'Dynamic pricing'],
-    color: 'green'
+    category: "Underwriting",
+    benefits: [
+      "40% faster processing",
+      "Consistent risk scoring",
+      "Dynamic pricing",
+    ],
+    color: "green",
   },
   {
-    id: 'document-ai',
-    title: 'Document Intelligence',
-    description: 'Automatic document processing, data extraction, and compliance verification',
+    id: "document-ai",
+    title: "Document Intelligence",
+    description:
+      "Automatic document processing, data extraction, and compliance verification",
     icon: FileSearch,
-    status: 'coming-soon',
+    status: "coming-soon",
     progress: 60,
-    category: 'Processing',
-    benefits: ['95% data accuracy', 'Instant processing', 'Compliance automation'],
-    color: 'purple'
+    category: "Processing",
+    benefits: [
+      "95% data accuracy",
+      "Instant processing",
+      "Compliance automation",
+    ],
+    color: "purple",
   },
   {
-    id: 'chatbot-assistant',
-    title: 'AI Customer Assistant',
-    description: '24/7 intelligent customer support with natural language understanding',
+    id: "chatbot-assistant",
+    title: "AI Customer Assistant",
+    description:
+      "24/7 intelligent customer support with natural language understanding",
     icon: MessageCircle,
-    status: 'beta',
+    status: "beta",
     progress: 78,
-    category: 'Customer Service',
-    benefits: ['85% query resolution', '24/7 availability', 'Multi-language support'],
-    color: 'indigo'
+    category: "Customer Service",
+    benefits: [
+      "85% query resolution",
+      "24/7 availability",
+      "Multi-language support",
+    ],
+    color: "indigo",
   },
   {
-    id: 'claims-automation',
-    title: 'Automated Claims Processing',
-    description: 'End-to-end claims automation with intelligent routing and approval workflows',
+    id: "claims-automation",
+    title: "Automated Claims Processing",
+    description:
+      "End-to-end claims automation with intelligent routing and approval workflows",
     icon: Zap,
-    status: 'coming-soon',
+    status: "coming-soon",
     progress: 45,
-    category: 'Claims',
-    benefits: ['50% faster processing', 'Reduced manual work', 'Smart routing'],
-    color: 'yellow'
+    category: "Claims",
+    benefits: ["50% faster processing", "Reduced manual work", "Smart routing"],
+    color: "yellow",
   },
   {
-    id: 'market-intelligence',
-    title: 'Market Intelligence',
-    description: 'Real-time market analysis, competitive insights, and pricing recommendations',
+    id: "market-intelligence",
+    title: "Market Intelligence",
+    description:
+      "Real-time market analysis, competitive insights, and pricing recommendations",
     icon: BarChart3,
-    status: 'coming-soon',
+    status: "coming-soon",
     progress: 30,
-    category: 'Strategy',
-    benefits: ['Market positioning', 'Competitive analysis', 'Pricing optimization'],
-    color: 'teal'
+    category: "Strategy",
+    benefits: [
+      "Market positioning",
+      "Competitive analysis",
+      "Pricing optimization",
+    ],
+    color: "teal",
   },
   {
-    id: 'risk-modeling',
-    title: 'Advanced Risk Modeling',
-    description: 'Dynamic risk models using external data sources and machine learning',
+    id: "risk-modeling",
+    title: "Advanced Risk Modeling",
+    description:
+      "Dynamic risk models using external data sources and machine learning",
     icon: AlertTriangle,
-    status: 'research',
+    status: "research",
     progress: 15,
-    category: 'Risk Management',
-    benefits: ['Better risk assessment', 'Dynamic pricing', 'External data integration'],
-    color: 'orange'
-  }
+    category: "Risk Management",
+    benefits: [
+      "Better risk assessment",
+      "Dynamic pricing",
+      "External data integration",
+    ],
+    color: "orange",
+  },
 ];
 
 const statusConfig = {
-  'active': { 
-    label: 'LIVE', 
-    color: 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400',
-    icon: CheckCircle
+  active: {
+    label: "LIVE",
+    color:
+      "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
+    icon: CheckCircle,
   },
-  'beta': { 
-    label: 'BETA', 
-    color: 'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400',
-    icon: Clock
+  beta: {
+    label: "BETA",
+    color: "bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400",
+    icon: Clock,
   },
-  'coming-soon': { 
-    label: 'COMING SOON', 
-    color: 'bg-purple-100 text-purple-800 dark:bg-purple-900/20 dark:text-purple-400',
-    icon: Rocket
+  "coming-soon": {
+    label: "COMING SOON",
+    color:
+      "bg-purple-100 text-purple-800 dark:bg-purple-900/20 dark:text-purple-400",
+    icon: Rocket,
   },
-  'research': { 
-    label: 'RESEARCH', 
-    color: 'bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400',
-    icon: Lightbulb
-  }
+  research: {
+    label: "RESEARCH",
+    color:
+      "bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400",
+    icon: Lightbulb,
+  },
 };
 
 const upcomingFeatures = [
   {
-    title: 'Blockchain Policy Verification',
-    description: 'Immutable policy records with smart contract automation',
-    quarter: 'Q3 2024',
-    impact: 'High'
+    title: "Blockchain Policy Verification",
+    description: "Immutable policy records with smart contract automation",
+    quarter: "Q3 2024",
+    impact: "High",
   },
   {
-    title: 'IoT Integration',
-    description: 'Real-time data from connected devices for dynamic pricing',
-    quarter: 'Q4 2024',
-    impact: 'Medium'
+    title: "IoT Integration",
+    description: "Real-time data from connected devices for dynamic pricing",
+    quarter: "Q4 2024",
+    impact: "Medium",
   },
   {
-    title: 'Augmented Reality Claims',
-    description: 'AR-powered damage assessment and virtual inspections',
-    quarter: 'Q1 2025',
-    impact: 'High'
+    title: "Augmented Reality Claims",
+    description: "AR-powered damage assessment and virtual inspections",
+    quarter: "Q1 2025",
+    impact: "High",
   },
   {
-    title: 'Quantum Risk Modeling',
-    description: 'Advanced quantum computing for complex risk calculations',
-    quarter: 'Q2 2025',
-    impact: 'Revolutionary'
-  }
+    title: "Quantum Risk Modeling",
+    description: "Advanced quantum computing for complex risk calculations",
+    quarter: "Q2 2025",
+    impact: "Revolutionary",
+  },
 ];
 
 export default function AIFeatures() {
   const getColorClasses = (color: string) => {
     const colors = {
-      red: 'from-red-500 to-red-600',
-      blue: 'from-blue-500 to-blue-600',
-      green: 'from-green-500 to-green-600',
-      purple: 'from-purple-500 to-purple-600',
-      indigo: 'from-indigo-500 to-indigo-600',
-      yellow: 'from-yellow-500 to-yellow-600',
-      teal: 'from-teal-500 to-teal-600',
-      orange: 'from-orange-500 to-orange-600'
+      red: "from-red-500 to-red-600",
+      blue: "from-blue-500 to-blue-600",
+      green: "from-green-500 to-green-600",
+      purple: "from-purple-500 to-purple-600",
+      indigo: "from-indigo-500 to-indigo-600",
+      yellow: "from-yellow-500 to-yellow-600",
+      teal: "from-teal-500 to-teal-600",
+      orange: "from-orange-500 to-orange-600",
     };
     return colors[color as keyof typeof colors] || colors.blue;
   };
@@ -189,13 +234,18 @@ export default function AIFeatures() {
             <Brain className="h-6 w-6 text-white" />
           </div>
           <div>
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-white">AI Features</h1>
-            <p className="text-lg text-purple-600 dark:text-purple-400 font-medium">Powered by Advanced Machine Learning</p>
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
+              AI Features
+            </h1>
+            <p className="text-lg text-purple-600 dark:text-purple-400 font-medium">
+              Powered by Advanced Machine Learning
+            </p>
           </div>
         </div>
         <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Experience the future of insurance technology with our comprehensive AI-powered features 
-          designed to revolutionize your business operations and customer experience.
+          Experience the future of insurance technology with our comprehensive
+          AI-powered features designed to revolutionize your business operations
+          and customer experience.
         </p>
       </div>
 
@@ -203,24 +253,32 @@ export default function AIFeatures() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {aiFeatures.map((feature) => {
           const Icon = feature.icon;
-          const statusInfo = statusConfig[feature.status as keyof typeof statusConfig];
+          const statusInfo =
+            statusConfig[feature.status as keyof typeof statusConfig];
           const StatusIcon = statusInfo.icon;
-          
+
           return (
-            <Card key={feature.id} className="relative overflow-hidden hover:shadow-lg transition-shadow">
+            <Card
+              key={feature.id}
+              className="relative overflow-hidden hover:shadow-lg transition-shadow"
+            >
               {/* Gradient Background */}
-              <div className={cn(
-                "absolute top-0 left-0 right-0 h-1 bg-gradient-to-r",
-                getColorClasses(feature.color)
-              )} />
-              
+              <div
+                className={cn(
+                  "absolute top-0 left-0 right-0 h-1 bg-gradient-to-r",
+                  getColorClasses(feature.color),
+                )}
+              />
+
               <CardHeader className="pb-4">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center space-x-3">
-                    <div className={cn(
-                      "p-2 rounded-lg bg-gradient-to-r text-white",
-                      getColorClasses(feature.color)
-                    )}>
+                    <div
+                      className={cn(
+                        "p-2 rounded-lg bg-gradient-to-r text-white",
+                        getColorClasses(feature.color),
+                      )}
+                    >
                       <Icon className="h-5 w-5" />
                     </div>
                     <div>
@@ -236,14 +294,18 @@ export default function AIFeatures() {
                   </Badge>
                 </div>
               </CardHeader>
-              
+
               <CardContent className="space-y-4">
-                <p className="text-sm text-muted-foreground">{feature.description}</p>
-                
+                <p className="text-sm text-muted-foreground">
+                  {feature.description}
+                </p>
+
                 {/* Progress */}
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Implementation</span>
+                    <span className="text-muted-foreground">
+                      Implementation
+                    </span>
                     <span className="font-medium">{feature.progress}%</span>
                   </div>
                   <Progress value={feature.progress} className="h-2" />
@@ -254,7 +316,10 @@ export default function AIFeatures() {
                   <h4 className="text-sm font-medium">Key Benefits:</h4>
                   <ul className="space-y-1">
                     {feature.benefits.map((benefit, index) => (
-                      <li key={index} className="flex items-center text-xs text-muted-foreground">
+                      <li
+                        key={index}
+                        className="flex items-center text-xs text-muted-foreground"
+                      >
                         <div className="h-1 w-1 bg-current rounded-full mr-2" />
                         {benefit}
                       </li>
@@ -263,23 +328,23 @@ export default function AIFeatures() {
                 </div>
 
                 {/* Action Button */}
-                <Button 
-                  size="sm" 
+                <Button
+                  size="sm"
                   className="w-full"
-                  variant={feature.status === 'active' ? 'default' : 'outline'}
-                  disabled={feature.status === 'research'}
+                  variant={feature.status === "active" ? "default" : "outline"}
+                  disabled={feature.status === "research"}
                 >
-                  {feature.status === 'active' ? (
+                  {feature.status === "active" ? (
                     <>
                       <Eye className="h-4 w-4 mr-2" />
                       View Live Demo
                     </>
-                  ) : feature.status === 'beta' ? (
+                  ) : feature.status === "beta" ? (
                     <>
                       <Star className="h-4 w-4 mr-2" />
                       Join Beta
                     </>
-                  ) : feature.status === 'coming-soon' ? (
+                  ) : feature.status === "coming-soon" ? (
                     <>
                       <Bell className="h-4 w-4 mr-2" />
                       Get Notified
@@ -305,8 +370,12 @@ export default function AIFeatures() {
               <Sparkles className="h-5 w-5 text-white" />
             </div>
             <div>
-              <CardTitle className="text-xl">AI Assistant - Live Now!</CardTitle>
-              <CardDescription>Your intelligent insurance companion, available 24/7</CardDescription>
+              <CardTitle className="text-xl">
+                AI Assistant - Live Now!
+              </CardTitle>
+              <CardDescription>
+                Your intelligent insurance companion, available 24/7
+              </CardDescription>
             </div>
           </div>
         </CardHeader>
@@ -315,16 +384,32 @@ export default function AIFeatures() {
             <div className="space-y-4">
               <h3 className="font-semibold">What can I help you with?</h3>
               <div className="space-y-2">
-                <Button variant="outline" size="sm" className="w-full justify-start">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="w-full justify-start"
+                >
                   "Analyze customer churn risk for Q1"
                 </Button>
-                <Button variant="outline" size="sm" className="w-full justify-start">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="w-full justify-start"
+                >
                   "Find cross-sell opportunities in my portfolio"
                 </Button>
-                <Button variant="outline" size="sm" className="w-full justify-start">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="w-full justify-start"
+                >
                   "Check for potential fraud in recent claims"
                 </Button>
-                <Button variant="outline" size="sm" className="w-full justify-start">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="w-full justify-start"
+                >
                   "Optimize pricing for auto insurance segment"
                 </Button>
               </div>
@@ -365,25 +450,37 @@ export default function AIFeatures() {
             <Rocket className="h-5 w-5 text-purple-600" />
             <span>Innovation Roadmap</span>
           </CardTitle>
-          <CardDescription>Cutting-edge features coming to InsurePro</CardDescription>
+          <CardDescription>
+            Cutting-edge features coming to InsurePro
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             {upcomingFeatures.map((feature, index) => (
-              <div key={index} className="flex items-center justify-between p-4 border rounded-lg dark:border-gray-700">
+              <div
+                key={index}
+                className="flex items-center justify-between p-4 border rounded-lg dark:border-gray-700"
+              >
                 <div className="space-y-1">
                   <h4 className="font-medium">{feature.title}</h4>
-                  <p className="text-sm text-muted-foreground">{feature.description}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {feature.description}
+                  </p>
                 </div>
                 <div className="text-right space-y-1">
                   <Badge variant="outline">{feature.quarter}</Badge>
                   <div className="text-xs text-muted-foreground">
-                    Impact: <span className={cn(
-                      "font-medium",
-                      feature.impact === 'Revolutionary' && "text-purple-600",
-                      feature.impact === 'High' && "text-green-600",
-                      feature.impact === 'Medium' && "text-yellow-600"
-                    )}>{feature.impact}</span>
+                    Impact:{" "}
+                    <span
+                      className={cn(
+                        "font-medium",
+                        feature.impact === "Revolutionary" && "text-purple-600",
+                        feature.impact === "High" && "text-green-600",
+                        feature.impact === "Medium" && "text-yellow-600",
+                      )}
+                    >
+                      {feature.impact}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -395,17 +492,27 @@ export default function AIFeatures() {
       {/* Call to Action */}
       <Card className="bg-gradient-to-r from-gray-900 to-gray-800 text-white">
         <CardContent className="p-8 text-center">
-          <h2 className="text-2xl font-bold mb-4">Ready to Experience the Future?</h2>
+          <h2 className="text-2xl font-bold mb-4">
+            Ready to Experience the Future?
+          </h2>
           <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
-            Join the revolution in insurance technology. Our AI-powered platform is transforming 
-            how businesses operate, making them more efficient, profitable, and customer-focused.
+            Join the revolution in insurance technology. Our AI-powered platform
+            is transforming how businesses operate, making them more efficient,
+            profitable, and customer-focused.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-white text-gray-900 hover:bg-gray-100">
+            <Button
+              size="lg"
+              className="bg-white text-gray-900 hover:bg-gray-100"
+            >
               <ArrowRight className="h-4 w-4 mr-2" />
               Schedule Demo
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-gray-900">
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-white text-white hover:bg-white hover:text-gray-900"
+            >
               <Brain className="h-4 w-4 mr-2" />
               Contact AI Team
             </Button>
