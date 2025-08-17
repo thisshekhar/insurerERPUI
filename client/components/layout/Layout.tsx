@@ -124,12 +124,12 @@ export default function Layout({ children }: LayoutProps) {
                     onClick={() => setSidebarOpen(false)}
                   >
                     <item.icon className="h-5 w-5" />
-                    <span>{item.name}</span>
-                    {item.name === "Dashboard" && (
-                      <Badge className="ml-auto bg-gradient-to-r from-purple-600 to-blue-600 text-white text-xs">
-                        AI
-                      </Badge>
-                    )}
+                  <span>{item.name}</span>
+                  {item.name === "Dashboard" && isFeatureEnabled('branding') && (
+                    <Badge className="ml-auto bg-gradient-to-r from-purple-600 to-blue-600 text-white text-xs">
+                      AI
+                    </Badge>
+                  )}
                   </Link>
                 );
               })}
