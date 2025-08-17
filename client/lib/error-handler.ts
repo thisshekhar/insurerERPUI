@@ -66,65 +66,7 @@ export class DebouncedResizeObserver {
   }
 }
 
-// Error boundary component for React
-export class ErrorBoundary extends React.Component<
-  { children: React.ReactNode; fallback?: React.ReactNode },
-  { hasError: boolean }
-> {
-  constructor(props: { children: React.ReactNode; fallback?: React.ReactNode }) {
-    super(props);
-    this.state = { hasError: false };
-  }
-
-  static getDerivedStateFromError(error: Error) {
-    // Update state so the next render will show the fallback UI
-    return { hasError: true };
-  }
-
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    // Filter out ResizeObserver errors
-    if (!error.message.includes('ResizeObserver')) {
-      console.error('Error caught by boundary:', error, errorInfo);
-    }
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return this.props.fallback || <div>Something went wrong.</div>;
-    }
-
-    return this.props.children;
-  }
+// Initialize error suppression when the module is imported
+if (typeof window !== 'undefined') {
+  suppressResizeObserverErrors();
 }
-
-// React hook for handling resize observers
-export const useResizeObserver = (
-  callback: ResizeObserverCallback,
-  delay: number = 100
-) => {
-  const observerRef = React.useRef<DebouncedResizeObserver | null>(null);
-
-  React.useEffect(() => {
-    observerRef.current = new DebouncedResizeObserver(callback, delay);
-    
-    return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
-      }
-    };
-  }, [callback, delay]);
-
-  const observe = React.useCallback((target: Element) => {
-    if (observerRef.current) {
-      observerRef.current.observe(target);
-    }
-  }, []);
-
-  const unobserve = React.useCallback((target: Element) => {
-    if (observerRef.current) {
-      observerRef.current.unobserve(target);
-    }
-  }, []);
-
-  return { observe, unobserve };
-};
