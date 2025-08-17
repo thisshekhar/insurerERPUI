@@ -298,6 +298,7 @@ export default function Policies() {
 
   const openAddDialog = () => {
     setFormData({});
+    setSelectedRiders([]);
     setShowAddDialog(true);
   };
 
