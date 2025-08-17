@@ -107,6 +107,19 @@ export default function Policies() {
   const [showRenewalDialog, setShowRenewalDialog] = useState(false);
   const [formData, setFormData] = useState<Partial<Policy>>({});
 
+  // Handle ResizeObserver errors
+  useEffect(() => {
+    const handleError = (event: ErrorEvent) => {
+      if (event.error?.message?.includes('ResizeObserver')) {
+        event.preventDefault();
+        return false;
+      }
+    };
+
+    window.addEventListener('error', handleError);
+    return () => window.removeEventListener('error', handleError);
+  }, []);
+
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
