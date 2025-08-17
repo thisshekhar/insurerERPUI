@@ -72,6 +72,8 @@ export default function Settings() {
     role: "Admin",
   });
 
+  const { config, isEnabled, setEnabled, setFeature } = useAIConfig();
+
   const handleSave = () => {
     toast.success("Settings saved successfully!");
   };
