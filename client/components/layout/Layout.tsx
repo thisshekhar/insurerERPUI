@@ -61,6 +61,20 @@ export default function Layout({ children }: LayoutProps) {
     document.documentElement.classList.toggle("dark");
   };
 
+  // Handle keyboard events
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && sidebarOpen) {
+        closeSidebar();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [sidebarOpen]);
+
   return (
     <div
       className={cn(
