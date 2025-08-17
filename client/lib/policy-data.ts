@@ -367,6 +367,22 @@ export const mockPolicies: Policy[] = [
         status: "Completed",
       },
     ],
+    riders: [
+      {
+        id: "RIDER-HEALTH-001",
+        name: "Dental Coverage",
+        type: "Dental",
+        category: "Health",
+        description: "Comprehensive dental care coverage",
+        coverage: 5000,
+        premium: 240,
+        deductible: 100,
+        status: "Active",
+        addedDate: "2024-01-01",
+        addedBy: "James Brown",
+        effectiveDate: "2024-01-01"
+      }
+    ],
     notes:
       "Family health plan covering spouse and two children. Includes dental coverage.",
     riskAssessment: "Medium",
