@@ -29,6 +29,8 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
+import { useAIConfig } from "@/lib/ai-config";
+import { Brain, Sparkles } from "lucide-react";
 
 const languages = [
   { code: "en", name: "English", flag: "🇺🇸" },
