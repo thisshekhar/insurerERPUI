@@ -341,6 +341,189 @@ export default function Settings() {
             </div>
           </CardContent>
         </Card>
+
+        {/* AI Configuration */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <Brain className="h-5 w-5" />
+              <span>AI Features</span>
+            </CardTitle>
+            <CardDescription>
+              Configure artificial intelligence features and integrations
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {/* Master AI Toggle */}
+            <div className="flex items-center justify-between">
+              <div>
+                <Label htmlFor="ai-enabled" className="text-base font-medium">
+                  Enable AI Features
+                </Label>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Master switch to enable or disable all AI functionality
+                </p>
+              </div>
+              <Switch
+                id="ai-enabled"
+                checked={isEnabled}
+                onCheckedChange={setEnabled}
+              />
+            </div>
+
+            <Separator />
+
+            {/* Individual AI Feature Controls */}
+            <div className="space-y-4">
+              <h4 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
+                Individual Features
+              </h4>
+
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Label htmlFor="ai-insights" className="font-medium">
+                      AI Insights & Analytics
+                    </Label>
+                    <p className="text-sm text-muted-foreground">
+                      Smart predictions, risk assessments, and data insights
+                    </p>
+                  </div>
+                  <Switch
+                    id="ai-insights"
+                    checked={config.features.insights}
+                    onCheckedChange={(checked) => setFeature('insights', checked)}
+                    disabled={!isEnabled}
+                  />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Label htmlFor="ai-assistant" className="font-medium">
+                      AI Assistant
+                    </Label>
+                    <p className="text-sm text-muted-foreground">
+                      Floating AI chat assistant for help and automation
+                    </p>
+                  </div>
+                  <Switch
+                    id="ai-assistant"
+                    checked={config.features.assistant}
+                    onCheckedChange={(checked) => setFeature('assistant', checked)}
+                    disabled={!isEnabled}
+                  />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Label htmlFor="ai-predictions" className="font-medium">
+                      Predictive Analytics
+                    </Label>
+                    <p className="text-sm text-muted-foreground">
+                      Churn prediction, revenue optimization, and forecasting
+                    </p>
+                  </div>
+                  <Switch
+                    id="ai-predictions"
+                    checked={config.features.predictions}
+                    onCheckedChange={(checked) => setFeature('predictions', checked)}
+                    disabled={!isEnabled}
+                  />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Label htmlFor="ai-risk" className="font-medium">
+                      Risk Assessment
+                    </Label>
+                    <p className="text-sm text-muted-foreground">
+                      Automated risk scoring and assessment tools
+                    </p>
+                  </div>
+                  <Switch
+                    id="ai-risk"
+                    checked={config.features.riskAssessment}
+                    onCheckedChange={(checked) => setFeature('riskAssessment', checked)}
+                    disabled={!isEnabled}
+                  />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Label htmlFor="ai-fraud" className="font-medium">
+                      Fraud Detection
+                    </Label>
+                    <p className="text-sm text-muted-foreground">
+                      Real-time fraud detection and prevention alerts
+                    </p>
+                  </div>
+                  <Switch
+                    id="ai-fraud"
+                    checked={config.features.fraudDetection}
+                    onCheckedChange={(checked) => setFeature('fraudDetection', checked)}
+                    disabled={!isEnabled}
+                  />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Label htmlFor="ai-navigation" className="font-medium">
+                      AI Navigation & Menu
+                    </Label>
+                    <p className="text-sm text-muted-foreground">
+                      Show AI Features page in navigation menu
+                    </p>
+                  </div>
+                  <Switch
+                    id="ai-navigation"
+                    checked={config.features.navigation}
+                    onCheckedChange={(checked) => setFeature('navigation', checked)}
+                    disabled={!isEnabled}
+                  />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Label htmlFor="ai-branding" className="font-medium">
+                      AI Branding & Badges
+                    </Label>
+                    <p className="text-sm text-muted-foreground">
+                      Display "AI-Powered" branding and badges throughout the app
+                    </p>
+                  </div>
+                  <Switch
+                    id="ai-branding"
+                    checked={config.features.branding}
+                    onCheckedChange={(checked) => setFeature('branding', checked)}
+                    disabled={!isEnabled}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* AI Status */}
+            <div className="p-4 bg-muted rounded-lg">
+              <div className="flex items-center space-x-2 mb-2">
+                <Sparkles className="h-4 w-4 text-blue-600" />
+                <span className="font-medium">AI Status</span>
+              </div>
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                  <span className="text-muted-foreground">Master Status:</span>
+                  <span className={`ml-2 font-medium ${isEnabled ? 'text-green-600' : 'text-red-600'}`}>
+                    {isEnabled ? 'Enabled' : 'Disabled'}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-muted-foreground">Active Features:</span>
+                  <span className="ml-2 font-medium">
+                    {Object.values(config.features).filter(Boolean).length} / {Object.keys(config.features).length}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Save Button */}
