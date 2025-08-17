@@ -124,22 +124,24 @@ export default function Layout({ children }: LayoutProps) {
             <Button
               variant="ghost"
               size="sm"
-              className="relative z-10 hover:bg-gray-100 dark:hover:bg-gray-700 min-w-[2rem] min-h-[2rem]"
+              className="relative z-10 hover:bg-gray-100 dark:hover:bg-gray-700 min-w-[2rem] min-h-[2rem] focus:ring-2 focus:ring-blue-500 focus:outline-none"
               onClick={(e) => {
+                console.log('X button clicked'); // Debug log
                 e.preventDefault();
                 e.stopPropagation();
                 closeSidebar();
               }}
               onMouseDown={(e) => {
-                e.preventDefault();
                 e.stopPropagation();
               }}
               onTouchStart={(e) => {
-                e.preventDefault();
                 e.stopPropagation();
               }}
+              type="button"
+              aria-label="Close sidebar"
+              tabIndex={0}
             >
-              <X className="h-5 w-5" />
+              <X className="h-5 w-5 pointer-events-none" />
               <span className="sr-only">Close sidebar</span>
             </Button>
           </div>
