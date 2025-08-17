@@ -222,7 +222,9 @@ export default function Dashboard() {
       </div>
 
       {/* AI Insights Section */}
-      <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/10 dark:to-blue-900/10 rounded-lg p-6 border border-purple-200 dark:border-purple-800">
+      {isFeatureEnabled('insights') && (
+        <>
+          <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/10 dark:to-blue-900/10 rounded-lg p-6 border border-purple-200 dark:border-purple-800">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-3">
             <div className="h-10 w-10 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
@@ -338,10 +340,12 @@ export default function Dashboard() {
           <Brain className="h-4 w-4 mr-2" />
           Open AI Assistant
         </Button>
-      </div>
+          </div>
 
-      {/* AI Insights Component */}
-      <AIInsights variant="dashboard" maxItems={3} showHeader={false} />
+          {/* AI Insights Component */}
+          <AIInsights variant="dashboard" maxItems={3} showHeader={false} />
+        </>
+      )}
 
       {/* Traditional KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
