@@ -241,6 +241,7 @@ export default function Policies() {
     setPolicies([...policies, newPolicy]);
     setShowAddDialog(false);
     setFormData({});
+    setSelectedRiders([]);
     toast.success("Policy created successfully");
   };
 
