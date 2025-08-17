@@ -48,12 +48,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
@@ -61,9 +56,9 @@ import { api } from "@/lib/api-service";
 
 // Color schemes for charts
 const CHART_COLORS = {
-  primary: ['#8884d8', '#82ca9d', '#ffc658', '#ff7c7c', '#8dd1e1', '#d084d0'],
-  business: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4'],
-  financial: ['#059669', '#dc2626', '#d97706', '#7c3aed', '#0891b2', '#be185d'],
+  primary: ["#8884d8", "#82ca9d", "#ffc658", "#ff7c7c", "#8dd1e1", "#d084d0"],
+  business: ["#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#06b6d4"],
+  financial: ["#059669", "#dc2626", "#d97706", "#7c3aed", "#0891b2", "#be185d"],
 };
 
 interface ReportData {
@@ -93,7 +88,12 @@ export default function Reports() {
 
   const loadReportData = async () => {
     try {
-      const [businessResponse, financialResponse, claimsResponse, agentsResponse] = await Promise.all([
+      const [
+        businessResponse,
+        financialResponse,
+        claimsResponse,
+        agentsResponse,
+      ] = await Promise.all([
         api.getBusinessReport({ dateRange: selectedDateRange }),
         api.getFinancialReport({ dateRange: selectedDateRange }),
         api.getClaimsReport(),
@@ -154,7 +154,10 @@ export default function Reports() {
           </p>
         </div>
         <div className="flex items-center space-x-3">
-          <Select value={selectedDateRange} onValueChange={setSelectedDateRange}>
+          <Select
+            value={selectedDateRange}
+            onValueChange={setSelectedDateRange}
+          >
             <SelectTrigger className="w-48">
               <Calendar className="h-4 w-4 mr-2" />
               <SelectValue placeholder="Select date range" />
@@ -167,14 +170,16 @@ export default function Reports() {
               <SelectItem value="custom">Custom range</SelectItem>
             </SelectContent>
           </Select>
-          
+
           <Button
             variant="outline"
             onClick={handleRefresh}
             disabled={refreshing}
             className="flex items-center space-x-2"
           >
-            <RefreshCw className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} />
+            <RefreshCw
+              className={`h-4 w-4 ${refreshing ? "animate-spin" : ""}`}
+            />
             <span>Refresh</span>
           </Button>
 
@@ -208,7 +213,9 @@ export default function Reports() {
                   <div className="flex items-center mt-2 text-sm">
                     <TrendingUp className="h-4 w-4 text-green-600 mr-1" />
                     <span className="text-green-600">+12%</span>
-                    <span className="text-muted-foreground ml-1">vs last month</span>
+                    <span className="text-muted-foreground ml-1">
+                      vs last month
+                    </span>
                   </div>
                 </div>
                 <FileText className="h-8 w-8 text-blue-600" />
@@ -229,7 +236,9 @@ export default function Reports() {
                   <div className="flex items-center mt-2 text-sm">
                     <TrendingUp className="h-4 w-4 text-green-600 mr-1" />
                     <span className="text-green-600">+8.5%</span>
-                    <span className="text-muted-foreground ml-1">vs last month</span>
+                    <span className="text-muted-foreground ml-1">
+                      vs last month
+                    </span>
                   </div>
                 </div>
                 <DollarSign className="h-8 w-8 text-green-600" />
@@ -246,14 +255,17 @@ export default function Reports() {
                   </p>
                   <p className="text-2xl font-bold">
                     {formatPercentage(
-                      (reportData.business.summary.totalClaimsAmount / 
-                       reportData.business.summary.totalPremiums) * 100
+                      (reportData.business.summary.totalClaimsAmount /
+                        reportData.business.summary.totalPremiums) *
+                        100,
                     )}
                   </p>
                   <div className="flex items-center mt-2 text-sm">
                     <TrendingDown className="h-4 w-4 text-red-600 mr-1" />
                     <span className="text-red-600">-2.1%</span>
-                    <span className="text-muted-foreground ml-1">vs last month</span>
+                    <span className="text-muted-foreground ml-1">
+                      vs last month
+                    </span>
                   </div>
                 </div>
                 <AlertTriangle className="h-8 w-8 text-yellow-600" />
@@ -269,12 +281,16 @@ export default function Reports() {
                     Customer Retention
                   </p>
                   <p className="text-2xl font-bold">
-                    {formatPercentage(reportData.business.summary.customerRetention)}
+                    {formatPercentage(
+                      reportData.business.summary.customerRetention,
+                    )}
                   </p>
                   <div className="flex items-center mt-2 text-sm">
                     <TrendingUp className="h-4 w-4 text-green-600 mr-1" />
                     <span className="text-green-600">+1.2%</span>
-                    <span className="text-muted-foreground ml-1">vs last month</span>
+                    <span className="text-muted-foreground ml-1">
+                      vs last month
+                    </span>
                   </div>
                 </div>
                 <Users className="h-8 w-8 text-purple-600" />
@@ -291,7 +307,10 @@ export default function Reports() {
             <BarChart3 className="h-4 w-4" />
             <span>Business</span>
           </TabsTrigger>
-          <TabsTrigger value="financial" className="flex items-center space-x-2">
+          <TabsTrigger
+            value="financial"
+            className="flex items-center space-x-2"
+          >
             <DollarSign className="h-4 w-4" />
             <span>Financial</span>
           </TabsTrigger>
@@ -326,14 +345,25 @@ export default function Reports() {
                           cx="50%"
                           cy="50%"
                           labelLine={false}
-                          label={({ type, percentage }) => `${type}: ${percentage.toFixed(1)}%`}
+                          label={({ type, percentage }) =>
+                            `${type}: ${percentage.toFixed(1)}%`
+                          }
                           outerRadius={80}
                           fill="#8884d8"
                           dataKey="count"
                         >
-                          {reportData.business.policyBreakdown.map((entry: any, index: number) => (
-                            <Cell key={`cell-${index}`} fill={CHART_COLORS.primary[index % CHART_COLORS.primary.length]} />
-                          ))}
+                          {reportData.business.policyBreakdown.map(
+                            (entry: any, index: number) => (
+                              <Cell
+                                key={`cell-${index}`}
+                                fill={
+                                  CHART_COLORS.primary[
+                                    index % CHART_COLORS.primary.length
+                                  ]
+                                }
+                              />
+                            ),
+                          )}
                         </Pie>
                         <Tooltip />
                       </PieChart>
@@ -356,8 +386,18 @@ export default function Reports() {
                         <YAxis />
                         <Tooltip />
                         <Legend />
-                        <Line type="monotone" dataKey="policies" stroke="#8884d8" strokeWidth={2} />
-                        <Line type="monotone" dataKey="customers" stroke="#82ca9d" strokeWidth={2} />
+                        <Line
+                          type="monotone"
+                          dataKey="policies"
+                          stroke="#8884d8"
+                          strokeWidth={2}
+                        />
+                        <Line
+                          type="monotone"
+                          dataKey="customers"
+                          stroke="#82ca9d"
+                          strokeWidth={2}
+                        />
                       </LineChart>
                     </ResponsiveContainer>
                   </CardContent>
@@ -369,7 +409,8 @@ export default function Reports() {
                 <CardHeader>
                   <CardTitle>Top Performing Agents</CardTitle>
                   <CardDescription>
-                    Agent performance rankings by policies sold and commission earned
+                    Agent performance rankings by policies sold and commission
+                    earned
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -380,8 +421,16 @@ export default function Reports() {
                       <YAxis />
                       <Tooltip />
                       <Legend />
-                      <Bar dataKey="policiesCount" fill="#8884d8" name="Policies Sold" />
-                      <Bar dataKey="totalCommission" fill="#82ca9d" name="Commission ($)" />
+                      <Bar
+                        dataKey="policiesCount"
+                        fill="#8884d8"
+                        name="Policies Sold"
+                      />
+                      <Bar
+                        dataKey="totalCommission"
+                        fill="#82ca9d"
+                        name="Commission ($)"
+                      />
                     </BarChart>
                   </ResponsiveContainer>
                 </CardContent>
@@ -401,21 +450,27 @@ export default function Reports() {
                       <div className="text-2xl font-bold text-green-600">
                         {reportData.business.riskAnalysis.lowRisk}
                       </div>
-                      <div className="text-sm text-muted-foreground">Low Risk Policies</div>
+                      <div className="text-sm text-muted-foreground">
+                        Low Risk Policies
+                      </div>
                       <Progress value={65} className="mt-2" />
                     </div>
                     <div className="text-center">
                       <div className="text-2xl font-bold text-yellow-600">
                         {reportData.business.riskAnalysis.mediumRisk}
                       </div>
-                      <div className="text-sm text-muted-foreground">Medium Risk Policies</div>
+                      <div className="text-sm text-muted-foreground">
+                        Medium Risk Policies
+                      </div>
                       <Progress value={25} className="mt-2" />
                     </div>
                     <div className="text-center">
                       <div className="text-2xl font-bold text-red-600">
                         {reportData.business.riskAnalysis.highRisk}
                       </div>
-                      <div className="text-sm text-muted-foreground">High Risk Policies</div>
+                      <div className="text-sm text-muted-foreground">
+                        High Risk Policies
+                      </div>
                       <Progress value={10} className="mt-2" />
                     </div>
                   </div>
@@ -443,10 +498,28 @@ export default function Reports() {
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="month" />
                       <YAxis />
-                      <Tooltip formatter={(value) => formatCurrency(value as number)} />
+                      <Tooltip
+                        formatter={(value) => formatCurrency(value as number)}
+                      />
                       <Legend />
-                      <Area type="monotone" dataKey="inflow" stackId="1" stroke="#10b981" fill="#10b981" fillOpacity={0.6} name="Revenue" />
-                      <Area type="monotone" dataKey="outflow" stackId="2" stroke="#ef4444" fill="#ef4444" fillOpacity={0.6} name="Expenses" />
+                      <Area
+                        type="monotone"
+                        dataKey="inflow"
+                        stackId="1"
+                        stroke="#10b981"
+                        fill="#10b981"
+                        fillOpacity={0.6}
+                        name="Revenue"
+                      />
+                      <Area
+                        type="monotone"
+                        dataKey="outflow"
+                        stackId="2"
+                        stroke="#ef4444"
+                        fill="#ef4444"
+                        fillOpacity={0.6}
+                        name="Expenses"
+                      />
                     </AreaChart>
                   </ResponsiveContainer>
                 </CardContent>
@@ -457,9 +530,13 @@ export default function Reports() {
                 <Card>
                   <CardContent className="p-6">
                     <div className="text-center">
-                      <p className="text-sm font-medium text-muted-foreground">Gross Profit</p>
+                      <p className="text-sm font-medium text-muted-foreground">
+                        Gross Profit
+                      </p>
                       <p className="text-2xl font-bold text-green-600">
-                        {formatCurrency(reportData.financial.profitability.grossProfit)}
+                        {formatCurrency(
+                          reportData.financial.profitability.grossProfit,
+                        )}
                       </p>
                     </div>
                   </CardContent>
@@ -467,9 +544,13 @@ export default function Reports() {
                 <Card>
                   <CardContent className="p-6">
                     <div className="text-center">
-                      <p className="text-sm font-medium text-muted-foreground">Net Profit</p>
+                      <p className="text-sm font-medium text-muted-foreground">
+                        Net Profit
+                      </p>
                       <p className="text-2xl font-bold text-green-600">
-                        {formatCurrency(reportData.financial.profitability.netProfit)}
+                        {formatCurrency(
+                          reportData.financial.profitability.netProfit,
+                        )}
                       </p>
                     </div>
                   </CardContent>
@@ -477,9 +558,13 @@ export default function Reports() {
                 <Card>
                   <CardContent className="p-6">
                     <div className="text-center">
-                      <p className="text-sm font-medium text-muted-foreground">Profit Margin</p>
+                      <p className="text-sm font-medium text-muted-foreground">
+                        Profit Margin
+                      </p>
                       <p className="text-2xl font-bold text-blue-600">
-                        {formatPercentage(reportData.financial.profitability.profitMargin)}
+                        {formatPercentage(
+                          reportData.financial.profitability.profitMargin,
+                        )}
                       </p>
                     </div>
                   </CardContent>
@@ -487,9 +572,13 @@ export default function Reports() {
                 <Card>
                   <CardContent className="p-6">
                     <div className="text-center">
-                      <p className="text-sm font-medium text-muted-foreground">ROI</p>
+                      <p className="text-sm font-medium text-muted-foreground">
+                        ROI
+                      </p>
                       <p className="text-2xl font-bold text-purple-600">
-                        {formatPercentage(reportData.financial.profitability.roi)}
+                        {formatPercentage(
+                          reportData.financial.profitability.roi,
+                        )}
                       </p>
                     </div>
                   </CardContent>
@@ -506,19 +595,25 @@ export default function Reports() {
                     <div className="flex justify-between items-center">
                       <span>Paid Premiums</span>
                       <span className="font-semibold text-green-600">
-                        {formatCurrency(reportData.financial.revenue.paidPremiums)}
+                        {formatCurrency(
+                          reportData.financial.revenue.paidPremiums,
+                        )}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span>Pending Premiums</span>
                       <span className="font-semibold text-yellow-600">
-                        {formatCurrency(reportData.financial.revenue.pendingPremiums)}
+                        {formatCurrency(
+                          reportData.financial.revenue.pendingPremiums,
+                        )}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span>Overdue Premiums</span>
                       <span className="font-semibold text-red-600">
-                        {formatCurrency(reportData.financial.revenue.overduePremiums)}
+                        {formatCurrency(
+                          reportData.financial.revenue.overduePremiums,
+                        )}
                       </span>
                     </div>
                   </CardContent>
@@ -532,19 +627,25 @@ export default function Reports() {
                     <div className="flex justify-between items-center">
                       <span>Claims Paid</span>
                       <span className="font-semibold text-red-600">
-                        {formatCurrency(reportData.financial.expenses.paidClaims)}
+                        {formatCurrency(
+                          reportData.financial.expenses.paidClaims,
+                        )}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span>Pending Claims</span>
                       <span className="font-semibold text-yellow-600">
-                        {formatCurrency(reportData.financial.expenses.pendingClaims)}
+                        {formatCurrency(
+                          reportData.financial.expenses.pendingClaims,
+                        )}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span>Commissions</span>
                       <span className="font-semibold text-blue-600">
-                        {formatCurrency(reportData.financial.expenses.commissions)}
+                        {formatCurrency(
+                          reportData.financial.expenses.commissions,
+                        )}
                       </span>
                     </div>
                   </CardContent>
@@ -563,17 +664,11 @@ export default function Reports() {
                 <Card>
                   <CardContent className="p-6">
                     <div className="text-center">
-                      <p className="text-sm font-medium text-muted-foreground">Total Claims</p>
-                      <p className="text-2xl font-bold">{reportData.claims.summary.totalClaims}</p>
-                    </div>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardContent className="p-6">
-                    <div className="text-center">
-                      <p className="text-sm font-medium text-muted-foreground">Approval Rate</p>
-                      <p className="text-2xl font-bold text-green-600">
-                        {formatPercentage(reportData.claims.summary.approvalRate)}
+                      <p className="text-sm font-medium text-muted-foreground">
+                        Total Claims
+                      </p>
+                      <p className="text-2xl font-bold">
+                        {reportData.claims.summary.totalClaims}
                       </p>
                     </div>
                   </CardContent>
@@ -581,7 +676,23 @@ export default function Reports() {
                 <Card>
                   <CardContent className="p-6">
                     <div className="text-center">
-                      <p className="text-sm font-medium text-muted-foreground">Avg Processing Time</p>
+                      <p className="text-sm font-medium text-muted-foreground">
+                        Approval Rate
+                      </p>
+                      <p className="text-2xl font-bold text-green-600">
+                        {formatPercentage(
+                          reportData.claims.summary.approvalRate,
+                        )}
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-6">
+                    <div className="text-center">
+                      <p className="text-sm font-medium text-muted-foreground">
+                        Avg Processing Time
+                      </p>
                       <p className="text-2xl font-bold text-blue-600">
                         {reportData.claims.summary.avgProcessingTime} days
                       </p>
@@ -591,7 +702,9 @@ export default function Reports() {
                 <Card>
                   <CardContent className="p-6">
                     <div className="text-center">
-                      <p className="text-sm font-medium text-muted-foreground">Pending Claims</p>
+                      <p className="text-sm font-medium text-muted-foreground">
+                        Pending Claims
+                      </p>
                       <p className="text-2xl font-bold text-yellow-600">
                         {reportData.claims.summary.pendingClaims}
                       </p>
@@ -630,7 +743,12 @@ export default function Reports() {
                         <XAxis dataKey="month" />
                         <YAxis />
                         <Tooltip />
-                        <Line type="monotone" dataKey="claims" stroke="#8884d8" strokeWidth={2} />
+                        <Line
+                          type="monotone"
+                          dataKey="claims"
+                          stroke="#8884d8"
+                          strokeWidth={2}
+                        />
                       </LineChart>
                     </ResponsiveContainer>
                   </CardContent>
@@ -644,20 +762,29 @@ export default function Reports() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {reportData.claims.topClaimReasons.map((reason: any, index: number) => (
-                      <div key={reason.reason} className="flex items-center justify-between">
-                        <div className="flex items-center space-x-3">
-                          <div className="w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-sm font-medium">
-                            {index + 1}
+                    {reportData.claims.topClaimReasons.map(
+                      (reason: any, index: number) => (
+                        <div
+                          key={reason.reason}
+                          className="flex items-center justify-between"
+                        >
+                          <div className="flex items-center space-x-3">
+                            <div className="w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-sm font-medium">
+                              {index + 1}
+                            </div>
+                            <span className="font-medium">{reason.reason}</span>
                           </div>
-                          <span className="font-medium">{reason.reason}</span>
+                          <div className="flex items-center space-x-3">
+                            <span className="text-sm text-muted-foreground">
+                              {reason.count} claims
+                            </span>
+                            <Badge variant="outline">
+                              {formatPercentage(reason.percentage)}
+                            </Badge>
+                          </div>
                         </div>
-                        <div className="flex items-center space-x-3">
-                          <span className="text-sm text-muted-foreground">{reason.count} claims</span>
-                          <Badge variant="outline">{formatPercentage(reason.percentage)}</Badge>
-                        </div>
-                      </div>
-                    ))}
+                      ),
+                    )}
                   </div>
                 </CardContent>
               </Card>
@@ -674,15 +801,21 @@ export default function Reports() {
                 <Card>
                   <CardContent className="p-6">
                     <div className="text-center">
-                      <p className="text-sm font-medium text-muted-foreground">Total Agents</p>
-                      <p className="text-2xl font-bold">{reportData.agents.summary.totalAgents}</p>
+                      <p className="text-sm font-medium text-muted-foreground">
+                        Total Agents
+                      </p>
+                      <p className="text-2xl font-bold">
+                        {reportData.agents.summary.totalAgents}
+                      </p>
                     </div>
                   </CardContent>
                 </Card>
                 <Card>
                   <CardContent className="p-6">
                     <div className="text-center">
-                      <p className="text-sm font-medium text-muted-foreground">Policies Sold</p>
+                      <p className="text-sm font-medium text-muted-foreground">
+                        Policies Sold
+                      </p>
                       <p className="text-2xl font-bold text-blue-600">
                         {reportData.agents.summary.totalPoliciesSold}
                       </p>
@@ -692,9 +825,13 @@ export default function Reports() {
                 <Card>
                   <CardContent className="p-6">
                     <div className="text-center">
-                      <p className="text-sm font-medium text-muted-foreground">Total Commissions</p>
+                      <p className="text-sm font-medium text-muted-foreground">
+                        Total Commissions
+                      </p>
                       <p className="text-2xl font-bold text-green-600">
-                        {formatCurrency(reportData.agents.summary.totalCommissions)}
+                        {formatCurrency(
+                          reportData.agents.summary.totalCommissions,
+                        )}
                       </p>
                     </div>
                   </CardContent>
@@ -702,7 +839,9 @@ export default function Reports() {
                 <Card>
                   <CardContent className="p-6">
                     <div className="text-center">
-                      <p className="text-sm font-medium text-muted-foreground">Avg Rating</p>
+                      <p className="text-sm font-medium text-muted-foreground">
+                        Avg Rating
+                      </p>
                       <p className="text-2xl font-bold text-yellow-600">
                         {reportData.agents.summary.avgRating.toFixed(1)}★
                       </p>
@@ -722,8 +861,16 @@ export default function Reports() {
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="month" />
                       <YAxis />
-                      <Tooltip formatter={(value) => formatCurrency(value as number)} />
-                      <Area type="monotone" dataKey="totalCommissions" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
+                      <Tooltip
+                        formatter={(value) => formatCurrency(value as number)}
+                      />
+                      <Area
+                        type="monotone"
+                        dataKey="totalCommissions"
+                        stroke="#8884d8"
+                        fill="#8884d8"
+                        fillOpacity={0.6}
+                      />
                     </AreaChart>
                   </ResponsiveContainer>
                 </CardContent>
@@ -736,23 +883,34 @@ export default function Reports() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {reportData.agents.topPerformers.slice(0, 5).map((agent: any, index: number) => (
-                      <div key={agent.id} className="flex items-center justify-between p-4 border rounded-lg">
-                        <div className="flex items-center space-x-3">
-                          <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center text-white font-medium">
-                            {index + 1}
+                    {reportData.agents.topPerformers
+                      .slice(0, 5)
+                      .map((agent: any, index: number) => (
+                        <div
+                          key={agent.id}
+                          className="flex items-center justify-between p-4 border rounded-lg"
+                        >
+                          <div className="flex items-center space-x-3">
+                            <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center text-white font-medium">
+                              {index + 1}
+                            </div>
+                            <div>
+                              <p className="font-medium">{agent.name}</p>
+                              <p className="text-sm text-muted-foreground">
+                                {agent.email}
+                              </p>
+                            </div>
                           </div>
-                          <div>
-                            <p className="font-medium">{agent.name}</p>
-                            <p className="text-sm text-muted-foreground">{agent.email}</p>
+                          <div className="text-right">
+                            <p className="font-semibold">
+                              {formatCurrency(agent.totalCommission)}
+                            </p>
+                            <p className="text-sm text-muted-foreground">
+                              {agent.policiesCount} policies
+                            </p>
                           </div>
                         </div>
-                        <div className="text-right">
-                          <p className="font-semibold">{formatCurrency(agent.totalCommission)}</p>
-                          <p className="text-sm text-muted-foreground">{agent.policiesCount} policies</p>
-                        </div>
-                      </div>
-                    ))}
+                      ))}
                   </div>
                 </CardContent>
               </Card>

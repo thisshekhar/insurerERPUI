@@ -64,14 +64,14 @@ export default function Layout({ children }: LayoutProps) {
   // Handle keyboard events
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && sidebarOpen) {
+      if (event.key === "Escape" && sidebarOpen) {
         closeSidebar();
       }
     };
 
-    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener("keydown", handleKeyDown);
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, [sidebarOpen]);
 
@@ -126,7 +126,7 @@ export default function Layout({ children }: LayoutProps) {
               size="sm"
               className="relative z-10 hover:bg-gray-100 dark:hover:bg-gray-700 min-w-[2rem] min-h-[2rem] focus:ring-2 focus:ring-blue-500 focus:outline-none"
               onClick={(e) => {
-                console.log('X button clicked'); // Debug log
+                console.log("X button clicked"); // Debug log
                 e.preventDefault();
                 e.stopPropagation();
                 closeSidebar();
@@ -247,11 +247,7 @@ export default function Layout({ children }: LayoutProps) {
         <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
           <div className="flex h-16 items-center justify-between px-4 sm:px-6">
             <div className="flex items-center space-x-4">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={toggleSidebar}
-              >
+              <Button variant="ghost" size="sm" onClick={toggleSidebar}>
                 <Menu className="h-5 w-5" />
               </Button>
               <h1 className="text-lg font-semibold text-gray-900 dark:text-white">
