@@ -28,9 +28,28 @@ export interface Policy {
   documents: PolicyDocument[];
   payments: PolicyPayment[];
   renewalHistory: RenewalRecord[];
+  riders?: PolicyRider[];
   notes: string;
   riskAssessment: "Low" | "Medium" | "High";
   commissionRate: number;
+}
+
+export interface PolicyRider {
+  id: string;
+  name: string;
+  type: string;
+  category: 'Protection' | 'Savings' | 'Health' | 'Accident' | 'Premium';
+  description: string;
+  coverage: number;
+  premium: number;
+  deductible?: number;
+  status: 'Active' | 'Pending' | 'Cancelled' | 'Expired';
+  addedDate: string;
+  addedBy: string;
+  effectiveDate?: string;
+  expiryDate?: string;
+  customTerms?: string;
+  discountPercentage?: number;
 }
 
 export interface Beneficiary {
