@@ -211,7 +211,7 @@ export default function Layout({ children }: LayoutProps) {
             <Link
               to="/settings"
               className="flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700 transition-colors"
-              onClick={() => setSidebarOpen(false)}
+              onClick={closeSidebar}
             >
               <Settings className="h-5 w-5" />
               <span>Settings</span>
