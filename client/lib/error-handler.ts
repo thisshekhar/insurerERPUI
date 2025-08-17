@@ -66,7 +66,49 @@ export class DebouncedResizeObserver {
   }
 }
 
+// Global window error handler for unhandled ResizeObserver errors
+export const initializeGlobalErrorHandling = () => {
+  if (typeof window === 'undefined') return;
+
+  // Handle unhandled promise rejections
+  window.addEventListener('unhandledrejection', (event) => {
+    if (event.reason?.message?.includes('ResizeObserver')) {
+      event.preventDefault();
+    }
+  });
+
+  // Handle general window errors
+  window.addEventListener('error', (event) => {
+    if (event.error?.message?.includes('ResizeObserver') ||
+        event.message?.includes('ResizeObserver')) {
+      event.preventDefault();
+      return false;
+    }
+  });
+
+  // Additional ResizeObserver specific handling
+  const originalResizeObserver = window.ResizeObserver;
+  if (originalResizeObserver) {
+    window.ResizeObserver = class extends originalResizeObserver {
+      constructor(callback: ResizeObserverCallback) {
+        const wrappedCallback: ResizeObserverCallback = (entries, observer) => {
+          try {
+            callback(entries, observer);
+          } catch (error) {
+            // Silently ignore ResizeObserver callback errors
+            if (!(error instanceof Error) || !error.message.includes('ResizeObserver')) {
+              throw error;
+            }
+          }
+        };
+        super(wrappedCallback);
+      }
+    };
+  }
+};
+
 // Initialize error suppression when the module is imported
 if (typeof window !== 'undefined') {
   suppressResizeObserverErrors();
+  initializeGlobalErrorHandling();
 }
