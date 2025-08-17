@@ -797,9 +797,17 @@ export default function Policies() {
         maxWidth="max-w-6xl"
       >
         {selectedPolicy && (
-          <div className="space-y-6">
-            {/* Basic Information */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <Tabs defaultValue="overview" className="w-full">
+            <TabsList className="grid w-full grid-cols-4">
+              <TabsTrigger value="overview">Overview</TabsTrigger>
+              <TabsTrigger value="riders">Riders & Coverage</TabsTrigger>
+              <TabsTrigger value="payments">Payments</TabsTrigger>
+              <TabsTrigger value="documents">Documents</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="overview" className="space-y-6">
+              {/* Basic Information */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold">Policy Information</h3>
                 <div className="space-y-2">
@@ -1039,16 +1047,96 @@ export default function Policies() {
               </div>
             )}
 
-            {/* Notes */}
-            {selectedPolicy.notes && (
+              {/* Notes */}
+              {selectedPolicy.notes && (
+                <div>
+                  <h3 className="text-lg font-semibold mb-2">Notes</h3>
+                  <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                    <p className="text-sm">{selectedPolicy.notes}</p>
+                  </div>
+                </div>
+              )}
+            </TabsContent>
+
+            <TabsContent value="riders" className="space-y-6">
+              <PolicyRidersManager
+                policy={selectedPolicy}
+                customerAge={35}
+                onRidersUpdate={(riders) => {
+                  // Handle rider updates
+                  const updatedPolicy = { ...selectedPolicy, riders };
+                  console.log('Riders updated:', riders);
+                }}
+              />
+            </TabsContent>
+
+            <TabsContent value="payments" className="space-y-6">
               <div>
-                <h3 className="text-lg font-semibold mb-2">Notes</h3>
-                <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                  <p className="text-sm">{selectedPolicy.notes}</p>
+                <h3 className="text-lg font-semibold mb-4">Payment History</h3>
+                <div className="space-y-3">
+                  {selectedPolicy.payments.map((payment) => (
+                    <div
+                      key={payment.id}
+                      className="flex items-center justify-between p-4 border rounded-lg dark:border-gray-700"
+                    >
+                      <div>
+                        <div className="font-medium">
+                          Payment #{payment.id}
+                        </div>
+                        <div className="text-sm text-muted-foreground">
+                          Due: {formatDate(payment.dueDate)}
+                          {payment.paidDate && (
+                            <span> • Paid: {formatDate(payment.paidDate)}</span>
+                          )}
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <div className="font-medium">
+                          {formatCurrency(payment.amount)}
+                        </div>
+                        <Badge
+                          className={cn(
+                            payment.status === "Paid" && "bg-green-100 text-green-800",
+                            payment.status === "Pending" && "bg-yellow-100 text-yellow-800",
+                            payment.status === "Overdue" && "bg-red-100 text-red-800"
+                          )}
+                        >
+                          {payment.status}
+                        </Badge>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
-            )}
-          </div>
+            </TabsContent>
+
+            <TabsContent value="documents" className="space-y-6">
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Policy Documents</h3>
+                <div className="space-y-3">
+                  {selectedPolicy.documents.map((document) => (
+                    <div
+                      key={document.id}
+                      className="flex items-center justify-between p-4 border rounded-lg dark:border-gray-700"
+                    >
+                      <div className="flex items-center space-x-3">
+                        <FileText className="h-5 w-5 text-blue-600" />
+                        <div>
+                          <div className="font-medium">{document.name}</div>
+                          <div className="text-sm text-muted-foreground">
+                            {document.type} • {document.size} • Uploaded {formatDate(document.uploadDate)}
+                          </div>
+                        </div>
+                      </div>
+                      <Button variant="ghost" size="sm">
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </TabsContent>
+          </Tabs>
         )}
       </FormDialog>
     </div>
