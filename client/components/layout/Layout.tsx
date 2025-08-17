@@ -22,7 +22,7 @@ import { cn } from "@/lib/utils";
 import AIAssistant from "@/components/ai/AIAssistant";
 import { useAIConfig } from "@/lib/ai-config";
 
-const navigation = [
+const getNavigation = (isAIEnabled: boolean) => [
   { name: "Dashboard", href: "/", icon: LayoutDashboard },
   { name: "Customers", href: "/customers", icon: Users },
   { name: "Policies", href: "/policies", icon: FileText },
@@ -30,7 +30,7 @@ const navigation = [
   { name: "Agents", href: "/agents", icon: UserCheck },
   { name: "Payments", href: "/payments", icon: DollarSign },
   { name: "Documents", href: "/documents", icon: FolderOpen },
-  { name: "AI Features", href: "/ai-features", icon: Sparkles },
+  ...(isAIEnabled ? [{ name: "AI Features", href: "/ai-features", icon: Sparkles }] : []),
 ];
 
 interface LayoutProps {
