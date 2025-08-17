@@ -651,6 +651,123 @@ export default function Policies() {
           rows={3}
         />
       </div>
+
+      {/* Riders Selection */}
+      {formData.policyType && (
+        <div className="md:col-span-2">
+          <div className="border-t pt-6">
+            <h3 className="text-lg font-semibold mb-4">Add-on Riders & Coverage</h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Select additional coverage options for this policy
+            </p>
+            {(() => {
+              const availableRiders = getRidersByPolicyType(formData.policyType);
+              const customerAge = 35; // Default age, could be calculated from customer data
+
+              if (availableRiders.length === 0) {
+                return (
+                  <p className="text-sm text-muted-foreground">
+                    No additional riders available for this policy type.
+                  </p>
+                );
+              }
+
+              // Group riders by category
+              const ridersByCategory = availableRiders.reduce((acc, rider) => {
+                if (!acc[rider.category]) {
+                  acc[rider.category] = [];
+                }
+                acc[rider.category].push(rider);
+                return acc;
+              }, {} as Record<string, typeof availableRiders>);
+
+              const selectedRidersPremium = selectedRiders.reduce((total, riderId) => {
+                const rider = getRiderById(riderId);
+                return total + (rider?.premium || 0);
+              }, 0);
+
+              return (
+                <div className="space-y-6">
+                  {/* Summary */}
+                  {selectedRiders.length > 0 && (
+                    <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                      <div className="flex justify-between items-center">
+                        <span className="font-medium">
+                          Selected Riders: {selectedRiders.length}
+                        </span>
+                        <span className="font-medium">
+                          Additional Premium: {formatCurrency(selectedRidersPremium)}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Riders by Category */}
+                  {Object.entries(ridersByCategory).map(([category, riders]) => (
+                    <div key={category}>
+                      <h4 className="font-medium mb-3 text-primary">{category} Riders</h4>
+                      <div className="grid grid-cols-1 gap-3">
+                        {riders.map((rider) => {
+                          const isEligible = isRiderEligible(rider, customerAge);
+                          const isSelected = selectedRiders.includes(rider.id);
+
+                          return (
+                            <div
+                              key={rider.id}
+                              className={cn(
+                                "flex items-start space-x-3 p-4 border rounded-lg",
+                                isEligible
+                                  ? "border-gray-200 dark:border-gray-700"
+                                  : "border-gray-100 dark:border-gray-800 opacity-50",
+                                isSelected && "bg-blue-50 dark:bg-blue-900/20 border-blue-200"
+                              )}
+                            >
+                              <Checkbox
+                                checked={isSelected}
+                                disabled={!isEligible}
+                                onCheckedChange={(checked) => {
+                                  if (checked) {
+                                    setSelectedRiders([...selectedRiders, rider.id]);
+                                  } else {
+                                    setSelectedRiders(selectedRiders.filter(id => id !== rider.id));
+                                  }
+                                }}
+                              />
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center justify-between mb-1">
+                                  <h5 className="font-medium">{rider.name}</h5>
+                                  <span className="text-sm font-medium">
+                                    {formatCurrency(rider.premium)}/year
+                                  </span>
+                                </div>
+                                <p className="text-sm text-muted-foreground mb-2">
+                                  {rider.description}
+                                </p>
+                                <div className="flex items-center space-x-4 text-xs text-muted-foreground">
+                                  <span>Coverage: {formatCurrency(rider.coverage)}</span>
+                                  {rider.deductible && (
+                                    <span>Deductible: {formatCurrency(rider.deductible)}</span>
+                                  )}
+                                  {rider.waitingPeriod && (
+                                    <span>Waiting: {rider.waitingPeriod} months</span>
+                                  )}
+                                  {!isEligible && (
+                                    <span className="text-red-500">Age restrictions apply</span>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              );
+            })()}
+          </div>
+        </div>
+      )}
     </div>
   );
 
