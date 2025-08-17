@@ -599,7 +599,7 @@ export default function Dashboard() {
       </div>
 
       {/* Full AI Insights Panel */}
-      <AIInsights />
+      {isFeatureEnabled('insights') && <AIInsights />}
     </div>
   );
 }
