@@ -54,6 +54,7 @@ import {
 } from "@/lib/policy-data";
 import { mockCustomers } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
+import PolicyRidersManager from "@/components/PolicyRidersManager";
 
 const statusColors = {
   Active:
