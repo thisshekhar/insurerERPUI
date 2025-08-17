@@ -101,9 +101,15 @@ export default function Layout({ children }: LayoutProps) {
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => setSidebarOpen(false)}
+              className="relative z-10 hover:bg-gray-100 dark:hover:bg-gray-700"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setSidebarOpen(false);
+              }}
             >
               <X className="h-5 w-5" />
+              <span className="sr-only">Close sidebar</span>
             </Button>
           </div>
 
