@@ -72,7 +72,8 @@ export default function Layout({ children }: LayoutProps) {
       {sidebarOpen && (
         <div
           className="fixed inset-0 z-40 lg:hidden"
-          onClick={() => setSidebarOpen(false)}
+          onClick={closeSidebar}
+          onTouchStart={closeSidebar}
         >
           <div className="fixed inset-0 bg-gray-600 bg-opacity-75" />
         </div>
