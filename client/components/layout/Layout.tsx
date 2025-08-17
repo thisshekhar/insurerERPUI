@@ -109,11 +109,19 @@ export default function Layout({ children }: LayoutProps) {
             <Button
               variant="ghost"
               size="sm"
-              className="relative z-10 hover:bg-gray-100 dark:hover:bg-gray-700"
+              className="relative z-10 hover:bg-gray-100 dark:hover:bg-gray-700 min-w-[2rem] min-h-[2rem]"
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                setSidebarOpen(false);
+                closeSidebar();
+              }}
+              onMouseDown={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+              onTouchStart={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
               }}
             >
               <X className="h-5 w-5" />
