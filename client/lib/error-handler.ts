@@ -3,20 +3,20 @@
 export const suppressResizeObserverErrors = () => {
   // Store the original error handler
   const originalError = console.error;
-  
+
   // Override console.error to filter out ResizeObserver errors
   console.error = (...args) => {
     const errorMessage = args[0];
-    
+
     // Check if it's a ResizeObserver error
     if (
-      typeof errorMessage === 'string' &&
-      errorMessage.includes('ResizeObserver loop')
+      typeof errorMessage === "string" &&
+      errorMessage.includes("ResizeObserver loop")
     ) {
       // Silently ignore ResizeObserver loop errors
       return;
     }
-    
+
     // For all other errors, use the original error handler
     originalError.apply(console, args);
   };
@@ -30,19 +30,22 @@ export class DebouncedResizeObserver {
 
   constructor(callback: ResizeObserverCallback, delay: number = 100) {
     this.delay = delay;
-    
+
     this.observer = new ResizeObserver((entries, observer) => {
       if (this.timeout) {
         clearTimeout(this.timeout);
       }
-      
+
       this.timeout = window.setTimeout(() => {
         try {
           callback(entries, observer);
         } catch (error) {
           // Suppress ResizeObserver errors
-          if (!(error instanceof Error) || !error.message.includes('ResizeObserver')) {
-            console.error('ResizeObserver error:', error);
+          if (
+            !(error instanceof Error) ||
+            !error.message.includes("ResizeObserver")
+          ) {
+            console.error("ResizeObserver error:", error);
           }
         }
       }, this.delay);
@@ -68,19 +71,21 @@ export class DebouncedResizeObserver {
 
 // Global window error handler for unhandled ResizeObserver errors
 export const initializeGlobalErrorHandling = () => {
-  if (typeof window === 'undefined') return;
+  if (typeof window === "undefined") return;
 
   // Handle unhandled promise rejections
-  window.addEventListener('unhandledrejection', (event) => {
-    if (event.reason?.message?.includes('ResizeObserver')) {
+  window.addEventListener("unhandledrejection", (event) => {
+    if (event.reason?.message?.includes("ResizeObserver")) {
       event.preventDefault();
     }
   });
 
   // Handle general window errors
-  window.addEventListener('error', (event) => {
-    if (event.error?.message?.includes('ResizeObserver') ||
-        event.message?.includes('ResizeObserver')) {
+  window.addEventListener("error", (event) => {
+    if (
+      event.error?.message?.includes("ResizeObserver") ||
+      event.message?.includes("ResizeObserver")
+    ) {
       event.preventDefault();
       return false;
     }
@@ -96,7 +101,10 @@ export const initializeGlobalErrorHandling = () => {
             callback(entries, observer);
           } catch (error) {
             // Silently ignore ResizeObserver callback errors
-            if (!(error instanceof Error) || !error.message.includes('ResizeObserver')) {
+            if (
+              !(error instanceof Error) ||
+              !error.message.includes("ResizeObserver")
+            ) {
               throw error;
             }
           }
@@ -108,7 +116,7 @@ export const initializeGlobalErrorHandling = () => {
 };
 
 // Initialize error suppression when the module is imported
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   suppressResizeObserverErrors();
   initializeGlobalErrorHandling();
 }

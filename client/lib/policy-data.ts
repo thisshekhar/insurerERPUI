@@ -38,12 +38,12 @@ export interface PolicyRider {
   id: string;
   name: string;
   type: string;
-  category: 'Protection' | 'Savings' | 'Health' | 'Accident' | 'Premium';
+  category: "Protection" | "Savings" | "Health" | "Accident" | "Premium";
   description: string;
   coverage: number;
   premium: number;
   deductible?: number;
-  status: 'Active' | 'Pending' | 'Cancelled' | 'Expired';
+  status: "Active" | "Pending" | "Cancelled" | "Expired";
   addedDate: string;
   addedBy: string;
   effectiveDate?: string;
@@ -195,8 +195,8 @@ export const mockPolicies: Policy[] = [
         status: "Active",
         addedDate: "2024-02-01",
         addedBy: "Mike Chen",
-        effectiveDate: "2024-02-01"
-      }
+        effectiveDate: "2024-02-01",
+      },
     ],
     notes: "Customer opted for maximum coverage with accidental death benefit.",
     riskAssessment: "Low",
@@ -380,8 +380,8 @@ export const mockPolicies: Policy[] = [
         status: "Active",
         addedDate: "2024-01-01",
         addedBy: "James Brown",
-        effectiveDate: "2024-01-01"
-      }
+        effectiveDate: "2024-01-01",
+      },
     ],
     notes:
       "Family health plan covering spouse and two children. Includes dental coverage.",

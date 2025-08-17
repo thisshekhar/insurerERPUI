@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 // AI Configuration Interface
 export interface AIConfig {
@@ -29,7 +29,7 @@ export const DEFAULT_AI_CONFIG: AIConfig = {
 };
 
 // Local Storage Key
-const AI_CONFIG_KEY = 'insure-pro-ai-config';
+const AI_CONFIG_KEY = "insure-pro-ai-config";
 
 // Configuration Management
 class AIConfigManager {
@@ -64,7 +64,7 @@ class AIConfigManager {
         };
       }
     } catch (error) {
-      console.warn('Failed to load AI config from localStorage:', error);
+      console.warn("Failed to load AI config from localStorage:", error);
     }
     return { ...DEFAULT_AI_CONFIG };
   }
@@ -73,7 +73,7 @@ class AIConfigManager {
     try {
       localStorage.setItem(AI_CONFIG_KEY, JSON.stringify(this.config));
     } catch (error) {
-      console.warn('Failed to save AI config to localStorage:', error);
+      console.warn("Failed to save AI config to localStorage:", error);
     }
   }
 
@@ -98,7 +98,10 @@ class AIConfigManager {
     this.updateConfig({ enabled });
   }
 
-  public setFeature(feature: keyof AIConfig['features'], enabled: boolean): void {
+  public setFeature(
+    feature: keyof AIConfig["features"],
+    enabled: boolean,
+  ): void {
     this.updateConfig({
       features: {
         ...this.config.features,
@@ -111,7 +114,7 @@ class AIConfigManager {
     return this.config.enabled;
   }
 
-  public isFeatureEnabled(feature: keyof AIConfig['features']): boolean {
+  public isFeatureEnabled(feature: keyof AIConfig["features"]): boolean {
     return this.config.enabled && this.config.features[feature];
   }
 
@@ -123,7 +126,7 @@ class AIConfigManager {
   }
 
   private notifyListeners(): void {
-    this.listeners.forEach(listener => listener(this.getConfig()));
+    this.listeners.forEach((listener) => listener(this.getConfig()));
   }
 
   public resetToDefaults(): void {
@@ -148,26 +151,28 @@ export function useAIConfig() {
   return {
     config,
     isEnabled: aiConfigManager.isEnabled(),
-    isFeatureEnabled: (feature: keyof AIConfig['features']) => 
+    isFeatureEnabled: (feature: keyof AIConfig["features"]) =>
       aiConfigManager.isFeatureEnabled(feature),
     setEnabled: (enabled: boolean) => aiConfigManager.setEnabled(enabled),
-    setFeature: (feature: keyof AIConfig['features'], enabled: boolean) => 
+    setFeature: (feature: keyof AIConfig["features"], enabled: boolean) =>
       aiConfigManager.setFeature(feature, enabled),
-    updateConfig: (updates: Partial<AIConfig>) => aiConfigManager.updateConfig(updates),
+    updateConfig: (updates: Partial<AIConfig>) =>
+      aiConfigManager.updateConfig(updates),
     resetToDefaults: () => aiConfigManager.resetToDefaults(),
   };
 }
 
 // Utility function for conditional rendering
 export function withAIFeature<T>(
-  feature: keyof AIConfig['features'] | 'enabled', 
-  component: T, 
-  fallback: T | null = null
+  feature: keyof AIConfig["features"] | "enabled",
+  component: T,
+  fallback: T | null = null,
 ): T | null {
-  const isEnabled = feature === 'enabled' 
-    ? aiConfigManager.isEnabled()
-    : aiConfigManager.isFeatureEnabled(feature as keyof AIConfig['features']);
-  
+  const isEnabled =
+    feature === "enabled"
+      ? aiConfigManager.isEnabled()
+      : aiConfigManager.isFeatureEnabled(feature as keyof AIConfig["features"]);
+
   return isEnabled ? component : fallback;
 }
 

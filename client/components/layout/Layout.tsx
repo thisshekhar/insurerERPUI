@@ -30,7 +30,9 @@ const getNavigation = (isAIEnabled: boolean) => [
   { name: "Agents", href: "/agents", icon: UserCheck },
   { name: "Payments", href: "/payments", icon: DollarSign },
   { name: "Documents", href: "/documents", icon: FolderOpen },
-  ...(isAIEnabled ? [{ name: "AI Features", href: "/ai-features", icon: Sparkles }] : []),
+  ...(isAIEnabled
+    ? [{ name: "AI Features", href: "/ai-features", icon: Sparkles }]
+    : []),
 ];
 
 interface LayoutProps {
@@ -44,7 +46,7 @@ export default function Layout({ children }: LayoutProps) {
   const location = useLocation();
   const { isFeatureEnabled } = useAIConfig();
 
-  const navigation = getNavigation(isFeatureEnabled('navigation'));
+  const navigation = getNavigation(isFeatureEnabled("navigation"));
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
@@ -86,7 +88,7 @@ export default function Layout({ children }: LayoutProps) {
                 <span className="text-xl font-bold text-gray-900 dark:text-white">
                   InsurePro
                 </span>
-                {isFeatureEnabled('branding') && (
+                {isFeatureEnabled("branding") && (
                   <div className="flex items-center space-x-1 mt-0.5">
                     <Sparkles className="h-3 w-3 text-purple-500" />
                     <span className="text-xs text-purple-600 dark:text-purple-400 font-medium">
@@ -124,60 +126,61 @@ export default function Layout({ children }: LayoutProps) {
                     onClick={() => setSidebarOpen(false)}
                   >
                     <item.icon className="h-5 w-5" />
-                  <span>{item.name}</span>
-                  {item.name === "Dashboard" && isFeatureEnabled('branding') && (
-                    <Badge className="ml-auto bg-gradient-to-r from-purple-600 to-blue-600 text-white text-xs">
-                      AI
-                    </Badge>
-                  )}
+                    <span>{item.name}</span>
+                    {item.name === "Dashboard" &&
+                      isFeatureEnabled("branding") && (
+                        <Badge className="ml-auto bg-gradient-to-r from-purple-600 to-blue-600 text-white text-xs">
+                          AI
+                        </Badge>
+                      )}
                   </Link>
                 );
               })}
             </nav>
 
             {/* AI Features Highlight */}
-          {isFeatureEnabled('branding') && (
-            <div className="px-4 pb-4">
-              <div className="p-4 bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 rounded-lg border border-purple-200 dark:border-purple-800">
-                <div className="flex items-center space-x-2 mb-2">
-                  <Sparkles className="h-4 w-4 text-purple-600" />
-                  <span className="text-sm font-semibold text-purple-900 dark:text-purple-300">
-                    AI Features
-                  </span>
-                </div>
-                <p className="text-xs text-purple-700 dark:text-purple-400 mb-3">
-                  Experience next-gen insurance management with AI-powered
-                  insights, predictions, and automation.
-                </p>
-                <div className="space-y-1 text-xs">
-                  <div className="flex items-center space-x-2">
-                    <div className="h-1 w-1 bg-purple-500 rounded-full"></div>
-                    <span className="text-purple-600 dark:text-purple-400">
-                      Smart Risk Assessment
+            {isFeatureEnabled("branding") && (
+              <div className="px-4 pb-4">
+                <div className="p-4 bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 rounded-lg border border-purple-200 dark:border-purple-800">
+                  <div className="flex items-center space-x-2 mb-2">
+                    <Sparkles className="h-4 w-4 text-purple-600" />
+                    <span className="text-sm font-semibold text-purple-900 dark:text-purple-300">
+                      AI Features
                     </span>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="h-1 w-1 bg-purple-500 rounded-full"></div>
-                    <span className="text-purple-600 dark:text-purple-400">
-                      Fraud Detection
-                    </span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="h-1 w-1 bg-purple-500 rounded-full"></div>
-                    <span className="text-purple-600 dark:text-purple-400">
-                      Predictive Analytics
-                    </span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="h-1 w-1 bg-purple-500 rounded-full"></div>
-                    <span className="text-purple-600 dark:text-purple-400">
-                      Customer Insights
-                    </span>
+                  <p className="text-xs text-purple-700 dark:text-purple-400 mb-3">
+                    Experience next-gen insurance management with AI-powered
+                    insights, predictions, and automation.
+                  </p>
+                  <div className="space-y-1 text-xs">
+                    <div className="flex items-center space-x-2">
+                      <div className="h-1 w-1 bg-purple-500 rounded-full"></div>
+                      <span className="text-purple-600 dark:text-purple-400">
+                        Smart Risk Assessment
+                      </span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <div className="h-1 w-1 bg-purple-500 rounded-full"></div>
+                      <span className="text-purple-600 dark:text-purple-400">
+                        Fraud Detection
+                      </span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <div className="h-1 w-1 bg-purple-500 rounded-full"></div>
+                      <span className="text-purple-600 dark:text-purple-400">
+                        Predictive Analytics
+                      </span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <div className="h-1 w-1 bg-purple-500 rounded-full"></div>
+                      <span className="text-purple-600 dark:text-purple-400">
+                        Customer Insights
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
           </div>
 
           {/* Settings - Fixed at bottom */}
@@ -195,10 +198,12 @@ export default function Layout({ children }: LayoutProps) {
       </div>
 
       {/* Main content */}
-      <div className={cn(
-        "transition-all duration-300 ease-in-out",
-        sidebarOpen ? "lg:pl-64" : "lg:pl-0"
-      )}>
+      <div
+        className={cn(
+          "transition-all duration-300 ease-in-out",
+          sidebarOpen ? "lg:pl-64" : "lg:pl-0",
+        )}
+      >
         {/* Top navbar */}
         <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
           <div className="flex h-16 items-center justify-between px-4 sm:px-6">
@@ -213,7 +218,7 @@ export default function Layout({ children }: LayoutProps) {
               <h1 className="text-lg font-semibold text-gray-900 dark:text-white">
                 Insurance Broker ERP
               </h1>
-              {isFeatureEnabled('branding') && (
+              {isFeatureEnabled("branding") && (
                 <Badge className="bg-gradient-to-r from-purple-600 to-blue-600 text-white">
                   AI-Enhanced
                 </Badge>
@@ -263,7 +268,7 @@ export default function Layout({ children }: LayoutProps) {
       </div>
 
       {/* AI Assistant */}
-      {isFeatureEnabled('assistant') && <AIAssistant />}
+      {isFeatureEnabled("assistant") && <AIAssistant />}
     </div>
   );
 }

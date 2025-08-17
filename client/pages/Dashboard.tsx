@@ -222,124 +222,126 @@ export default function Dashboard() {
       </div>
 
       {/* AI Insights Section */}
-      {isFeatureEnabled('insights') && (
+      {isFeatureEnabled("insights") && (
         <>
           <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/10 dark:to-blue-900/10 rounded-lg p-6 border border-purple-200 dark:border-purple-800">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center space-x-3">
-            <div className="h-10 w-10 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
-              <Brain className="h-5 w-5 text-white" />
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center space-x-3">
+                <div className="h-10 w-10 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
+                  <Brain className="h-5 w-5 text-white" />
+                </div>
+                <div>
+                  <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                    AI Intelligence Center
+                  </h2>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    Live insights powered by machine learning
+                  </p>
+                </div>
+              </div>
+              <Badge className="bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">
+                LIVE
+              </Badge>
             </div>
-            <div>
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-                AI Intelligence Center
-              </h2>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Live insights powered by machine learning
-              </p>
+
+            {/* AI Metrics Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
+              <Card className="bg-white/50 dark:bg-gray-800/50 backdrop-blur">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-muted-foreground">
+                        Risk Score
+                      </p>
+                      <p className="text-2xl font-bold text-green-600">
+                        {aiMetrics.riskScore}
+                      </p>
+                    </div>
+                    <Shield className="h-8 w-8 text-green-600" />
+                  </div>
+                  <Progress value={aiMetrics.riskScore} className="mt-2 h-2" />
+                </CardContent>
+              </Card>
+
+              <Card className="bg-white/50 dark:bg-gray-800/50 backdrop-blur">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-muted-foreground">
+                        Fraud Detected
+                      </p>
+                      <p className="text-2xl font-bold text-red-600">
+                        {aiMetrics.fraudDetections}
+                      </p>
+                    </div>
+                    <AlertTriangle className="h-8 w-8 text-red-600" />
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-2">
+                    This month
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-white/50 dark:bg-gray-800/50 backdrop-blur">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-muted-foreground">
+                        Churn Risk
+                      </p>
+                      <p className="text-2xl font-bold text-orange-600">
+                        {aiMetrics.churnPredictions}
+                      </p>
+                    </div>
+                    <Target className="h-8 w-8 text-orange-600" />
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-2">
+                    Customers at risk
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-white/50 dark:bg-gray-800/50 backdrop-blur">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-muted-foreground">
+                        Revenue Boost
+                      </p>
+                      <p className="text-2xl font-bold text-purple-600">
+                        +{aiMetrics.revenueOptimization}%
+                      </p>
+                    </div>
+                    <Zap className="h-8 w-8 text-purple-600" />
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-2">
+                    AI optimization
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-white/50 dark:bg-gray-800/50 backdrop-blur">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-muted-foreground">
+                        Satisfaction
+                      </p>
+                      <p className="text-2xl font-bold text-blue-600">
+                        {aiMetrics.customerSatisfactionTrend}%
+                      </p>
+                    </div>
+                    <Star className="h-8 w-8 text-blue-600" />
+                  </div>
+                  <p className="text-xs text-green-600 mt-2">+2.3% this week</p>
+                </CardContent>
+              </Card>
             </div>
-          </div>
-          <Badge className="bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">
-            LIVE
-          </Badge>
-        </div>
 
-        {/* AI Metrics Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
-          <Card className="bg-white/50 dark:bg-gray-800/50 backdrop-blur">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">
-                    Risk Score
-                  </p>
-                  <p className="text-2xl font-bold text-green-600">
-                    {aiMetrics.riskScore}
-                  </p>
-                </div>
-                <Shield className="h-8 w-8 text-green-600" />
-              </div>
-              <Progress value={aiMetrics.riskScore} className="mt-2 h-2" />
-            </CardContent>
-          </Card>
-
-          <Card className="bg-white/50 dark:bg-gray-800/50 backdrop-blur">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">
-                    Fraud Detected
-                  </p>
-                  <p className="text-2xl font-bold text-red-600">
-                    {aiMetrics.fraudDetections}
-                  </p>
-                </div>
-                <AlertTriangle className="h-8 w-8 text-red-600" />
-              </div>
-              <p className="text-xs text-muted-foreground mt-2">This month</p>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-white/50 dark:bg-gray-800/50 backdrop-blur">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">
-                    Churn Risk
-                  </p>
-                  <p className="text-2xl font-bold text-orange-600">
-                    {aiMetrics.churnPredictions}
-                  </p>
-                </div>
-                <Target className="h-8 w-8 text-orange-600" />
-              </div>
-              <p className="text-xs text-muted-foreground mt-2">
-                Customers at risk
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-white/50 dark:bg-gray-800/50 backdrop-blur">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">
-                    Revenue Boost
-                  </p>
-                  <p className="text-2xl font-bold text-purple-600">
-                    +{aiMetrics.revenueOptimization}%
-                  </p>
-                </div>
-                <Zap className="h-8 w-8 text-purple-600" />
-              </div>
-              <p className="text-xs text-muted-foreground mt-2">
-                AI optimization
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-white/50 dark:bg-gray-800/50 backdrop-blur">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">
-                    Satisfaction
-                  </p>
-                  <p className="text-2xl font-bold text-blue-600">
-                    {aiMetrics.customerSatisfactionTrend}%
-                  </p>
-                </div>
-                <Star className="h-8 w-8 text-blue-600" />
-              </div>
-              <p className="text-xs text-green-600 mt-2">+2.3% this week</p>
-            </CardContent>
-          </Card>
-        </div>
-
-        <Button className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white">
-          <Brain className="h-4 w-4 mr-2" />
-          Open AI Assistant
-        </Button>
+            <Button className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white">
+              <Brain className="h-4 w-4 mr-2" />
+              Open AI Assistant
+            </Button>
           </div>
 
           {/* AI Insights Component */}
@@ -603,7 +605,7 @@ export default function Dashboard() {
       </div>
 
       {/* Full AI Insights Panel */}
-      {isFeatureEnabled('insights') && <AIInsights />}
+      {isFeatureEnabled("insights") && <AIInsights />}
     </div>
   );
 }

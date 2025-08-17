@@ -29,12 +29,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -65,11 +60,15 @@ interface PolicyRidersManagerProps {
 }
 
 const categoryColors = {
-  Protection: "bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400",
-  Health: "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
-  Savings: "bg-purple-100 text-purple-800 dark:bg-purple-900/20 dark:text-purple-400",
+  Protection:
+    "bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400",
+  Health:
+    "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
+  Savings:
+    "bg-purple-100 text-purple-800 dark:bg-purple-900/20 dark:text-purple-400",
   Accident: "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400",
-  Premium: "bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400",
+  Premium:
+    "bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400",
 };
 
 const categoryIcons = {
@@ -83,13 +82,13 @@ const categoryIcons = {
 export default function PolicyRidersManager({
   policy,
   customerAge = 35,
-  onRidersUpdate
+  onRidersUpdate,
 }: PolicyRidersManagerProps) {
   const [currentRiders, setCurrentRiders] = useState<PolicyRider[]>(
-    getRidersByPolicy(policy.id)
+    getRidersByPolicy(policy.id),
   );
   const [availableRiders] = useState<Rider[]>(
-    getRidersByPolicyType(policy.policyType)
+    getRidersByPolicyType(policy.policyType),
   );
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showDetailsDialog, setShowDetailsDialog] = useState(false);
@@ -110,14 +109,14 @@ export default function PolicyRidersManager({
   // Error boundary wrapper for the component
   useEffect(() => {
     const handleError = (event: ErrorEvent) => {
-      if (event.error?.message?.includes('ResizeObserver')) {
+      if (event.error?.message?.includes("ResizeObserver")) {
         event.preventDefault();
         return false;
       }
     };
 
-    window.addEventListener('error', handleError);
-    return () => window.removeEventListener('error', handleError);
+    window.addEventListener("error", handleError);
+    return () => window.removeEventListener("error", handleError);
   }, []);
 
   const formatCurrency = (amount: number) => {
@@ -135,7 +134,7 @@ export default function PolicyRidersManager({
     }
 
     // Check if rider is already added
-    const existingRider = currentRiders.find(r => r.id === selectedRider.id);
+    const existingRider = currentRiders.find((r) => r.id === selectedRider.id);
     if (existingRider) {
       toast.error("This rider is already added to the policy");
       return;
@@ -143,7 +142,9 @@ export default function PolicyRidersManager({
 
     // Check eligibility
     if (!isRiderEligible(selectedRider, customerAge)) {
-      toast.error("Customer is not eligible for this rider based on age requirements");
+      toast.error(
+        "Customer is not eligible for this rider based on age requirements",
+      );
       return;
     }
 
@@ -161,7 +162,7 @@ export default function PolicyRidersManager({
     const updatedRiders = [...currentRiders, newPolicyRider];
     setCurrentRiders(updatedRiders);
     onRidersUpdate?.(updatedRiders);
-    
+
     setShowAddDialog(false);
     setSelectedRider(null);
     setCustomTerms("");
@@ -170,15 +171,15 @@ export default function PolicyRidersManager({
   };
 
   const handleRemoveRider = (riderId: string) => {
-    const updatedRiders = currentRiders.filter(r => r.id !== riderId);
+    const updatedRiders = currentRiders.filter((r) => r.id !== riderId);
     setCurrentRiders(updatedRiders);
     onRidersUpdate?.(updatedRiders);
     toast.success("Rider removed successfully");
   };
 
   const handleActivateRider = (riderId: string) => {
-    const updatedRiders = currentRiders.map(r => 
-      r.id === riderId ? { ...r, status: "Active" as const } : r
+    const updatedRiders = currentRiders.map((r) =>
+      r.id === riderId ? { ...r, status: "Active" as const } : r,
     );
     setCurrentRiders(updatedRiders);
     onRidersUpdate?.(updatedRiders);
@@ -190,18 +191,22 @@ export default function PolicyRidersManager({
     setShowDetailsDialog(true);
   };
 
-  const eligibleRiders = availableRiders.filter(rider => 
-    isRiderEligible(rider, customerAge) && 
-    !currentRiders.some(cr => cr.id === rider.id)
+  const eligibleRiders = availableRiders.filter(
+    (rider) =>
+      isRiderEligible(rider, customerAge) &&
+      !currentRiders.some((cr) => cr.id === rider.id),
   );
 
-  const ridersByCategory = eligibleRiders.reduce((acc, rider) => {
-    if (!acc[rider.category]) {
-      acc[rider.category] = [];
-    }
-    acc[rider.category].push(rider);
-    return acc;
-  }, {} as Record<string, Rider[]>);
+  const ridersByCategory = eligibleRiders.reduce(
+    (acc, rider) => {
+      if (!acc[rider.category]) {
+        acc[rider.category] = [];
+      }
+      acc[rider.category].push(rider);
+      return acc;
+    },
+    {} as Record<string, Rider[]>,
+  );
 
   const totalRiderPremium = calculateRiderPremium(currentRiders);
 
@@ -215,7 +220,7 @@ export default function PolicyRidersManager({
             Enhance your policy with additional coverage options
           </p>
         </div>
-        <Button 
+        <Button
           onClick={() => setShowAddDialog(true)}
           className="flex items-center space-x-2"
           disabled={eligibleRiders.length === 0}
@@ -233,7 +238,7 @@ export default function PolicyRidersManager({
               <div>
                 <p className="text-sm text-muted-foreground">Active Riders</p>
                 <p className="text-2xl font-bold">
-                  {currentRiders.filter(r => r.status === "Active").length}
+                  {currentRiders.filter((r) => r.status === "Active").length}
                 </p>
               </div>
               <Shield className="h-8 w-8 text-blue-600" />
@@ -244,8 +249,12 @@ export default function PolicyRidersManager({
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">Total Rider Premium</p>
-                <p className="text-2xl font-bold">{formatCurrency(totalRiderPremium)}</p>
+                <p className="text-sm text-muted-foreground">
+                  Total Rider Premium
+                </p>
+                <p className="text-2xl font-bold">
+                  {formatCurrency(totalRiderPremium)}
+                </p>
               </div>
               <DollarSign className="h-8 w-8 text-green-600" />
             </div>
@@ -255,7 +264,9 @@ export default function PolicyRidersManager({
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">Available Riders</p>
+                <p className="text-sm text-muted-foreground">
+                  Available Riders
+                </p>
                 <p className="text-2xl font-bold">{eligibleRiders.length}</p>
               </div>
               <Plus className="h-8 w-8 text-purple-600" />
@@ -269,9 +280,7 @@ export default function PolicyRidersManager({
         <Card>
           <CardHeader>
             <CardTitle>Current Riders</CardTitle>
-            <CardDescription>
-              Riders attached to this policy
-            </CardDescription>
+            <CardDescription>Riders attached to this policy</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -293,7 +302,11 @@ export default function PolicyRidersManager({
                             {rider.category}
                           </Badge>
                           <Badge
-                            variant={rider.status === "Active" ? "default" : "secondary"}
+                            variant={
+                              rider.status === "Active"
+                                ? "default"
+                                : "secondary"
+                            }
                           >
                             {rider.status}
                           </Badge>
@@ -302,7 +315,9 @@ export default function PolicyRidersManager({
                           {rider.description}
                         </p>
                         <div className="flex items-center space-x-4 mt-2 text-sm">
-                          <span>Coverage: {formatCurrency(rider.coverage)}</span>
+                          <span>
+                            Coverage: {formatCurrency(rider.coverage)}
+                          </span>
                           <span>Premium: {formatCurrency(rider.premium)}</span>
                           {rider.discountPercentage && (
                             <span className="text-green-600">
@@ -355,7 +370,10 @@ export default function PolicyRidersManager({
             </DialogDescription>
           </DialogHeader>
 
-          <Tabs defaultValue={Object.keys(ridersByCategory)[0]} className="w-full">
+          <Tabs
+            defaultValue={Object.keys(ridersByCategory)[0]}
+            className="w-full"
+          >
             <TabsList className="grid w-full grid-cols-5">
               {Object.keys(ridersByCategory).map((category) => (
                 <TabsTrigger key={category} value={category}>
@@ -365,7 +383,11 @@ export default function PolicyRidersManager({
             </TabsList>
 
             {Object.entries(ridersByCategory).map(([category, riders]) => (
-              <TabsContent key={category} value={category} className="space-y-4">
+              <TabsContent
+                key={category}
+                value={category}
+                className="space-y-4"
+              >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {riders.map((rider) => {
                     const CategoryIcon = categoryIcons[rider.category];
@@ -375,7 +397,7 @@ export default function PolicyRidersManager({
                         key={rider.id}
                         className={cn(
                           "cursor-pointer transition-colors",
-                          isSelected && "ring-2 ring-blue-500 border-blue-500"
+                          isSelected && "ring-2 ring-blue-500 border-blue-500",
                         )}
                         onClick={() => setSelectedRider(rider)}
                       >
@@ -441,7 +463,9 @@ export default function PolicyRidersManager({
                     min="0"
                     max="50"
                     value={discountPercentage}
-                    onChange={(e) => setDiscountPercentage(Number(e.target.value))}
+                    onChange={(e) =>
+                      setDiscountPercentage(Number(e.target.value))
+                    }
                     placeholder="0"
                   />
                   <p className="text-xs text-muted-foreground mt-1">
@@ -572,9 +596,7 @@ export default function PolicyRidersManager({
           )}
 
           <DialogFooter>
-            <Button onClick={() => setShowDetailsDialog(false)}>
-              Close
-            </Button>
+            <Button onClick={() => setShowDetailsDialog(false)}>Close</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

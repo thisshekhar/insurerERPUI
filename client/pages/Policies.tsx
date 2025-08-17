@@ -43,12 +43,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import {
   mockPolicies,
@@ -66,7 +61,7 @@ import {
   getRidersByPolicyType,
   getRiderById,
   calculateRiderPremium,
-  isRiderEligible
+  isRiderEligible,
 } from "@/lib/rider-data";
 
 const statusColors = {
@@ -118,14 +113,14 @@ export default function Policies() {
   // Handle ResizeObserver errors
   useEffect(() => {
     const handleError = (event: ErrorEvent) => {
-      if (event.error?.message?.includes('ResizeObserver')) {
+      if (event.error?.message?.includes("ResizeObserver")) {
         event.preventDefault();
         return false;
       }
     };
 
-    window.addEventListener('error', handleError);
-    return () => window.removeEventListener('error', handleError);
+    window.addEventListener("error", handleError);
+    return () => window.removeEventListener("error", handleError);
   }, []);
 
   const formatCurrency = (amount: number) => {
@@ -171,28 +166,34 @@ export default function Policies() {
       (c) => `${c.firstName} ${c.lastName}` === formData.customerName,
     );
     // Create riders from selected rider IDs
-    const policyRiders = selectedRiders.map(riderId => {
-      const rider = getRiderById(riderId);
-      if (!rider) return null;
+    const policyRiders = selectedRiders
+      .map((riderId) => {
+        const rider = getRiderById(riderId);
+        if (!rider) return null;
 
-      return {
-        id: rider.id,
-        name: rider.name,
-        type: rider.type,
-        category: rider.category,
-        description: rider.description,
-        coverage: rider.coverage,
-        premium: rider.premium,
-        deductible: rider.deductible,
-        status: "Active" as const,
-        addedDate: new Date().toISOString().split("T")[0],
-        addedBy: formData.agentName || "Mike Chen",
-        effectiveDate: formData.effectiveDate || new Date().toISOString().split("T")[0],
-      };
-    }).filter(Boolean);
+        return {
+          id: rider.id,
+          name: rider.name,
+          type: rider.type,
+          category: rider.category,
+          description: rider.description,
+          coverage: rider.coverage,
+          premium: rider.premium,
+          deductible: rider.deductible,
+          status: "Active" as const,
+          addedDate: new Date().toISOString().split("T")[0],
+          addedBy: formData.agentName || "Mike Chen",
+          effectiveDate:
+            formData.effectiveDate || new Date().toISOString().split("T")[0],
+        };
+      })
+      .filter(Boolean);
 
     // Calculate total premium including riders
-    const ridersPremium = policyRiders.reduce((total, rider) => total + (rider?.premium || 0), 0);
+    const ridersPremium = policyRiders.reduce(
+      (total, rider) => total + (rider?.premium || 0),
+      0,
+    );
     const totalPremium = (formData.premiumAmount || 0) + ridersPremium;
 
     const newPolicy: Policy = {
@@ -557,7 +558,7 @@ export default function Policies() {
                   selectedRiders.reduce((total, riderId) => {
                     const rider = getRiderById(riderId);
                     return total + (rider?.premium || 0);
-                  }, 0)
+                  }, 0),
                 )}
               </span>
             </div>
@@ -566,10 +567,10 @@ export default function Policies() {
               <span>
                 {formatCurrency(
                   (formData.premiumAmount || 0) +
-                  selectedRiders.reduce((total, riderId) => {
-                    const rider = getRiderById(riderId);
-                    return total + (rider?.premium || 0);
-                  }, 0)
+                    selectedRiders.reduce((total, riderId) => {
+                      const rider = getRiderById(riderId);
+                      return total + (rider?.premium || 0);
+                    }, 0),
                 )}
               </span>
             </div>
@@ -687,12 +688,16 @@ export default function Policies() {
       {formData.policyType && (
         <div className="md:col-span-2">
           <div className="border-t pt-6">
-            <h3 className="text-lg font-semibold mb-4">Add-on Riders & Coverage</h3>
+            <h3 className="text-lg font-semibold mb-4">
+              Add-on Riders & Coverage
+            </h3>
             <p className="text-sm text-muted-foreground mb-4">
               Select additional coverage options for this policy
             </p>
             {(() => {
-              const availableRiders = getRidersByPolicyType(formData.policyType);
+              const availableRiders = getRidersByPolicyType(
+                formData.policyType,
+              );
               const customerAge = 35; // Default age, could be calculated from customer data
 
               if (availableRiders.length === 0) {
@@ -704,18 +709,24 @@ export default function Policies() {
               }
 
               // Group riders by category
-              const ridersByCategory = availableRiders.reduce((acc, rider) => {
-                if (!acc[rider.category]) {
-                  acc[rider.category] = [];
-                }
-                acc[rider.category].push(rider);
-                return acc;
-              }, {} as Record<string, typeof availableRiders>);
+              const ridersByCategory = availableRiders.reduce(
+                (acc, rider) => {
+                  if (!acc[rider.category]) {
+                    acc[rider.category] = [];
+                  }
+                  acc[rider.category].push(rider);
+                  return acc;
+                },
+                {} as Record<string, typeof availableRiders>,
+              );
 
-              const selectedRidersPremium = selectedRiders.reduce((total, riderId) => {
-                const rider = getRiderById(riderId);
-                return total + (rider?.premium || 0);
-              }, 0);
+              const selectedRidersPremium = selectedRiders.reduce(
+                (total, riderId) => {
+                  const rider = getRiderById(riderId);
+                  return total + (rider?.premium || 0);
+                },
+                0,
+              );
 
               return (
                 <div className="space-y-6">
@@ -727,72 +738,101 @@ export default function Policies() {
                           Selected Riders: {selectedRiders.length}
                         </span>
                         <span className="font-medium">
-                          Additional Premium: {formatCurrency(selectedRidersPremium)}
+                          Additional Premium:{" "}
+                          {formatCurrency(selectedRidersPremium)}
                         </span>
                       </div>
                     </div>
                   )}
 
                   {/* Riders by Category */}
-                  {Object.entries(ridersByCategory).map(([category, riders]) => (
-                    <div key={category}>
-                      <h4 className="font-medium mb-3 text-primary">{category} Riders</h4>
-                      <div className="grid grid-cols-1 gap-3">
-                        {riders.map((rider) => {
-                          const isEligible = isRiderEligible(rider, customerAge);
-                          const isSelected = selectedRiders.includes(rider.id);
+                  {Object.entries(ridersByCategory).map(
+                    ([category, riders]) => (
+                      <div key={category}>
+                        <h4 className="font-medium mb-3 text-primary">
+                          {category} Riders
+                        </h4>
+                        <div className="grid grid-cols-1 gap-3">
+                          {riders.map((rider) => {
+                            const isEligible = isRiderEligible(
+                              rider,
+                              customerAge,
+                            );
+                            const isSelected = selectedRiders.includes(
+                              rider.id,
+                            );
 
-                          return (
-                            <div
-                              key={rider.id}
-                              className={cn(
-                                "flex items-start space-x-3 p-4 border rounded-lg",
-                                isEligible
-                                  ? "border-gray-200 dark:border-gray-700"
-                                  : "border-gray-100 dark:border-gray-800 opacity-50",
-                                isSelected && "bg-blue-50 dark:bg-blue-900/20 border-blue-200"
-                              )}
-                            >
-                              <Checkbox
-                                checked={isSelected}
-                                disabled={!isEligible}
-                                onCheckedChange={(checked) => {
-                                  if (checked) {
-                                    setSelectedRiders([...selectedRiders, rider.id]);
-                                  } else {
-                                    setSelectedRiders(selectedRiders.filter(id => id !== rider.id));
-                                  }
-                                }}
-                              />
-                              <div className="flex-1 min-w-0">
-                                <div className="flex items-center justify-between mb-1">
-                                  <h5 className="font-medium">{rider.name}</h5>
-                                  <span className="text-sm font-medium">
-                                    {formatCurrency(rider.premium)}/year
-                                  </span>
-                                </div>
-                                <p className="text-sm text-muted-foreground mb-2">
-                                  {rider.description}
-                                </p>
-                                <div className="flex items-center space-x-4 text-xs text-muted-foreground">
-                                  <span>Coverage: {formatCurrency(rider.coverage)}</span>
-                                  {rider.deductible && (
-                                    <span>Deductible: {formatCurrency(rider.deductible)}</span>
-                                  )}
-                                  {rider.waitingPeriod && (
-                                    <span>Waiting: {rider.waitingPeriod} months</span>
-                                  )}
-                                  {!isEligible && (
-                                    <span className="text-red-500">Age restrictions apply</span>
-                                  )}
+                            return (
+                              <div
+                                key={rider.id}
+                                className={cn(
+                                  "flex items-start space-x-3 p-4 border rounded-lg",
+                                  isEligible
+                                    ? "border-gray-200 dark:border-gray-700"
+                                    : "border-gray-100 dark:border-gray-800 opacity-50",
+                                  isSelected &&
+                                    "bg-blue-50 dark:bg-blue-900/20 border-blue-200",
+                                )}
+                              >
+                                <Checkbox
+                                  checked={isSelected}
+                                  disabled={!isEligible}
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      setSelectedRiders([
+                                        ...selectedRiders,
+                                        rider.id,
+                                      ]);
+                                    } else {
+                                      setSelectedRiders(
+                                        selectedRiders.filter(
+                                          (id) => id !== rider.id,
+                                        ),
+                                      );
+                                    }
+                                  }}
+                                />
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center justify-between mb-1">
+                                    <h5 className="font-medium">
+                                      {rider.name}
+                                    </h5>
+                                    <span className="text-sm font-medium">
+                                      {formatCurrency(rider.premium)}/year
+                                    </span>
+                                  </div>
+                                  <p className="text-sm text-muted-foreground mb-2">
+                                    {rider.description}
+                                  </p>
+                                  <div className="flex items-center space-x-4 text-xs text-muted-foreground">
+                                    <span>
+                                      Coverage: {formatCurrency(rider.coverage)}
+                                    </span>
+                                    {rider.deductible && (
+                                      <span>
+                                        Deductible:{" "}
+                                        {formatCurrency(rider.deductible)}
+                                      </span>
+                                    )}
+                                    {rider.waitingPeriod && (
+                                      <span>
+                                        Waiting: {rider.waitingPeriod} months
+                                      </span>
+                                    )}
+                                    {!isEligible && (
+                                      <span className="text-red-500">
+                                        Age restrictions apply
+                                      </span>
+                                    )}
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          );
-                        })}
+                            );
+                          })}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ),
+                  )}
                 </div>
               );
             })()}
@@ -1005,244 +1045,252 @@ export default function Policies() {
             <TabsContent value="overview" className="space-y-6">
               {/* Basic Information */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold">Policy Information</h3>
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      Policy Number:
-                    </span>
-                    <span className="font-medium">
-                      {selectedPolicy.policyNumber}
-                    </span>
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold">Policy Information</h3>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">
+                        Policy Number:
+                      </span>
+                      <span className="font-medium">
+                        {selectedPolicy.policyNumber}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">
+                        Customer:
+                      </span>
+                      <span>{selectedPolicy.customerName}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">
+                        Type:
+                      </span>
+                      <span>{selectedPolicy.policyType}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">
+                        Coverage:
+                      </span>
+                      <Badge variant="outline">
+                        {selectedPolicy.coverageType}
+                      </Badge>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">
+                        Status:
+                      </span>
+                      <Badge className={statusColors[selectedPolicy.status]}>
+                        {selectedPolicy.status}
+                      </Badge>
+                    </div>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      Customer:
-                    </span>
-                    <span>{selectedPolicy.customerName}</span>
+                </div>
+
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold">Financial Details</h3>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">
+                        Premium:
+                      </span>
+                      <span className="font-medium">
+                        {formatCurrency(selectedPolicy.premiumAmount)}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">
+                        Frequency:
+                      </span>
+                      <span>{selectedPolicy.premiumFrequency}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">
+                        Coverage Amount:
+                      </span>
+                      <span className="font-medium">
+                        {formatCurrency(selectedPolicy.coverageAmount)}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">
+                        Deductible:
+                      </span>
+                      <span>{formatCurrency(selectedPolicy.deductible)}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">
+                        Commission:
+                      </span>
+                      <span>{selectedPolicy.commissionRate}%</span>
+                    </div>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Type:</span>
-                    <span>{selectedPolicy.policyType}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      Coverage:
-                    </span>
-                    <Badge variant="outline">
-                      {selectedPolicy.coverageType}
-                    </Badge>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      Status:
-                    </span>
-                    <Badge className={statusColors[selectedPolicy.status]}>
-                      {selectedPolicy.status}
-                    </Badge>
+                </div>
+
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold">Important Dates</h3>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">
+                        Issue Date:
+                      </span>
+                      <span>{formatDate(selectedPolicy.issueDate)}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">
+                        Effective:
+                      </span>
+                      <span>{formatDate(selectedPolicy.effectiveDate)}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">
+                        Expires:
+                      </span>
+                      <span>{formatDate(selectedPolicy.expiryDate)}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">
+                        Next Renewal:
+                      </span>
+                      <span>{formatDate(selectedPolicy.renewalDate)}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">
+                        Risk Level:
+                      </span>
+                      <Badge
+                        className={cn(
+                          selectedPolicy.riskAssessment === "Low" &&
+                            "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
+                          selectedPolicy.riskAssessment === "Medium" &&
+                            "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400",
+                          selectedPolicy.riskAssessment === "High" &&
+                            "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400",
+                        )}
+                      >
+                        {selectedPolicy.riskAssessment}
+                      </Badge>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold">Financial Details</h3>
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      Premium:
-                    </span>
-                    <span className="font-medium">
-                      {formatCurrency(selectedPolicy.premiumAmount)}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      Frequency:
-                    </span>
-                    <span>{selectedPolicy.premiumFrequency}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      Coverage Amount:
-                    </span>
-                    <span className="font-medium">
-                      {formatCurrency(selectedPolicy.coverageAmount)}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      Deductible:
-                    </span>
-                    <span>{formatCurrency(selectedPolicy.deductible)}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      Commission:
-                    </span>
-                    <span>{selectedPolicy.commissionRate}%</span>
+              {/* Coverage Details */}
+              {selectedPolicy.coverageDetails.length > 0 && (
+                <div>
+                  <h3 className="text-lg font-semibold mb-4">
+                    Coverage Details
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {selectedPolicy.coverageDetails.map((coverage, index) => (
+                      <Card key={index}>
+                        <CardContent className="p-4">
+                          <div className="flex items-center justify-between mb-2">
+                            <h4 className="font-medium">{coverage.type}</h4>
+                            <Badge
+                              variant={
+                                coverage.covered ? "default" : "secondary"
+                              }
+                            >
+                              {coverage.covered ? "Covered" : "Not Covered"}
+                            </Badge>
+                          </div>
+                          <p className="text-sm text-muted-foreground mb-2">
+                            {coverage.description}
+                          </p>
+                          <div className="flex justify-between text-sm">
+                            <span>Limit: {formatCurrency(coverage.limit)}</span>
+                            <span>
+                              Deductible: {formatCurrency(coverage.deductible)}
+                            </span>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
                   </div>
                 </div>
-              </div>
+              )}
 
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold">Important Dates</h3>
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      Issue Date:
-                    </span>
-                    <span>{formatDate(selectedPolicy.issueDate)}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      Effective:
-                    </span>
-                    <span>{formatDate(selectedPolicy.effectiveDate)}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      Expires:
-                    </span>
-                    <span>{formatDate(selectedPolicy.expiryDate)}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      Next Renewal:
-                    </span>
-                    <span>{formatDate(selectedPolicy.renewalDate)}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      Risk Level:
-                    </span>
-                    <Badge
-                      className={cn(
-                        selectedPolicy.riskAssessment === "Low" &&
-                          "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
-                        selectedPolicy.riskAssessment === "Medium" &&
-                          "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400",
-                        selectedPolicy.riskAssessment === "High" &&
-                          "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400",
-                      )}
-                    >
-                      {selectedPolicy.riskAssessment}
-                    </Badge>
+              {/* Beneficiaries */}
+              {selectedPolicy.beneficiaries.length > 0 && (
+                <div>
+                  <h3 className="text-lg font-semibold mb-4">Beneficiaries</h3>
+                  <div className="space-y-3">
+                    {selectedPolicy.beneficiaries.map((beneficiary) => (
+                      <div
+                        key={beneficiary.id}
+                        className="flex items-center justify-between p-4 border rounded-lg dark:border-gray-700"
+                      >
+                        <div>
+                          <div className="font-medium">{beneficiary.name}</div>
+                          <div className="text-sm text-muted-foreground">
+                            {beneficiary.relationship}
+                          </div>
+                          <div className="text-sm text-muted-foreground">
+                            {beneficiary.contactInfo.email}
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <div className="font-medium">
+                            {beneficiary.percentage}%
+                          </div>
+                          <div className="text-sm text-muted-foreground">
+                            {beneficiary.contactInfo.phone}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              </div>
-            </div>
+              )}
 
-            {/* Coverage Details */}
-            {selectedPolicy.coverageDetails.length > 0 && (
-              <div>
-                <h3 className="text-lg font-semibold mb-4">Coverage Details</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {selectedPolicy.coverageDetails.map((coverage, index) => (
-                    <Card key={index}>
-                      <CardContent className="p-4">
+              {/* Renewal History */}
+              {selectedPolicy.renewalHistory.length > 0 && (
+                <div>
+                  <h3 className="text-lg font-semibold mb-4">
+                    Renewal History
+                  </h3>
+                  <div className="space-y-3">
+                    {selectedPolicy.renewalHistory.map((renewal, index) => (
+                      <div
+                        key={index}
+                        className="p-4 border rounded-lg dark:border-gray-700"
+                      >
                         <div className="flex items-center justify-between mb-2">
-                          <h4 className="font-medium">{coverage.type}</h4>
+                          <div className="font-medium">
+                            Renewed on {formatDate(renewal.renewalDate)}
+                          </div>
                           <Badge
-                            variant={coverage.covered ? "default" : "secondary"}
+                            className={
+                              renewal.status === "Completed"
+                                ? statusColors.Active
+                                : statusColors.Pending
+                            }
                           >
-                            {coverage.covered ? "Covered" : "Not Covered"}
+                            {renewal.status}
                           </Badge>
                         </div>
-                        <p className="text-sm text-muted-foreground mb-2">
-                          {coverage.description}
-                        </p>
-                        <div className="flex justify-between text-sm">
-                          <span>Limit: {formatCurrency(coverage.limit)}</span>
+                        <div className="flex justify-between text-sm text-muted-foreground mb-2">
                           <span>
-                            Deductible: {formatCurrency(coverage.deductible)}
+                            Previous: {formatCurrency(renewal.previousPremium)}
                           </span>
+                          <span>New: {formatCurrency(renewal.newPremium)}</span>
                         </div>
-                      </CardContent>
-                    </Card>
-                  ))}
+                        {renewal.changes.length > 0 && (
+                          <div className="text-sm">
+                            <div className="font-medium mb-1">Changes:</div>
+                            <ul className="list-disc list-inside text-muted-foreground">
+                              {renewal.changes.map((change, i) => (
+                                <li key={i}>{change}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
-
-            {/* Beneficiaries */}
-            {selectedPolicy.beneficiaries.length > 0 && (
-              <div>
-                <h3 className="text-lg font-semibold mb-4">Beneficiaries</h3>
-                <div className="space-y-3">
-                  {selectedPolicy.beneficiaries.map((beneficiary) => (
-                    <div
-                      key={beneficiary.id}
-                      className="flex items-center justify-between p-4 border rounded-lg dark:border-gray-700"
-                    >
-                      <div>
-                        <div className="font-medium">{beneficiary.name}</div>
-                        <div className="text-sm text-muted-foreground">
-                          {beneficiary.relationship}
-                        </div>
-                        <div className="text-sm text-muted-foreground">
-                          {beneficiary.contactInfo.email}
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <div className="font-medium">
-                          {beneficiary.percentage}%
-                        </div>
-                        <div className="text-sm text-muted-foreground">
-                          {beneficiary.contactInfo.phone}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Renewal History */}
-            {selectedPolicy.renewalHistory.length > 0 && (
-              <div>
-                <h3 className="text-lg font-semibold mb-4">Renewal History</h3>
-                <div className="space-y-3">
-                  {selectedPolicy.renewalHistory.map((renewal, index) => (
-                    <div
-                      key={index}
-                      className="p-4 border rounded-lg dark:border-gray-700"
-                    >
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="font-medium">
-                          Renewed on {formatDate(renewal.renewalDate)}
-                        </div>
-                        <Badge
-                          className={
-                            renewal.status === "Completed"
-                              ? statusColors.Active
-                              : statusColors.Pending
-                          }
-                        >
-                          {renewal.status}
-                        </Badge>
-                      </div>
-                      <div className="flex justify-between text-sm text-muted-foreground mb-2">
-                        <span>
-                          Previous: {formatCurrency(renewal.previousPremium)}
-                        </span>
-                        <span>New: {formatCurrency(renewal.newPremium)}</span>
-                      </div>
-                      {renewal.changes.length > 0 && (
-                        <div className="text-sm">
-                          <div className="font-medium mb-1">Changes:</div>
-                          <ul className="list-disc list-inside text-muted-foreground">
-                            {renewal.changes.map((change, i) => (
-                              <li key={i}>{change}</li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+              )}
 
               {/* Notes */}
               {selectedPolicy.notes && (
@@ -1262,7 +1310,7 @@ export default function Policies() {
                 onRidersUpdate={(riders) => {
                   // Handle rider updates
                   const updatedPolicy = { ...selectedPolicy, riders };
-                  console.log('Riders updated:', riders);
+                  console.log("Riders updated:", riders);
                 }}
               />
             </TabsContent>
@@ -1277,9 +1325,7 @@ export default function Policies() {
                       className="flex items-center justify-between p-4 border rounded-lg dark:border-gray-700"
                     >
                       <div>
-                        <div className="font-medium">
-                          Payment #{payment.id}
-                        </div>
+                        <div className="font-medium">Payment #{payment.id}</div>
                         <div className="text-sm text-muted-foreground">
                           Due: {formatDate(payment.dueDate)}
                           {payment.paidDate && (
@@ -1293,9 +1339,12 @@ export default function Policies() {
                         </div>
                         <Badge
                           className={cn(
-                            payment.status === "Paid" && "bg-green-100 text-green-800",
-                            payment.status === "Pending" && "bg-yellow-100 text-yellow-800",
-                            payment.status === "Overdue" && "bg-red-100 text-red-800"
+                            payment.status === "Paid" &&
+                              "bg-green-100 text-green-800",
+                            payment.status === "Pending" &&
+                              "bg-yellow-100 text-yellow-800",
+                            payment.status === "Overdue" &&
+                              "bg-red-100 text-red-800",
                           )}
                         >
                           {payment.status}
@@ -1321,7 +1370,8 @@ export default function Policies() {
                         <div>
                           <div className="font-medium">{document.name}</div>
                           <div className="text-sm text-muted-foreground">
-                            {document.type} • {document.size} • Uploaded {formatDate(document.uploadDate)}
+                            {document.type} • {document.size} • Uploaded{" "}
+                            {formatDate(document.uploadDate)}
                           </div>
                         </div>
                       </div>

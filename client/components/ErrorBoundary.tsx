@@ -1,7 +1,13 @@
-import React, { Component, ReactNode } from 'react';
-import { AlertTriangle, RefreshCw } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import React, { Component, ReactNode } from "react";
+import { AlertTriangle, RefreshCw } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 interface Props {
   children: ReactNode;
@@ -26,14 +32,14 @@ class ErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     // Filter out ResizeObserver errors as they're usually harmless
-    if (error.message && error.message.includes('ResizeObserver')) {
+    if (error.message && error.message.includes("ResizeObserver")) {
       // Reset the error state for ResizeObserver errors
       this.setState({ hasError: false, error: undefined });
       return;
     }
 
     // Log other errors for debugging
-    console.error('Error caught by boundary:', error, errorInfo);
+    console.error("Error caught by boundary:", error, errorInfo);
   }
 
   handleReset = () => {
@@ -55,7 +61,9 @@ class ErrorBoundary extends Component<Props, State> {
               <div className="mx-auto mb-4 p-3 bg-red-100 dark:bg-red-900/20 rounded-full w-fit">
                 <AlertTriangle className="h-6 w-6 text-red-600 dark:text-red-400" />
               </div>
-              <CardTitle className="text-xl">Oops! Something went wrong</CardTitle>
+              <CardTitle className="text-xl">
+                Oops! Something went wrong
+              </CardTitle>
               <CardDescription>
                 An unexpected error occurred. Please try refreshing the page.
               </CardDescription>
@@ -66,16 +74,16 @@ class ErrorBoundary extends Component<Props, State> {
                   {this.state.error.message}
                 </div>
               )}
-              <Button 
-                onClick={this.handleReset} 
+              <Button
+                onClick={this.handleReset}
                 className="w-full"
                 variant="outline"
               >
                 <RefreshCw className="h-4 w-4 mr-2" />
                 Try Again
               </Button>
-              <Button 
-                onClick={() => window.location.reload()} 
+              <Button
+                onClick={() => window.location.reload()}
                 className="w-full"
               >
                 Refresh Page

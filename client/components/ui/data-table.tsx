@@ -57,14 +57,14 @@ export function DataTable<TData, TValue>({
   // Handle ResizeObserver errors that can occur with dynamic table content
   useEffect(() => {
     const handleError = (event: ErrorEvent) => {
-      if (event.error?.message?.includes('ResizeObserver')) {
+      if (event.error?.message?.includes("ResizeObserver")) {
         event.preventDefault();
         return false;
       }
     };
 
-    window.addEventListener('error', handleError);
-    return () => window.removeEventListener('error', handleError);
+    window.addEventListener("error", handleError);
+    return () => window.removeEventListener("error", handleError);
   }, []);
 
   const table = useReactTable({

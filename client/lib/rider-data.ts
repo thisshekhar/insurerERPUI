@@ -3,7 +3,7 @@ export interface Rider {
   id: string;
   name: string;
   type: string;
-  category: 'Protection' | 'Savings' | 'Health' | 'Accident' | 'Premium';
+  category: "Protection" | "Savings" | "Health" | "Accident" | "Premium";
   description: string;
   coverage: number;
   premium: number;
@@ -24,7 +24,7 @@ export interface PolicyRider extends Rider {
   policyId: string;
   addedDate: string;
   addedBy: string;
-  status: 'Active' | 'Pending' | 'Cancelled' | 'Expired';
+  status: "Active" | "Pending" | "Cancelled" | "Expired";
   customTerms?: string;
   discountPercentage?: number;
 }
@@ -43,18 +43,18 @@ export const availableRidersByPolicyType = {
       benefits: [
         "Double death benefit for accidental death",
         "24/7 coverage worldwide",
-        "No medical exam required"
+        "No medical exam required",
       ],
       exclusions: [
         "Death due to suicide within 2 years",
         "Death while under influence of drugs/alcohol",
-        "Death due to participation in hazardous activities"
+        "Death due to participation in hazardous activities",
       ],
       terms: "Coverage amount is additional to base policy death benefit",
       isOptional: true,
       isActive: true,
       maxAge: 65,
-      minAge: 18
+      minAge: 18,
     },
     {
       id: "RIDER-LIFE-002",
@@ -68,43 +68,44 @@ export const availableRidersByPolicyType = {
       benefits: [
         "Premium payments waived during disability",
         "Policy remains in force",
-        "Cash value continues to accumulate"
+        "Cash value continues to accumulate",
       ],
       exclusions: [
         "Self-inflicted injuries",
         "Disability due to war or military service",
-        "Pre-existing conditions"
+        "Pre-existing conditions",
       ],
       terms: "Disability must last at least 6 months to qualify",
       isOptional: true,
       isActive: true,
       maxAge: 60,
-      minAge: 18
+      minAge: 18,
     },
     {
       id: "RIDER-LIFE-003",
       name: "Critical Illness",
       type: "Critical Illness",
       category: "Health" as const,
-      description: "Lump sum payment upon diagnosis of covered critical illness",
+      description:
+        "Lump sum payment upon diagnosis of covered critical illness",
       coverage: 250000,
       premium: 300,
       waitingPeriod: 3,
       benefits: [
         "Covers 25+ critical illnesses",
         "Lump sum payment on diagnosis",
-        "Can be used for any purpose"
+        "Can be used for any purpose",
       ],
       exclusions: [
         "Pre-existing conditions",
         "Conditions diagnosed within waiting period",
-        "Self-inflicted conditions"
+        "Self-inflicted conditions",
       ],
       terms: "One-time benefit payment upon first diagnosis",
       isOptional: true,
       isActive: true,
       maxAge: 70,
-      minAge: 18
+      minAge: 18,
     },
     {
       id: "RIDER-LIFE-004",
@@ -118,19 +119,19 @@ export const availableRidersByPolicyType = {
       benefits: [
         "Nursing home care coverage",
         "Home health care benefits",
-        "Adult day care services"
+        "Adult day care services",
       ],
       exclusions: [
         "Care due to alcohol or drug abuse",
         "Self-inflicted injuries",
-        "Mental disorders without organic cause"
+        "Mental disorders without organic cause",
       ],
       terms: "Benefits payable after 12-month waiting period",
       isOptional: true,
       isActive: true,
       maxAge: 75,
-      minAge: 40
-    }
+      minAge: 40,
+    },
   ],
   "Health Insurance": [
     {
@@ -145,18 +146,18 @@ export const availableRidersByPolicyType = {
       benefits: [
         "Preventive care at 100%",
         "Basic procedures at 80%",
-        "Major procedures at 50%"
+        "Major procedures at 50%",
       ],
       exclusions: [
         "Cosmetic procedures",
         "Orthodontics over age 19",
-        "Experimental treatments"
+        "Experimental treatments",
       ],
       terms: "Annual maximum of $5,000 per person",
       isOptional: true,
       isActive: true,
       maxAge: 99,
-      minAge: 0
+      minAge: 0,
     },
     {
       id: "RIDER-HEALTH-002",
@@ -169,18 +170,14 @@ export const availableRidersByPolicyType = {
       benefits: [
         "Annual eye exams",
         "Prescription glasses or contacts",
-        "Vision correction surgery discount"
+        "Vision correction surgery discount",
       ],
-      exclusions: [
-        "Sunglasses",
-        "Safety glasses",
-        "Experimental procedures"
-      ],
+      exclusions: ["Sunglasses", "Safety glasses", "Experimental procedures"],
       terms: "Annual benefit limit of $2,000 per person",
       isOptional: true,
       isActive: true,
       maxAge: 99,
-      minAge: 0
+      minAge: 0,
     },
     {
       id: "RIDER-HEALTH-003",
@@ -194,18 +191,18 @@ export const availableRidersByPolicyType = {
       benefits: [
         "Prenatal care",
         "Delivery and hospital costs",
-        "Postnatal care for mother and baby"
+        "Postnatal care for mother and baby",
       ],
       exclusions: [
         "Fertility treatments",
         "Surrogacy arrangements",
-        "Complications from excluded procedures"
+        "Complications from excluded procedures",
       ],
       terms: "12-month waiting period for new additions",
       isOptional: true,
       isActive: true,
       maxAge: 45,
-      minAge: 18
+      minAge: 18,
     },
     {
       id: "RIDER-HEALTH-004",
@@ -218,19 +215,19 @@ export const availableRidersByPolicyType = {
       benefits: [
         "Unlimited therapy sessions",
         "Inpatient psychiatric care",
-        "Substance abuse treatment"
+        "Substance abuse treatment",
       ],
       exclusions: [
         "Court-ordered treatment",
         "Treatment while incarcerated",
-        "Experimental therapies"
+        "Experimental therapies",
       ],
       terms: "Enhanced coverage beyond standard mental health benefits",
       isOptional: true,
       isActive: true,
       maxAge: 99,
-      minAge: 12
-    }
+      minAge: 12,
+    },
   ],
   "Auto Insurance": [
     {
@@ -245,18 +242,18 @@ export const availableRidersByPolicyType = {
         "Towing service up to 15 miles",
         "Battery jump-start",
         "Flat tire service",
-        "Lockout assistance"
+        "Lockout assistance",
       ],
       exclusions: [
         "Service beyond 15 miles",
         "Repeated service calls",
-        "Commercial vehicles"
+        "Commercial vehicles",
       ],
       terms: "Maximum 4 service calls per year",
       isOptional: true,
       isActive: true,
       maxAge: 99,
-      minAge: 16
+      minAge: 16,
     },
     {
       id: "RIDER-AUTO-002",
@@ -269,18 +266,18 @@ export const availableRidersByPolicyType = {
       benefits: [
         "Up to $50 per day for rental",
         "Maximum 30 days per claim",
-        "Covers collision and comprehensive claims"
+        "Covers collision and comprehensive claims",
       ],
       exclusions: [
         "Regular maintenance periods",
         "Elective repairs",
-        "Luxury vehicle upgrades"
+        "Luxury vehicle upgrades",
       ],
       terms: "Coverage begins after 24 hours of repair time",
       isOptional: true,
       isActive: true,
       maxAge: 99,
-      minAge: 21
+      minAge: 21,
     },
     {
       id: "RIDER-AUTO-003",
@@ -293,19 +290,19 @@ export const availableRidersByPolicyType = {
       benefits: [
         "Covers loan/lease balance",
         "Protects against depreciation",
-        "No deductible required"
+        "No deductible required",
       ],
       exclusions: [
         "Overdue payments",
         "Extended warranties",
-        "Aftermarket accessories"
+        "Aftermarket accessories",
       ],
       terms: "Available for financed or leased vehicles only",
       isOptional: true,
       isActive: true,
       maxAge: 99,
-      minAge: 18
-    }
+      minAge: 18,
+    },
   ],
   "Home Insurance": [
     {
@@ -320,18 +317,18 @@ export const availableRidersByPolicyType = {
       benefits: [
         "Sewer backup coverage",
         "Drain overflow protection",
-        "Emergency water removal"
+        "Emergency water removal",
       ],
       exclusions: [
         "Flood damage",
         "Groundwater seepage",
-        "Maintenance-related backup"
+        "Maintenance-related backup",
       ],
       terms: "Separate deductible applies",
       isOptional: true,
       isActive: true,
       maxAge: 99,
-      minAge: 18
+      minAge: 18,
     },
     {
       id: "RIDER-HOME-002",
@@ -344,18 +341,18 @@ export const availableRidersByPolicyType = {
       benefits: [
         "Legal fees coverage",
         "Lost wages reimbursement",
-        "Credit monitoring service"
+        "Credit monitoring service",
       ],
       exclusions: [
         "Business identity theft",
         "Pre-existing identity issues",
-        "Fraudulent use by family members"
+        "Fraudulent use by family members",
       ],
       terms: "Covers expenses to restore identity",
       isOptional: true,
       isActive: true,
       maxAge: 99,
-      minAge: 18
+      minAge: 18,
     },
     {
       id: "RIDER-HOME-003",
@@ -369,20 +366,20 @@ export const availableRidersByPolicyType = {
       benefits: [
         "HVAC system coverage",
         "Major appliance protection",
-        "Electronic equipment coverage"
+        "Electronic equipment coverage",
       ],
       exclusions: [
         "Normal wear and tear",
         "Manufacturer defects under warranty",
-        "Flood or earthquake damage"
+        "Flood or earthquake damage",
       ],
       terms: "Covers sudden and accidental breakdown",
       isOptional: true,
       isActive: true,
       maxAge: 99,
-      minAge: 18
-    }
-  ]
+      minAge: 18,
+    },
+  ],
 };
 
 // Sample policy riders for existing policies
@@ -399,12 +396,12 @@ export const mockPolicyRiders: PolicyRider[] = [
     benefits: [
       "Double death benefit for accidental death",
       "24/7 coverage worldwide",
-      "No medical exam required"
+      "No medical exam required",
     ],
     exclusions: [
       "Death due to suicide within 2 years",
       "Death while under influence of drugs/alcohol",
-      "Death due to participation in hazardous activities"
+      "Death due to participation in hazardous activities",
     ],
     terms: "Coverage amount is additional to base policy death benefit",
     isOptional: true,
@@ -414,7 +411,7 @@ export const mockPolicyRiders: PolicyRider[] = [
     addedDate: "2024-02-01",
     addedBy: "Mike Chen",
     status: "Active",
-    effectiveDate: "2024-02-01"
+    effectiveDate: "2024-02-01",
   },
   {
     id: "RIDER-HEALTH-001",
@@ -429,12 +426,12 @@ export const mockPolicyRiders: PolicyRider[] = [
     benefits: [
       "Preventive care at 100%",
       "Basic procedures at 80%",
-      "Major procedures at 50%"
+      "Major procedures at 50%",
     ],
     exclusions: [
       "Cosmetic procedures",
       "Orthodontics over age 19",
-      "Experimental treatments"
+      "Experimental treatments",
     ],
     terms: "Annual maximum of $5,000 per person",
     isOptional: true,
@@ -444,23 +441,30 @@ export const mockPolicyRiders: PolicyRider[] = [
     addedDate: "2024-01-01",
     addedBy: "James Brown",
     status: "Active",
-    effectiveDate: "2024-01-01"
-  }
+    effectiveDate: "2024-01-01",
+  },
 ];
 
 // Utility functions
 export const getRidersByPolicyType = (policyType: string): Rider[] => {
-  return availableRidersByPolicyType[policyType as keyof typeof availableRidersByPolicyType] || [];
+  return (
+    availableRidersByPolicyType[
+      policyType as keyof typeof availableRidersByPolicyType
+    ] || []
+  );
 };
 
 export const getRidersByPolicy = (policyId: string): PolicyRider[] => {
-  return mockPolicyRiders.filter(rider => rider.policyId === policyId);
+  return mockPolicyRiders.filter((rider) => rider.policyId === policyId);
 };
 
 export const getRiderById = (riderId: string): Rider | undefined => {
   for (const policyType in availableRidersByPolicyType) {
-    const riders = availableRidersByPolicyType[policyType as keyof typeof availableRidersByPolicyType];
-    const rider = riders.find(r => r.id === riderId);
+    const riders =
+      availableRidersByPolicyType[
+        policyType as keyof typeof availableRidersByPolicyType
+      ];
+    const rider = riders.find((r) => r.id === riderId);
     if (rider) return rider;
   }
   return undefined;
@@ -468,17 +472,20 @@ export const getRiderById = (riderId: string): Rider | undefined => {
 
 export const calculateRiderPremium = (riders: PolicyRider[]): number => {
   return riders.reduce((total, rider) => {
-    if (rider.status === 'Active') {
+    if (rider.status === "Active") {
       const discount = rider.discountPercentage || 0;
-      return total + (rider.premium * (1 - discount / 100));
+      return total + rider.premium * (1 - discount / 100);
     }
     return total;
   }, 0);
 };
 
-export const calculateTotalCoverageWithRiders = (baseCoverage: number, riders: PolicyRider[]): number => {
+export const calculateTotalCoverageWithRiders = (
+  baseCoverage: number,
+  riders: PolicyRider[],
+): number => {
   const riderCoverage = riders.reduce((total, rider) => {
-    if (rider.status === 'Active' && rider.category === 'Protection') {
+    if (rider.status === "Active" && rider.category === "Protection") {
       return total + rider.coverage;
     }
     return total;

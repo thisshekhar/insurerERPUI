@@ -392,7 +392,9 @@ export default function Settings() {
                   <Switch
                     id="ai-insights"
                     checked={config.features.insights}
-                    onCheckedChange={(checked) => setFeature('insights', checked)}
+                    onCheckedChange={(checked) =>
+                      setFeature("insights", checked)
+                    }
                     disabled={!isEnabled}
                   />
                 </div>
@@ -409,7 +411,9 @@ export default function Settings() {
                   <Switch
                     id="ai-assistant"
                     checked={config.features.assistant}
-                    onCheckedChange={(checked) => setFeature('assistant', checked)}
+                    onCheckedChange={(checked) =>
+                      setFeature("assistant", checked)
+                    }
                     disabled={!isEnabled}
                   />
                 </div>
@@ -426,7 +430,9 @@ export default function Settings() {
                   <Switch
                     id="ai-predictions"
                     checked={config.features.predictions}
-                    onCheckedChange={(checked) => setFeature('predictions', checked)}
+                    onCheckedChange={(checked) =>
+                      setFeature("predictions", checked)
+                    }
                     disabled={!isEnabled}
                   />
                 </div>
@@ -443,7 +449,9 @@ export default function Settings() {
                   <Switch
                     id="ai-risk"
                     checked={config.features.riskAssessment}
-                    onCheckedChange={(checked) => setFeature('riskAssessment', checked)}
+                    onCheckedChange={(checked) =>
+                      setFeature("riskAssessment", checked)
+                    }
                     disabled={!isEnabled}
                   />
                 </div>
@@ -460,7 +468,9 @@ export default function Settings() {
                   <Switch
                     id="ai-fraud"
                     checked={config.features.fraudDetection}
-                    onCheckedChange={(checked) => setFeature('fraudDetection', checked)}
+                    onCheckedChange={(checked) =>
+                      setFeature("fraudDetection", checked)
+                    }
                     disabled={!isEnabled}
                   />
                 </div>
@@ -477,7 +487,9 @@ export default function Settings() {
                   <Switch
                     id="ai-navigation"
                     checked={config.features.navigation}
-                    onCheckedChange={(checked) => setFeature('navigation', checked)}
+                    onCheckedChange={(checked) =>
+                      setFeature("navigation", checked)
+                    }
                     disabled={!isEnabled}
                   />
                 </div>
@@ -488,13 +500,16 @@ export default function Settings() {
                       AI Branding & Badges
                     </Label>
                     <p className="text-sm text-muted-foreground">
-                      Display "AI-Powered" branding and badges throughout the app
+                      Display "AI-Powered" branding and badges throughout the
+                      app
                     </p>
                   </div>
                   <Switch
                     id="ai-branding"
                     checked={config.features.branding}
-                    onCheckedChange={(checked) => setFeature('branding', checked)}
+                    onCheckedChange={(checked) =>
+                      setFeature("branding", checked)
+                    }
                     disabled={!isEnabled}
                   />
                 </div>
@@ -510,14 +525,19 @@ export default function Settings() {
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
                   <span className="text-muted-foreground">Master Status:</span>
-                  <span className={`ml-2 font-medium ${isEnabled ? 'text-green-600' : 'text-red-600'}`}>
-                    {isEnabled ? 'Enabled' : 'Disabled'}
+                  <span
+                    className={`ml-2 font-medium ${isEnabled ? "text-green-600" : "text-red-600"}`}
+                  >
+                    {isEnabled ? "Enabled" : "Disabled"}
                   </span>
                 </div>
                 <div>
-                  <span className="text-muted-foreground">Active Features:</span>
+                  <span className="text-muted-foreground">
+                    Active Features:
+                  </span>
                   <span className="ml-2 font-medium">
-                    {Object.values(config.features).filter(Boolean).length} / {Object.keys(config.features).length}
+                    {Object.values(config.features).filter(Boolean).length} /{" "}
+                    {Object.keys(config.features).length}
                   </span>
                 </div>
               </div>
