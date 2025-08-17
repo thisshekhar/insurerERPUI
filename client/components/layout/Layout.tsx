@@ -187,7 +187,10 @@ export default function Layout({ children }: LayoutProps) {
       </div>
 
       {/* Main content */}
-      <div className="lg:pl-64">
+      <div className={cn(
+        "transition-all duration-300 ease-in-out",
+        sidebarOpen ? "lg:pl-64" : "lg:pl-0"
+      )}>
         {/* Top navbar */}
         <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
           <div className="flex h-16 items-center justify-between px-4 sm:px-6">
