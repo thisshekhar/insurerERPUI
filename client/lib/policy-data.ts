@@ -183,6 +183,21 @@ export const mockPolicies: Policy[] = [
       },
     ],
     renewalHistory: [],
+    riders: [
+      {
+        id: "RIDER-LIFE-001",
+        name: "Accidental Death Benefit",
+        type: "Accidental Death",
+        category: "Protection",
+        description: "Additional death benefit if death occurs due to accident",
+        coverage: 100000,
+        premium: 120,
+        status: "Active",
+        addedDate: "2024-02-01",
+        addedBy: "Mike Chen",
+        effectiveDate: "2024-02-01"
+      }
+    ],
     notes: "Customer opted for maximum coverage with accidental death benefit.",
     riskAssessment: "Low",
     commissionRate: 5.0,
