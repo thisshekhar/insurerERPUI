@@ -136,6 +136,7 @@ export default function Layout({ children }: LayoutProps) {
             </nav>
 
             {/* AI Features Highlight */}
+          {isFeatureEnabled('branding') && (
             <div className="px-4 pb-4">
               <div className="p-4 bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 rounded-lg border border-purple-200 dark:border-purple-800">
                 <div className="flex items-center space-x-2 mb-2">
@@ -176,6 +177,7 @@ export default function Layout({ children }: LayoutProps) {
                 </div>
               </div>
             </div>
+          )}
           </div>
 
           {/* Settings - Fixed at bottom */}
