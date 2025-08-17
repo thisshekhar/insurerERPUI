@@ -106,6 +106,7 @@ export default function Policies() {
   const [showDetailsDialog, setShowDetailsDialog] = useState(false);
   const [showRenewalDialog, setShowRenewalDialog] = useState(false);
   const [formData, setFormData] = useState<Partial<Policy>>({});
+  const [selectedRiders, setSelectedRiders] = useState<string[]>([]);
 
   // Handle ResizeObserver errors
   useEffect(() => {
