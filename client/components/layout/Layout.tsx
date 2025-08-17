@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import AIAssistant from "@/components/ai/AIAssistant";
+import { useAIConfig } from "@/lib/ai-config";
 
 const navigation = [
   { name: "Dashboard", href: "/", icon: LayoutDashboard },
