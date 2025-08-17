@@ -48,6 +48,14 @@ export default function Layout({ children }: LayoutProps) {
 
   const navigation = getNavigation(isFeatureEnabled("navigation"));
 
+  const closeSidebar = () => {
+    setSidebarOpen(false);
+  };
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
     document.documentElement.classList.toggle("dark");
