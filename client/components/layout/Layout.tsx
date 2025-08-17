@@ -73,7 +73,7 @@ export default function Layout({ children }: LayoutProps) {
       >
         <div className="flex h-full flex-col">
           {/* Logo */}
-          <div className="flex h-16 items-center justify-between px-6 border-b border-gray-200 dark:border-gray-700">
+          <div className="flex h-16 items-center justify-between px-6 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
             <div className="flex items-center space-x-3">
               <div className="h-8 w-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
                 <FileText className="h-5 w-5 text-white" />
@@ -93,85 +93,87 @@ export default function Layout({ children }: LayoutProps) {
             <Button
               variant="ghost"
               size="sm"
-              className="lg:hidden"
               onClick={() => setSidebarOpen(false)}
             >
               <X className="h-5 w-5" />
             </Button>
           </div>
 
-          {/* Navigation */}
-          <nav className="flex-1 px-4 py-6 space-y-2">
-            {navigation.map((item) => {
-              const isActive = location.pathname === item.href;
-              return (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className={cn(
-                    "flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors",
-                    isActive
-                      ? "bg-gradient-to-r from-blue-50 to-purple-50 text-blue-700 border-r-2 border-blue-700 dark:from-blue-900/20 dark:to-purple-900/20 dark:text-blue-300"
-                      : "text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700",
-                  )}
-                  onClick={() => setSidebarOpen(false)}
-                >
-                  <item.icon className="h-5 w-5" />
-                  <span>{item.name}</span>
-                  {item.name === "Dashboard" && (
-                    <Badge className="ml-auto bg-gradient-to-r from-purple-600 to-blue-600 text-white text-xs">
-                      AI
-                    </Badge>
-                  )}
-                </Link>
-              );
-            })}
-          </nav>
+          {/* Scrollable content */}
+          <div className="flex-1 overflow-y-auto">
+            {/* Navigation */}
+            <nav className="px-4 py-6 space-y-2">
+              {navigation.map((item) => {
+                const isActive = location.pathname === item.href;
+                return (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    className={cn(
+                      "flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors",
+                      isActive
+                        ? "bg-gradient-to-r from-blue-50 to-purple-50 text-blue-700 border-r-2 border-blue-700 dark:from-blue-900/20 dark:to-purple-900/20 dark:text-blue-300"
+                        : "text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700",
+                    )}
+                    onClick={() => setSidebarOpen(false)}
+                  >
+                    <item.icon className="h-5 w-5" />
+                    <span>{item.name}</span>
+                    {item.name === "Dashboard" && (
+                      <Badge className="ml-auto bg-gradient-to-r from-purple-600 to-blue-600 text-white text-xs">
+                        AI
+                      </Badge>
+                    )}
+                  </Link>
+                );
+              })}
+            </nav>
 
-          {/* AI Features Highlight */}
-          <div className="px-4 pb-4">
-            <div className="p-4 bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 rounded-lg border border-purple-200 dark:border-purple-800">
-              <div className="flex items-center space-x-2 mb-2">
-                <Sparkles className="h-4 w-4 text-purple-600" />
-                <span className="text-sm font-semibold text-purple-900 dark:text-purple-300">
-                  AI Features
-                </span>
-              </div>
-              <p className="text-xs text-purple-700 dark:text-purple-400 mb-3">
-                Experience next-gen insurance management with AI-powered
-                insights, predictions, and automation.
-              </p>
-              <div className="space-y-1 text-xs">
-                <div className="flex items-center space-x-2">
-                  <div className="h-1 w-1 bg-purple-500 rounded-full"></div>
-                  <span className="text-purple-600 dark:text-purple-400">
-                    Smart Risk Assessment
+            {/* AI Features Highlight */}
+            <div className="px-4 pb-4">
+              <div className="p-4 bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 rounded-lg border border-purple-200 dark:border-purple-800">
+                <div className="flex items-center space-x-2 mb-2">
+                  <Sparkles className="h-4 w-4 text-purple-600" />
+                  <span className="text-sm font-semibold text-purple-900 dark:text-purple-300">
+                    AI Features
                   </span>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <div className="h-1 w-1 bg-purple-500 rounded-full"></div>
-                  <span className="text-purple-600 dark:text-purple-400">
-                    Fraud Detection
-                  </span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <div className="h-1 w-1 bg-purple-500 rounded-full"></div>
-                  <span className="text-purple-600 dark:text-purple-400">
-                    Predictive Analytics
-                  </span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <div className="h-1 w-1 bg-purple-500 rounded-full"></div>
-                  <span className="text-purple-600 dark:text-purple-400">
-                    Customer Insights
-                  </span>
+                <p className="text-xs text-purple-700 dark:text-purple-400 mb-3">
+                  Experience next-gen insurance management with AI-powered
+                  insights, predictions, and automation.
+                </p>
+                <div className="space-y-1 text-xs">
+                  <div className="flex items-center space-x-2">
+                    <div className="h-1 w-1 bg-purple-500 rounded-full"></div>
+                    <span className="text-purple-600 dark:text-purple-400">
+                      Smart Risk Assessment
+                    </span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <div className="h-1 w-1 bg-purple-500 rounded-full"></div>
+                    <span className="text-purple-600 dark:text-purple-400">
+                      Fraud Detection
+                    </span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <div className="h-1 w-1 bg-purple-500 rounded-full"></div>
+                    <span className="text-purple-600 dark:text-purple-400">
+                      Predictive Analytics
+                    </span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <div className="h-1 w-1 bg-purple-500 rounded-full"></div>
+                    <span className="text-purple-600 dark:text-purple-400">
+                      Customer Insights
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Settings */}
-          <div className="border-t border-gray-200 dark:border-gray-700 p-4">
+          {/* Settings - Fixed at bottom */}
+          <div className="border-t border-gray-200 dark:border-gray-700 p-4 flex-shrink-0">
             <Link
               to="/settings"
               className="flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700 transition-colors"
