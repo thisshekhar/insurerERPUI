@@ -170,6 +170,31 @@ export default function Policies() {
     const customer = mockCustomers.find(
       (c) => `${c.firstName} ${c.lastName}` === formData.customerName,
     );
+    // Create riders from selected rider IDs
+    const policyRiders = selectedRiders.map(riderId => {
+      const rider = getRiderById(riderId);
+      if (!rider) return null;
+
+      return {
+        id: rider.id,
+        name: rider.name,
+        type: rider.type,
+        category: rider.category,
+        description: rider.description,
+        coverage: rider.coverage,
+        premium: rider.premium,
+        deductible: rider.deductible,
+        status: "Active" as const,
+        addedDate: new Date().toISOString().split("T")[0],
+        addedBy: formData.agentName || "Mike Chen",
+        effectiveDate: formData.effectiveDate || new Date().toISOString().split("T")[0],
+      };
+    }).filter(Boolean);
+
+    // Calculate total premium including riders
+    const ridersPremium = policyRiders.reduce((total, rider) => total + (rider?.premium || 0), 0);
+    const totalPremium = (formData.premiumAmount || 0) + ridersPremium;
+
     const newPolicy: Policy = {
       id: `POL-${String(policies.length + 1).padStart(3, "0")}`,
       policyNumber: generatePolicyNumber(
@@ -198,7 +223,7 @@ export default function Policies() {
         new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
           .toISOString()
           .split("T")[0],
-      premiumAmount: formData.premiumAmount || 0,
+      premiumAmount: totalPremium,
       premiumFrequency: (formData.premiumFrequency as any) || "Annual",
       coverageAmount: formData.coverageAmount || 0,
       deductible: formData.deductible || 0,
@@ -207,6 +232,7 @@ export default function Policies() {
       documents: [],
       payments: [],
       renewalHistory: [],
+      riders: policyRiders as any,
       notes: formData.notes || "",
       riskAssessment: (formData.riskAssessment as any) || "Medium",
       commissionRate: formData.commissionRate || 5.0,
