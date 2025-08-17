@@ -42,6 +42,9 @@ export default function Layout({ children }: LayoutProps) {
   const [darkMode, setDarkMode] = useState(false);
   const [notificationCount] = useState(5);
   const location = useLocation();
+  const { isFeatureEnabled } = useAIConfig();
+
+  const navigation = getNavigation(isFeatureEnabled('navigation'));
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
