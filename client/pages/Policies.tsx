@@ -534,7 +534,7 @@ export default function Policies() {
         </Select>
       </div>
       <div>
-        <Label htmlFor="premiumAmount">Premium Amount *</Label>
+        <Label htmlFor="premiumAmount">Base Premium Amount *</Label>
         <Input
           id="premiumAmount"
           type="number"
@@ -542,8 +542,39 @@ export default function Policies() {
           onChange={(e) =>
             setFormData({ ...formData, premiumAmount: Number(e.target.value) })
           }
-          placeholder="Enter premium amount"
+          placeholder="Enter base premium amount"
         />
+        {selectedRiders.length > 0 && (
+          <div className="mt-2 p-2 bg-gray-50 dark:bg-gray-800 rounded text-sm">
+            <div className="flex justify-between">
+              <span>Base Premium:</span>
+              <span>{formatCurrency(formData.premiumAmount || 0)}</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Riders Premium:</span>
+              <span>
+                {formatCurrency(
+                  selectedRiders.reduce((total, riderId) => {
+                    const rider = getRiderById(riderId);
+                    return total + (rider?.premium || 0);
+                  }, 0)
+                )}
+              </span>
+            </div>
+            <div className="flex justify-between font-medium border-t pt-1 mt-1">
+              <span>Total Premium:</span>
+              <span>
+                {formatCurrency(
+                  (formData.premiumAmount || 0) +
+                  selectedRiders.reduce((total, riderId) => {
+                    const rider = getRiderById(riderId);
+                    return total + (rider?.premium || 0);
+                  }, 0)
+                )}
+              </span>
+            </div>
+          </div>
+        )}
       </div>
       <div>
         <Label htmlFor="premiumFrequency">Premium Frequency</Label>
