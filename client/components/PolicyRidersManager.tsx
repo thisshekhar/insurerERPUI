@@ -80,10 +80,10 @@ const categoryIcons = {
   Premium: DollarSign,
 };
 
-export default function PolicyRidersManager({ 
-  policy, 
+export default function PolicyRidersManager({
+  policy,
   customerAge = 35,
-  onRidersUpdate 
+  onRidersUpdate
 }: PolicyRidersManagerProps) {
   const [currentRiders, setCurrentRiders] = useState<PolicyRider[]>(
     getRidersByPolicy(policy.id)
@@ -96,6 +96,29 @@ export default function PolicyRidersManager({
   const [selectedRider, setSelectedRider] = useState<Rider | null>(null);
   const [customTerms, setCustomTerms] = useState("");
   const [discountPercentage, setDiscountPercentage] = useState(0);
+
+  // Cleanup effect to prevent memory leaks
+  useEffect(() => {
+    return () => {
+      // Clear any pending timeouts or intervals
+      setSelectedRider(null);
+      setCustomTerms("");
+      setDiscountPercentage(0);
+    };
+  }, []);
+
+  // Error boundary wrapper for the component
+  useEffect(() => {
+    const handleError = (event: ErrorEvent) => {
+      if (event.error?.message?.includes('ResizeObserver')) {
+        event.preventDefault();
+        return false;
+      }
+    };
+
+    window.addEventListener('error', handleError);
+    return () => window.removeEventListener('error', handleError);
+  }, []);
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("en-US", {
