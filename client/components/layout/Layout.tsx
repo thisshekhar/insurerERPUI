@@ -86,12 +86,14 @@ export default function Layout({ children }: LayoutProps) {
                 <span className="text-xl font-bold text-gray-900 dark:text-white">
                   InsurePro
                 </span>
-                <div className="flex items-center space-x-1 mt-0.5">
-                  <Sparkles className="h-3 w-3 text-purple-500" />
-                  <span className="text-xs text-purple-600 dark:text-purple-400 font-medium">
-                    AI-Powered
-                  </span>
-                </div>
+                {isFeatureEnabled('branding') && (
+                  <div className="flex items-center space-x-1 mt-0.5">
+                    <Sparkles className="h-3 w-3 text-purple-500" />
+                    <span className="text-xs text-purple-600 dark:text-purple-400 font-medium">
+                      AI-Powered
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
             <Button
