@@ -263,7 +263,7 @@ export default function Layout({ children }: LayoutProps) {
       </div>
 
       {/* AI Assistant */}
-      <AIAssistant />
+      {isFeatureEnabled('assistant') && <AIAssistant />}
     </div>
   );
 }
