@@ -61,6 +61,12 @@ import {
 import { mockCustomers } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 import PolicyRidersManager from "@/components/PolicyRidersManager";
+import {
+  getRidersByPolicyType,
+  getRiderById,
+  calculateRiderPremium,
+  isRiderEligible
+} from "@/lib/rider-data";
 
 const statusColors = {
   Active:
