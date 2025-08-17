@@ -213,9 +213,11 @@ export default function Layout({ children }: LayoutProps) {
               <h1 className="text-lg font-semibold text-gray-900 dark:text-white">
                 Insurance Broker ERP
               </h1>
-              <Badge className="bg-gradient-to-r from-purple-600 to-blue-600 text-white">
-                AI-Enhanced
-              </Badge>
+              {isFeatureEnabled('branding') && (
+                <Badge className="bg-gradient-to-r from-purple-600 to-blue-600 text-white">
+                  AI-Enhanced
+                </Badge>
+              )}
             </div>
 
             <div className="flex items-center space-x-4">
