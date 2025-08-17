@@ -146,7 +146,7 @@ export default function Layout({ children }: LayoutProps) {
                         ? "bg-gradient-to-r from-blue-50 to-purple-50 text-blue-700 border-r-2 border-blue-700 dark:from-blue-900/20 dark:to-purple-900/20 dark:text-blue-300"
                         : "text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700",
                     )}
-                    onClick={() => setSidebarOpen(false)}
+                    onClick={closeSidebar}
                   >
                     <item.icon className="h-5 w-5" />
                     <span>{item.name}</span>
