@@ -154,6 +154,8 @@ const aiMetrics = {
 };
 
 export default function Dashboard() {
+  const { isFeatureEnabled } = useAIConfig();
+
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
