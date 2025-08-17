@@ -195,8 +195,7 @@ export default function Layout({ children }: LayoutProps) {
               <Button
                 variant="ghost"
                 size="sm"
-                className="lg:hidden"
-                onClick={() => setSidebarOpen(true)}
+                onClick={() => setSidebarOpen(!sidebarOpen)}
               >
                 <Menu className="h-5 w-5" />
               </Button>
