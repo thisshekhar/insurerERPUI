@@ -358,7 +358,6 @@ export {
   agentApi,
   paymentApi,
   documentApi,
-  aiApi,
 };
 
 export default api;
