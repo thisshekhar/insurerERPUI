@@ -23,6 +23,9 @@ import ErrorBoundary from "./components/ErrorBoundary";
 
 const queryClient = new QueryClient();
 
+// Initialize dummy API backend
+initializeDummyAPI();
+
 const App = () => (
   <ErrorBoundary>
     <QueryClientProvider client={queryClient}>
