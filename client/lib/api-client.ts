@@ -152,25 +152,43 @@ class ApiClient {
         clearTimeout(timeoutId);
 
         let responseData: any;
-        const contentType = response.headers.get('content-type');
-        
-        if (contentType && contentType.includes('application/json')) {
-          responseData = await response.json();
-        } else {
-          responseData = await response.text();
+        let responseText: string;
+
+        try {
+          // Clone the response to avoid "body stream already read" errors
+          const responseClone = response.clone();
+          const contentType = response.headers.get('content-type');
+
+          if (contentType && contentType.includes('application/json')) {
+            responseText = await response.text();
+            try {
+              responseData = JSON.parse(responseText);
+            } catch (parseError) {
+              responseData = responseText;
+            }
+          } else {
+            responseData = await response.text();
+          }
+        } catch (streamError) {
+          // If there's an error reading the stream, use the cloned response
+          console.warn('Stream read error, using fallback:', streamError);
+          responseData = { error: 'Failed to read response' };
         }
 
         const apiResponse: ApiResponse<T> = {
           success: response.ok,
-          data: responseData.data || responseData,
-          error: !response.ok ? (responseData.error || `HTTP ${response.status}`) : undefined,
-          message: responseData.message,
+          data: responseData?.data || responseData,
+          error: !response.ok ? (responseData?.error || `HTTP ${response.status}`) : undefined,
+          message: responseData?.message,
           timestamp: new Date().toISOString(),
           requestId,
         };
 
         if (!response.ok) {
-          throw apiResponse;
+          // Create a new error object instead of throwing the response
+          const error = new Error(apiResponse.error || `HTTP ${response.status}`);
+          (error as any).apiResponse = apiResponse;
+          throw error;
         }
 
         // Apply response interceptors
