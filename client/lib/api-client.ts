@@ -152,27 +152,23 @@ class ApiClient {
         clearTimeout(timeoutId);
 
         let responseData: any;
-        let responseText: string;
 
         try {
-          // Clone the response to avoid "body stream already read" errors
-          const responseClone = response.clone();
           const contentType = response.headers.get('content-type');
 
           if (contentType && contentType.includes('application/json')) {
-            responseText = await response.text();
-            try {
-              responseData = JSON.parse(responseText);
-            } catch (parseError) {
-              responseData = responseText;
-            }
+            responseData = await response.json();
           } else {
             responseData = await response.text();
           }
         } catch (streamError) {
-          // If there's an error reading the stream, use the cloned response
-          console.warn('Stream read error, using fallback:', streamError);
-          responseData = { error: 'Failed to read response' };
+          // If there's an error reading the stream, provide a default response
+          console.warn('Stream read error, providing default response:', streamError);
+          responseData = {
+            success: false,
+            error: 'Response parsing failed',
+            message: `Failed to parse ${response.headers.get('content-type')} response`
+          };
         }
 
         const apiResponse: ApiResponse<T> = {
