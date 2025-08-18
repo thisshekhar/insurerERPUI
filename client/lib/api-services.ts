@@ -353,7 +353,6 @@ export const api = {
 export {
   dashboardApi,
   customerApi,
-  policyApi,
 };
 
 export default api;
