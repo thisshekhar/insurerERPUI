@@ -509,6 +509,7 @@ export function setupDummyAPI() {
     // Check if this is an API request
     if (url.startsWith('/api') || url.includes('/api/')) {
       console.log(`[Dummy API] Intercepting ${method} ${url}`);
+      console.log(`[Dummy API] Available routes:`, Object.keys(apiRoutes));
       
       // Extract the route pattern
       const routeKey = `${method} ${url.split('?')[0]}`;
