@@ -354,7 +354,6 @@ export {
   dashboardApi,
   customerApi,
   policyApi,
-  claimApi,
 };
 
 export default api;
