@@ -17,7 +17,9 @@ export default function ApiStatusIndicator({ className }: ApiStatusIndicatorProp
       const response = await api.health.check();
       setStatus(response.success ? 'online' : 'offline');
       setLastCheck(new Date());
+      console.log('[API Health] Status check successful:', response);
     } catch (error) {
+      console.warn('[API Health] Status check failed:', error);
       setStatus('offline');
       setLastCheck(new Date());
     }
