@@ -516,7 +516,8 @@ export function setupDummyAPI() {
       
       // Find matching route handler
       let handler = apiRoutes[routeKey as keyof typeof apiRoutes];
-      
+      console.log(`[Dummy API] Looking for route: ${routeKey}, found: ${!!handler}`);
+
       // Handle parameterized routes
       if (!handler) {
         for (const [pattern, routeHandler] of Object.entries(apiRoutes)) {
