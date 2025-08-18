@@ -126,10 +126,11 @@ class ApiClient {
       headers: { ...this.defaultHeaders, ...headers }
     });
 
-    console.log(`[API] ${method} ${endpoint}`, { 
-      requestId, 
-      params, 
-      config: interceptedConfig 
+    console.log(`[API] ${method} ${endpoint}`, {
+      requestId,
+      params,
+      config: interceptedConfig,
+      finalUrl: interceptedConfig.url
     });
 
     for (let attempt = 0; attempt <= retries; attempt++) {
