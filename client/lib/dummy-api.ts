@@ -511,8 +511,14 @@ export function setupDummyAPI() {
       console.log(`[Dummy API] Intercepting ${method} ${url}`);
       console.log(`[Dummy API] Available routes:`, Object.keys(apiRoutes));
       
-      // Extract the route pattern
-      const routeKey = `${method} ${url.split('?')[0]}`;
+      // Extract the route pattern - handle both full URLs and paths
+      let urlPath = url.split('?')[0];
+      if (urlPath.includes('://')) {
+        // If it's a full URL, extract just the pathname
+        const urlObj = new URL(url);
+        urlPath = urlObj.pathname;
+      }
+      const routeKey = `${method} ${urlPath}`;
       
       // Find matching route handler
       let handler = apiRoutes[routeKey as keyof typeof apiRoutes];
