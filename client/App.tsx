@@ -1,5 +1,6 @@
 import "./global.css";
 import "@/lib/error-handler"; // Initialize error suppression
+import { initializeDummyAPI } from "@/lib/dummy-api"; // Initialize dummy API
 
 import { Toaster } from "@/components/ui/toaster";
 import { createRoot } from "react-dom/client";
