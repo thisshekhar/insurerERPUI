@@ -349,10 +349,7 @@ export const api = {
   health: healthApi,
 };
 
-// Export individual services for direct imports
-export {
-  dashboardApi,
-  customerApi,
-};
+// All services are already exported individually above
+// No need for additional exports here
 
 export default api;
