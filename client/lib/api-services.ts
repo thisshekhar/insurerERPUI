@@ -331,7 +331,11 @@ export const settingsApi = {
 // Health check
 export const healthApi = {
   check: (): Promise<ApiResponse<{ status: string; timestamp: string }>> => {
-    return apiClient.healthCheck();
+    return apiClient.request('/health', {
+      method: 'GET',
+      timeout: 5000, // 5 second timeout for health checks
+      retries: 0 // No retries for health checks
+    });
   },
 };
 
