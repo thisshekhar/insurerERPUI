@@ -21,6 +21,7 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import AIAssistant from "@/components/ai/AIAssistant";
 import { useAIConfig } from "@/lib/ai-config";
+import ApiStatusIndicator from "@/components/ApiStatusIndicator";
 
 const getNavigation = (isAIEnabled: boolean) => [
   { name: "Dashboard", href: "/", icon: LayoutDashboard },
