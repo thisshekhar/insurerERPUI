@@ -24,9 +24,6 @@ import ErrorBoundary from "./components/ErrorBoundary";
 
 const queryClient = new QueryClient();
 
-// Initialize dummy API backend
-initializeDummyAPI();
-
 const App = () => (
   <ErrorBoundary>
     <QueryClientProvider client={queryClient}>
@@ -56,4 +53,27 @@ const App = () => (
   </ErrorBoundary>
 );
 
-createRoot(document.getElementById("root")!).render(<App />);
+// Initialize app only once
+function initializeApp() {
+  const container = document.getElementById("root");
+  if (!container) {
+    throw new Error("Root container not found");
+  }
+
+  // Check if root already exists
+  if (!(container as any)._reactRoot) {
+    // Initialize dummy API backend
+    initializeDummyAPI();
+
+    // Create root and store reference
+    const root = createRoot(container);
+    (container as any)._reactRoot = root;
+    root.render(<App />);
+  } else {
+    // Re-render on existing root
+    (container as any)._reactRoot.render(<App />);
+  }
+}
+
+// Initialize the application
+initializeApp();
