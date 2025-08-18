@@ -32,6 +32,7 @@ const getNavigation = (isAIEnabled: boolean) => [
   { name: "Agents", href: "/agents", icon: UserCheck },
   { name: "Payments", href: "/payments", icon: DollarSign },
   { name: "Documents", href: "/documents", icon: FolderOpen },
+  { name: "API Demo", href: "/api-demo", icon: Zap },
   ...(isAIEnabled
     ? [{ name: "AI Features", href: "/ai-features", icon: Sparkles }]
     : []),
