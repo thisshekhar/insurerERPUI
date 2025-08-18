@@ -199,11 +199,17 @@ class ApiClient {
 
       } catch (error) {
         console.error(`[API] ${method} ${endpoint} - Error (attempt ${attempt + 1})`, error);
-        
+
         if (attempt === retries) {
           try {
             return await this.applyErrorInterceptors(error);
           } catch (finalError) {
+            // Check if we have an API response attached to the error
+            const apiResponse = (error as any)?.apiResponse;
+            if (apiResponse) {
+              return apiResponse;
+            }
+
             const errorResponse: ApiResponse<T> = {
               success: false,
               error: error instanceof Error ? error.message : 'Network error',
