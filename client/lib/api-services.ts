@@ -1,6 +1,6 @@
 // API Services using centralized API client
-import { apiClient, ApiResponse, PaginatedResponse } from './api-client';
-import { Policy } from './policy-data';
+import { apiClient, ApiResponse, PaginatedResponse } from "./api-client";
+import { Policy } from "./policy-data";
 
 // Service interfaces
 export interface Customer {
@@ -11,7 +11,7 @@ export interface Customer {
   phone: string;
   address: string;
   dateOfBirth: string;
-  status: 'Active' | 'Inactive' | 'Suspended';
+  status: "Active" | "Inactive" | "Suspended";
   createdAt: string;
   updatedAt: string;
 }
@@ -22,7 +22,7 @@ export interface Claim {
   policyId: string;
   customerName: string;
   amount: number;
-  status: 'Pending' | 'Approved' | 'Rejected' | 'Investigating';
+  status: "Pending" | "Approved" | "Rejected" | "Investigating";
   dateReported: string;
   description: string;
   type: string;
@@ -33,7 +33,7 @@ export interface Agent {
   name: string;
   email: string;
   phone: string;
-  status: 'Active' | 'Inactive';
+  status: "Active" | "Inactive";
   policiesCount: number;
   totalCommission: number;
   rating: number;
@@ -43,7 +43,7 @@ export interface Payment {
   id: string;
   policyId: string;
   amount: number;
-  status: 'Pending' | 'Paid' | 'Failed' | 'Overdue';
+  status: "Pending" | "Paid" | "Failed" | "Overdue";
   dueDate: string;
   paidDate?: string;
   paymentMethod?: string;
@@ -90,28 +90,30 @@ export interface QueryParams {
   status?: string;
   policyType?: string;
   sortBy?: string;
-  sortOrder?: 'asc' | 'desc';
+  sortOrder?: "asc" | "desc";
 }
 
 // Dashboard API Services
 export const dashboardApi = {
   getMetrics: (): Promise<ApiResponse<DashboardMetrics>> => {
-    return apiClient.get<DashboardMetrics>('/dashboard/metrics');
+    return apiClient.get<DashboardMetrics>("/dashboard/metrics");
   },
 
   getPerformance: (): Promise<ApiResponse<PerformanceData[]>> => {
-    return apiClient.get<PerformanceData[]>('/dashboard/performance');
+    return apiClient.get<PerformanceData[]>("/dashboard/performance");
   },
 
   getRecentActivity: (): Promise<ApiResponse<RecentActivity>> => {
-    return apiClient.get<RecentActivity>('/dashboard/recent-activity');
+    return apiClient.get<RecentActivity>("/dashboard/recent-activity");
   },
 };
 
 // Customer API Services
 export const customerApi = {
-  getAll: (params?: QueryParams): Promise<ApiResponse<PaginatedResponse<Customer>>> => {
-    return apiClient.get<PaginatedResponse<Customer>>('/customers', params);
+  getAll: (
+    params?: QueryParams,
+  ): Promise<ApiResponse<PaginatedResponse<Customer>>> => {
+    return apiClient.get<PaginatedResponse<Customer>>("/customers", params);
   },
 
   getById: (id: string): Promise<ApiResponse<Customer>> => {
@@ -119,10 +121,13 @@ export const customerApi = {
   },
 
   create: (customer: Partial<Customer>): Promise<ApiResponse<Customer>> => {
-    return apiClient.post<Customer>('/customers', customer);
+    return apiClient.post<Customer>("/customers", customer);
   },
 
-  update: (id: string, customer: Partial<Customer>): Promise<ApiResponse<Customer>> => {
+  update: (
+    id: string,
+    customer: Partial<Customer>,
+  ): Promise<ApiResponse<Customer>> => {
     return apiClient.put<Customer>(`/customers/${id}`, customer);
   },
 
@@ -131,14 +136,16 @@ export const customerApi = {
   },
 
   search: (query: string): Promise<ApiResponse<Customer[]>> => {
-    return apiClient.get<Customer[]>('/customers', { search: query });
+    return apiClient.get<Customer[]>("/customers", { search: query });
   },
 };
 
 // Policy API Services
 export const policyApi = {
-  getAll: (params?: QueryParams): Promise<ApiResponse<PaginatedResponse<Policy>>> => {
-    return apiClient.get<PaginatedResponse<Policy>>('/policies', params);
+  getAll: (
+    params?: QueryParams,
+  ): Promise<ApiResponse<PaginatedResponse<Policy>>> => {
+    return apiClient.get<PaginatedResponse<Policy>>("/policies", params);
   },
 
   getById: (id: string): Promise<ApiResponse<Policy>> => {
@@ -146,10 +153,13 @@ export const policyApi = {
   },
 
   create: (policy: Partial<Policy>): Promise<ApiResponse<Policy>> => {
-    return apiClient.post<Policy>('/policies', policy);
+    return apiClient.post<Policy>("/policies", policy);
   },
 
-  update: (id: string, policy: Partial<Policy>): Promise<ApiResponse<Policy>> => {
+  update: (
+    id: string,
+    policy: Partial<Policy>,
+  ): Promise<ApiResponse<Policy>> => {
     return apiClient.put<Policy>(`/policies/${id}`, policy);
   },
 
@@ -172,8 +182,10 @@ export const policyApi = {
 
 // Claims API Services
 export const claimApi = {
-  getAll: (params?: QueryParams): Promise<ApiResponse<PaginatedResponse<Claim>>> => {
-    return apiClient.get<PaginatedResponse<Claim>>('/claims', params);
+  getAll: (
+    params?: QueryParams,
+  ): Promise<ApiResponse<PaginatedResponse<Claim>>> => {
+    return apiClient.get<PaginatedResponse<Claim>>("/claims", params);
   },
 
   getById: (id: string): Promise<ApiResponse<Claim>> => {
@@ -181,7 +193,7 @@ export const claimApi = {
   },
 
   create: (claim: Partial<Claim>): Promise<ApiResponse<Claim>> => {
-    return apiClient.post<Claim>('/claims', claim);
+    return apiClient.post<Claim>("/claims", claim);
   },
 
   update: (id: string, claim: Partial<Claim>): Promise<ApiResponse<Claim>> => {
@@ -192,8 +204,13 @@ export const claimApi = {
     return apiClient.post<Claim>(`/claims/${id}/approve`, approvalData);
   },
 
-  reject: (id: string, rejectionReason: string): Promise<ApiResponse<Claim>> => {
-    return apiClient.post<Claim>(`/claims/${id}/reject`, { reason: rejectionReason });
+  reject: (
+    id: string,
+    rejectionReason: string,
+  ): Promise<ApiResponse<Claim>> => {
+    return apiClient.post<Claim>(`/claims/${id}/reject`, {
+      reason: rejectionReason,
+    });
   },
 
   uploadDocument: (id: string, file: File): Promise<ApiResponse<any>> => {
@@ -203,8 +220,10 @@ export const claimApi = {
 
 // Agent API Services
 export const agentApi = {
-  getAll: (params?: QueryParams): Promise<ApiResponse<PaginatedResponse<Agent>>> => {
-    return apiClient.get<PaginatedResponse<Agent>>('/agents', params);
+  getAll: (
+    params?: QueryParams,
+  ): Promise<ApiResponse<PaginatedResponse<Agent>>> => {
+    return apiClient.get<PaginatedResponse<Agent>>("/agents", params);
   },
 
   getById: (id: string): Promise<ApiResponse<Agent>> => {
@@ -212,7 +231,7 @@ export const agentApi = {
   },
 
   create: (agent: Partial<Agent>): Promise<ApiResponse<Agent>> => {
-    return apiClient.post<Agent>('/agents', agent);
+    return apiClient.post<Agent>("/agents", agent);
   },
 
   update: (id: string, agent: Partial<Agent>): Promise<ApiResponse<Agent>> => {
@@ -234,8 +253,10 @@ export const agentApi = {
 
 // Payment API Services
 export const paymentApi = {
-  getAll: (params?: QueryParams): Promise<ApiResponse<PaginatedResponse<Payment>>> => {
-    return apiClient.get<PaginatedResponse<Payment>>('/payments', params);
+  getAll: (
+    params?: QueryParams,
+  ): Promise<ApiResponse<PaginatedResponse<Payment>>> => {
+    return apiClient.get<PaginatedResponse<Payment>>("/payments", params);
   },
 
   getById: (id: string): Promise<ApiResponse<Payment>> => {
@@ -248,25 +269,28 @@ export const paymentApi = {
     paymentMethod: string;
     cardDetails?: any;
   }): Promise<ApiResponse<Payment>> => {
-    return apiClient.post<Payment>('/payments/process', paymentData);
+    return apiClient.post<Payment>("/payments/process", paymentData);
   },
 
-  refund: (id: string, refundData: {
-    amount: number;
-    reason: string;
-  }): Promise<ApiResponse<Payment>> => {
+  refund: (
+    id: string,
+    refundData: {
+      amount: number;
+      reason: string;
+    },
+  ): Promise<ApiResponse<Payment>> => {
     return apiClient.post<Payment>(`/payments/${id}/refund`, refundData);
   },
 
   getByPolicy: (policyId: string): Promise<ApiResponse<Payment[]>> => {
-    return apiClient.get<Payment[]>('/payments', { policyId });
+    return apiClient.get<Payment[]>("/payments", { policyId });
   },
 };
 
 // Document API Services
 export const documentApi = {
   upload: (file: File, metadata?: any): Promise<ApiResponse<any>> => {
-    return apiClient.upload('/documents/upload', file, metadata);
+    return apiClient.upload("/documents/upload", file, metadata);
   },
 
   getById: (id: string): Promise<ApiResponse<any>> => {
@@ -281,60 +305,66 @@ export const documentApi = {
     return apiClient.get<Blob>(`/documents/${id}/download`);
   },
 
-  getByEntity: (entityType: string, entityId: string): Promise<ApiResponse<any[]>> => {
-    return apiClient.get<any[]>('/documents', { entityType, entityId });
+  getByEntity: (
+    entityType: string,
+    entityId: string,
+  ): Promise<ApiResponse<any[]>> => {
+    return apiClient.get<any[]>("/documents", { entityType, entityId });
   },
 };
 
 // AI API Services
 export const aiApi = {
   getInsights: (): Promise<ApiResponse<any>> => {
-    return apiClient.get<any>('/ai/insights');
+    return apiClient.get<any>("/ai/insights");
   },
 
   getPredictions: (type?: string): Promise<ApiResponse<any>> => {
-    return apiClient.get<any>('/ai/predictions', { type });
+    return apiClient.get<any>("/ai/predictions", { type });
   },
 
-  getRiskAssessment: (entityType: string, entityId: string): Promise<ApiResponse<any>> => {
-    return apiClient.get<any>('/ai/risk-assessment', { entityType, entityId });
+  getRiskAssessment: (
+    entityType: string,
+    entityId: string,
+  ): Promise<ApiResponse<any>> => {
+    return apiClient.get<any>("/ai/risk-assessment", { entityType, entityId });
   },
 
   getFraudDetection: (claimId?: string): Promise<ApiResponse<any>> => {
-    return apiClient.get<any>('/ai/fraud-detection', { claimId });
+    return apiClient.get<any>("/ai/fraud-detection", { claimId });
   },
 
   analyzeDocument: (file: File): Promise<ApiResponse<any>> => {
-    return apiClient.upload('/ai/analyze-document', file);
+    return apiClient.upload("/ai/analyze-document", file);
   },
 };
 
 // Settings API Services
 export const settingsApi = {
   get: (): Promise<ApiResponse<any>> => {
-    return apiClient.get<any>('/settings');
+    return apiClient.get<any>("/settings");
   },
 
   update: (settings: any): Promise<ApiResponse<any>> => {
-    return apiClient.put<any>('/settings', settings);
+    return apiClient.put<any>("/settings", settings);
   },
 
   getAIConfig: (): Promise<ApiResponse<any>> => {
-    return apiClient.get<any>('/settings/ai');
+    return apiClient.get<any>("/settings/ai");
   },
 
   updateAIConfig: (config: any): Promise<ApiResponse<any>> => {
-    return apiClient.put<any>('/settings/ai', config);
+    return apiClient.put<any>("/settings/ai", config);
   },
 };
 
 // Health check
 export const healthApi = {
   check: (): Promise<ApiResponse<{ status: string; timestamp: string }>> => {
-    return apiClient.request('/health', {
-      method: 'GET',
+    return apiClient.request("/health", {
+      method: "GET",
       timeout: 5000, // 5 second timeout for health checks
-      retries: 0 // No retries for health checks
+      retries: 0, // No retries for health checks
     });
   },
 };

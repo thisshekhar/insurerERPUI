@@ -1,21 +1,27 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
-import { 
-  Play, 
-  RefreshCw, 
-  CheckCircle, 
-  XCircle, 
+import {
+  Play,
+  RefreshCw,
+  CheckCircle,
+  XCircle,
   Clock,
   Database,
   Zap,
-  Activity
+  Activity,
 } from "lucide-react";
 import { toast } from "sonner";
 import { api } from "@/lib/api-services";
@@ -24,7 +30,7 @@ interface ApiCall {
   id: string;
   method: string;
   endpoint: string;
-  status: 'pending' | 'success' | 'error';
+  status: "pending" | "success" | "error";
   duration?: number;
   response?: any;
   error?: string;
@@ -34,8 +40,8 @@ interface ApiCall {
 export default function ApiDemo() {
   const [apiCalls, setApiCalls] = useState<ApiCall[]>([]);
   const [loading, setLoading] = useState(false);
-  const [customEndpoint, setCustomEndpoint] = useState('/dashboard/metrics');
-  const [customBody, setCustomBody] = useState('');
+  const [customEndpoint, setCustomEndpoint] = useState("/dashboard/metrics");
+  const [customBody, setCustomBody] = useState("");
 
   const addApiCall = (method: string, endpoint: string): string => {
     const id = `call_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
@@ -43,31 +49,35 @@ export default function ApiDemo() {
       id,
       method,
       endpoint,
-      status: 'pending',
+      status: "pending",
       timestamp: new Date(),
     };
-    
-    setApiCalls(prev => [newCall, ...prev.slice(0, 9)]); // Keep last 10 calls
+
+    setApiCalls((prev) => [newCall, ...prev.slice(0, 9)]); // Keep last 10 calls
     return id;
   };
 
   const updateApiCall = (id: string, updates: Partial<ApiCall>) => {
-    setApiCalls(prev => prev.map(call => 
-      call.id === id ? { ...call, ...updates } : call
-    ));
+    setApiCalls((prev) =>
+      prev.map((call) => (call.id === id ? { ...call, ...updates } : call)),
+    );
   };
 
-  const executeApiCall = async (method: string, endpoint: string, body?: any) => {
+  const executeApiCall = async (
+    method: string,
+    endpoint: string,
+    body?: any,
+  ) => {
     const startTime = Date.now();
     const callId = addApiCall(method, endpoint);
 
     try {
       let response;
       switch (method.toUpperCase()) {
-        case 'GET':
+        case "GET":
           response = await api.dashboard.getMetrics(); // Example - you'd need to map endpoints
           break;
-        case 'POST':
+        case "POST":
           response = await api.customers.create(body || {});
           break;
         default:
@@ -75,21 +85,21 @@ export default function ApiDemo() {
       }
 
       const duration = Date.now() - startTime;
-      
+
       updateApiCall(callId, {
-        status: 'success',
+        status: "success",
         duration,
         response: response.data,
       });
 
       toast.success(`API call successful (${duration}ms)`);
-      
     } catch (error) {
       const duration = Date.now() - startTime;
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error";
+
       updateApiCall(callId, {
-        status: 'error',
+        status: "error",
         duration,
         error: errorMessage,
       });
@@ -100,84 +110,85 @@ export default function ApiDemo() {
 
   const testApiEndpoints = [
     {
-      name: 'Dashboard Metrics',
-      method: 'GET',
-      endpoint: '/dashboard/metrics',
-      description: 'Get dashboard overview metrics',
+      name: "Dashboard Metrics",
+      method: "GET",
+      endpoint: "/dashboard/metrics",
+      description: "Get dashboard overview metrics",
     },
     {
-      name: 'Performance Data',
-      method: 'GET', 
-      endpoint: '/dashboard/performance',
-      description: 'Get performance trends data',
+      name: "Performance Data",
+      method: "GET",
+      endpoint: "/dashboard/performance",
+      description: "Get performance trends data",
     },
     {
-      name: 'Recent Activity',
-      method: 'GET',
-      endpoint: '/dashboard/recent-activity',
-      description: 'Get recent system activity',
+      name: "Recent Activity",
+      method: "GET",
+      endpoint: "/dashboard/recent-activity",
+      description: "Get recent system activity",
     },
     {
-      name: 'Customers List',
-      method: 'GET',
-      endpoint: '/customers',
-      description: 'Get paginated customers list',
+      name: "Customers List",
+      method: "GET",
+      endpoint: "/customers",
+      description: "Get paginated customers list",
     },
     {
-      name: 'Policies List',
-      method: 'GET',
-      endpoint: '/policies',
-      description: 'Get paginated policies list',
+      name: "Policies List",
+      method: "GET",
+      endpoint: "/policies",
+      description: "Get paginated policies list",
     },
     {
-      name: 'Claims List',
-      method: 'GET',
-      endpoint: '/claims',
-      description: 'Get paginated claims list',
+      name: "Claims List",
+      method: "GET",
+      endpoint: "/claims",
+      description: "Get paginated claims list",
     },
     {
-      name: 'AI Insights',
-      method: 'GET',
-      endpoint: '/ai/insights',
-      description: 'Get AI-powered business insights',
+      name: "AI Insights",
+      method: "GET",
+      endpoint: "/ai/insights",
+      description: "Get AI-powered business insights",
     },
   ];
 
   const runQuickTests = async () => {
     setLoading(true);
-    
-    for (const test of testApiEndpoints.slice(0, 4)) { // Run first 4 tests
+
+    for (const test of testApiEndpoints.slice(0, 4)) {
+      // Run first 4 tests
       await executeApiCall(test.method, test.endpoint);
-      await new Promise(resolve => setTimeout(resolve, 500)); // Small delay between calls
+      await new Promise((resolve) => setTimeout(resolve, 500)); // Small delay between calls
     }
-    
+
     setLoading(false);
-    toast.success('Quick API tests completed');
+    toast.success("Quick API tests completed");
   };
 
   const clearResults = () => {
     setApiCalls([]);
-    toast.info('API call history cleared');
+    toast.info("API call history cleared");
   };
 
-  const getStatusIcon = (status: ApiCall['status']) => {
+  const getStatusIcon = (status: ApiCall["status"]) => {
     switch (status) {
-      case 'pending':
+      case "pending":
         return <Clock className="h-4 w-4 text-yellow-600 animate-pulse" />;
-      case 'success':
+      case "success":
         return <CheckCircle className="h-4 w-4 text-green-600" />;
-      case 'error':
+      case "error":
         return <XCircle className="h-4 w-4 text-red-600" />;
     }
   };
 
-  const getStatusBadge = (status: ApiCall['status']) => {
+  const getStatusBadge = (status: ApiCall["status"]) => {
     const configs = {
-      pending: { className: 'bg-yellow-100 text-yellow-800', label: 'Pending' },
-      success: { className: 'bg-green-100 text-green-800', label: 'Success' },
-      error: { className: 'bg-red-100 text-red-800', label: 'Error' },
+      pending: { className: "bg-yellow-100 text-yellow-800", label: "Pending" },
+      success: { className: "bg-green-100 text-green-800", label: "Success" },
+      error: { className: "bg-red-100 text-red-800", label: "Error" },
     };
-    
+
     const config = configs[status];
     return <Badge className={config.className}>{config.label}</Badge>;
   };
@@ -195,16 +206,16 @@ export default function ApiDemo() {
           </p>
         </div>
         <div className="flex items-center space-x-3">
-          <Button 
-            onClick={runQuickTests} 
+          <Button
+            onClick={runQuickTests}
             disabled={loading}
             className="flex items-center space-x-2"
           >
             <Zap className="h-4 w-4" />
             <span>Quick Tests</span>
           </Button>
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             onClick={clearResults}
             className="flex items-center space-x-2"
           >
@@ -236,12 +247,14 @@ export default function ApiDemo() {
                 </CardHeader>
                 <CardContent className="space-y-3">
                   {testApiEndpoints.map((endpoint, index) => (
-                    <div 
+                    <div
                       key={index}
                       className="flex items-center justify-between p-3 border rounded-lg"
                     >
                       <div className="flex-1">
-                        <div className="font-medium text-sm">{endpoint.name}</div>
+                        <div className="font-medium text-sm">
+                          {endpoint.name}
+                        </div>
                         <div className="text-xs text-muted-foreground">
                           {endpoint.method} {endpoint.endpoint}
                         </div>
@@ -252,7 +265,9 @@ export default function ApiDemo() {
                       <Button
                         size="sm"
                         variant="outline"
-                        onClick={() => executeApiCall(endpoint.method, endpoint.endpoint)}
+                        onClick={() =>
+                          executeApiCall(endpoint.method, endpoint.endpoint)
+                        }
                         disabled={loading}
                       >
                         <Play className="h-3 w-3" />
@@ -281,7 +296,7 @@ export default function ApiDemo() {
                       placeholder="/api/endpoint"
                     />
                   </div>
-                  
+
                   <div>
                     <Label htmlFor="body">Request Body (JSON)</Label>
                     <Textarea
@@ -296,7 +311,7 @@ export default function ApiDemo() {
                   <div className="flex space-x-2">
                     <Button
                       size="sm"
-                      onClick={() => executeApiCall('GET', customEndpoint)}
+                      onClick={() => executeApiCall("GET", customEndpoint)}
                       disabled={loading}
                     >
                       GET
@@ -306,10 +321,12 @@ export default function ApiDemo() {
                       variant="outline"
                       onClick={() => {
                         try {
-                          const body = customBody ? JSON.parse(customBody) : undefined;
-                          executeApiCall('POST', customEndpoint, body);
+                          const body = customBody
+                            ? JSON.parse(customBody)
+                            : undefined;
+                          executeApiCall("POST", customEndpoint, body);
                         } catch {
-                          toast.error('Invalid JSON in request body');
+                          toast.error("Invalid JSON in request body");
                         }
                       }}
                       disabled={loading}
@@ -357,19 +374,23 @@ export default function ApiDemo() {
                           {call.duration && ` • ${call.duration}ms`}
                         </div>
                       </div>
-                      
-                      {call.status === 'success' && call.response && (
+
+                      {call.status === "success" && call.response && (
                         <div>
-                          <div className="text-sm font-medium text-green-600 mb-2">Response:</div>
+                          <div className="text-sm font-medium text-green-600 mb-2">
+                            Response:
+                          </div>
                           <pre className="bg-green-50 dark:bg-green-900/20 p-3 rounded text-sm overflow-x-auto">
                             {JSON.stringify(call.response, null, 2)}
                           </pre>
                         </div>
                       )}
-                      
-                      {call.status === 'error' && call.error && (
+
+                      {call.status === "error" && call.error && (
                         <div>
-                          <div className="text-sm font-medium text-red-600 mb-2">Error:</div>
+                          <div className="text-sm font-medium text-red-600 mb-2">
+                            Error:
+                          </div>
                           <div className="bg-red-50 dark:bg-red-900/20 p-3 rounded text-sm text-red-800 dark:text-red-200">
                             {call.error}
                           </div>

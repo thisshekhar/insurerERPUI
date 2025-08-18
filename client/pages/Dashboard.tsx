@@ -163,19 +163,22 @@ export default function Dashboard() {
   useEffect(() => {
     const loadDashboardData = async () => {
       try {
-        const [metricsResponse, performanceResponse, activityResponse] = await Promise.all([
-          api.dashboard.getMetrics(),
-          api.dashboard.getPerformance(),
-          api.dashboard.getRecentActivity(),
-        ]);
+        const [metricsResponse, performanceResponse, activityResponse] =
+          await Promise.all([
+            api.dashboard.getMetrics(),
+            api.dashboard.getPerformance(),
+            api.dashboard.getRecentActivity(),
+          ]);
 
         setDashboardData({
           metrics: metricsResponse.success ? metricsResponse.data : null,
-          performance: performanceResponse.success ? performanceResponse.data : null,
+          performance: performanceResponse.success
+            ? performanceResponse.data
+            : null,
           activity: activityResponse.success ? activityResponse.data : null,
         });
       } catch (error) {
-        console.error('Failed to load dashboard data:', error);
+        console.error("Failed to load dashboard data:", error);
       } finally {
         setLoading(false);
       }

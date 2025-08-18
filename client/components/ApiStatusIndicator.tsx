@@ -7,20 +7,24 @@ interface ApiStatusIndicatorProps {
   className?: string;
 }
 
-export default function ApiStatusIndicator({ className }: ApiStatusIndicatorProps) {
-  const [status, setStatus] = useState<'online' | 'offline' | 'checking'>('checking');
+export default function ApiStatusIndicator({
+  className,
+}: ApiStatusIndicatorProps) {
+  const [status, setStatus] = useState<"online" | "offline" | "checking">(
+    "checking",
+  );
   const [lastCheck, setLastCheck] = useState<Date | null>(null);
 
   const checkApiHealth = async () => {
-    setStatus('checking');
+    setStatus("checking");
     try {
       const response = await api.health.check();
-      setStatus(response.success ? 'online' : 'offline');
+      setStatus(response.success ? "online" : "offline");
       setLastCheck(new Date());
-      console.log('[API Health] Status check successful:', response);
+      console.log("[API Health] Status check successful:", response);
     } catch (error) {
-      console.warn('[API Health] Status check failed:', error);
-      setStatus('offline');
+      console.warn("[API Health] Status check failed:", error);
+      setStatus("offline");
       setLastCheck(new Date());
     }
   };
@@ -37,23 +41,26 @@ export default function ApiStatusIndicator({ className }: ApiStatusIndicatorProp
 
   const getStatusConfig = () => {
     switch (status) {
-      case 'online':
+      case "online":
         return {
           icon: Wifi,
-          label: 'API Online',
-          className: 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400',
+          label: "API Online",
+          className:
+            "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
         };
-      case 'offline':
+      case "offline":
         return {
           icon: WifiOff,
-          label: 'API Offline',
-          className: 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400',
+          label: "API Offline",
+          className:
+            "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400",
         };
-      case 'checking':
+      case "checking":
         return {
           icon: RefreshCw,
-          label: 'Checking API',
-          className: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400',
+          label: "Checking API",
+          className:
+            "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400",
         };
     }
   };
@@ -61,12 +68,18 @@ export default function ApiStatusIndicator({ className }: ApiStatusIndicatorProp
   const { icon: Icon, label, className: statusClassName } = getStatusConfig();
 
   return (
-    <Badge 
+    <Badge
       className={`${statusClassName} ${className} cursor-pointer`}
       onClick={checkApiHealth}
-      title={lastCheck ? `Last checked: ${lastCheck.toLocaleTimeString()}` : 'Click to check API status'}
+      title={
+        lastCheck
+          ? `Last checked: ${lastCheck.toLocaleTimeString()}`
+          : "Click to check API status"
+      }
     >
-      <Icon className={`h-3 w-3 mr-1 ${status === 'checking' ? 'animate-spin' : ''}`} />
+      <Icon
+        className={`h-3 w-3 mr-1 ${status === "checking" ? "animate-spin" : ""}`}
+      />
       {label}
     </Badge>
   );
