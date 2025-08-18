@@ -355,7 +355,6 @@ export {
   customerApi,
   policyApi,
   claimApi,
-  agentApi,
 };
 
 export default api;
