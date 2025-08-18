@@ -157,6 +157,32 @@ const aiMetrics = {
 
 export default function Dashboard() {
   const { isFeatureEnabled } = useAIConfig();
+  const [dashboardData, setDashboardData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadDashboardData = async () => {
+      try {
+        const [metricsResponse, performanceResponse, activityResponse] = await Promise.all([
+          api.dashboard.getMetrics(),
+          api.dashboard.getPerformance(),
+          api.dashboard.getRecentActivity(),
+        ]);
+
+        setDashboardData({
+          metrics: metricsResponse.success ? metricsResponse.data : null,
+          performance: performanceResponse.success ? performanceResponse.data : null,
+          activity: activityResponse.success ? activityResponse.data : null,
+        });
+      } catch (error) {
+        console.error('Failed to load dashboard data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadDashboardData();
+  }, []);
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("en-US", {
