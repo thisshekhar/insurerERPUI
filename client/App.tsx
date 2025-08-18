@@ -18,6 +18,7 @@ import Payments from "./pages/Payments";
 import Documents from "./pages/Documents";
 import Settings from "./pages/Settings";
 import AIFeatures from "./pages/AIFeatures";
+import ApiDemo from "./pages/ApiDemo";
 import NotFound from "./pages/NotFound";
 import ErrorBoundary from "./components/ErrorBoundary";
 
