@@ -151,6 +151,9 @@ class ApiClient {
         const response = await fetch(interceptedConfig.url, fetchConfig);
         clearTimeout(timeoutId);
 
+        console.log(`[API] Response status: ${response.status} ${response.statusText}`);
+        console.log(`[API] Response headers:`, Object.fromEntries(response.headers.entries()));
+
         let responseData: any;
 
         try {
