@@ -359,7 +359,6 @@ export {
   paymentApi,
   documentApi,
   aiApi,
-  settingsApi,
 };
 
 export default api;
