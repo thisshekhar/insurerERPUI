@@ -360,7 +360,6 @@ export {
   documentApi,
   aiApi,
   settingsApi,
-  healthApi,
 };
 
 export default api;
