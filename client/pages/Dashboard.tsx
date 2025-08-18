@@ -26,6 +26,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import AIInsights from "@/components/ai/AIInsights";
 import { useAIConfig } from "@/lib/ai-config";
+import { api } from "@/lib/api-services";
+import { useState, useEffect } from "react";
 
 // Mock data
 const kpiData = {
