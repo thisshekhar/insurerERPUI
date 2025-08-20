@@ -69,7 +69,12 @@ const reportingData = {
   // Policy Analytics
   policyByType: [
     { type: "Auto Insurance", count: 425, percentage: 34.1, revenue: 1275000 },
-    { type: "Health Insurance", count: 312, percentage: 25.0, revenue: 1872000 },
+    {
+      type: "Health Insurance",
+      count: 312,
+      percentage: 25.0,
+      revenue: 1872000,
+    },
     { type: "Life Insurance", count: 198, percentage: 15.9, revenue: 1584000 },
     { type: "Home Insurance", count: 156, percentage: 12.5, revenue: 936000 },
     { type: "Business Insurance", count: 89, percentage: 7.1, revenue: 801000 },
@@ -355,7 +360,10 @@ export default function Reports() {
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-purple-600">
-                  +{formatPercentage(reportingData.aiInsights.revenueOptimization)}
+                  +
+                  {formatPercentage(
+                    reportingData.aiInsights.revenueOptimization,
+                  )}
                 </div>
                 <div className="text-xs text-muted-foreground">
                   Revenue Optimization
@@ -377,7 +385,10 @@ export default function Reports() {
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-indigo-600">
-                  +{formatPercentage(reportingData.aiInsights.pricingOptimization)}
+                  +
+                  {formatPercentage(
+                    reportingData.aiInsights.pricingOptimization,
+                  )}
                 </div>
                 <div className="text-xs text-muted-foreground">
                   Pricing Optimization
@@ -420,7 +431,10 @@ export default function Reports() {
               <TrendingUp className="h-3 w-3 text-green-500 mr-1" />
               +2.1% improvement
             </div>
-            <Progress value={reportingData.financialMetrics.profitMargin} className="mt-2 h-2" />
+            <Progress
+              value={reportingData.financialMetrics.profitMargin}
+              className="mt-2 h-2"
+            />
           </CardContent>
         </Card>
 
@@ -439,7 +453,10 @@ export default function Reports() {
               <TrendingUp className="h-3 w-3 text-green-500 mr-1" />
               Industry leading
             </div>
-            <Progress value={reportingData.customerMetrics.retentionRate} className="mt-2 h-2" />
+            <Progress
+              value={reportingData.customerMetrics.retentionRate}
+              className="mt-2 h-2"
+            />
           </CardContent>
         </Card>
 
@@ -456,7 +473,10 @@ export default function Reports() {
               <TrendingDown className="h-3 w-3 text-green-500 mr-1" />
               -1.8% reduction
             </div>
-            <Progress value={100 - reportingData.financialMetrics.lossRatio} className="mt-2 h-2" />
+            <Progress
+              value={100 - reportingData.financialMetrics.lossRatio}
+              className="mt-2 h-2"
+            />
           </CardContent>
         </Card>
       </div>
@@ -489,7 +509,9 @@ export default function Reports() {
                   {reportingData.monthlyRevenue.slice(-6).map((data) => (
                     <div key={data.month} className="space-y-2">
                       <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium">{data.month}</span>
+                        <span className="text-sm font-medium">
+                          {data.month}
+                        </span>
                         <div className="flex items-center space-x-2">
                           <span className="text-sm">
                             {formatCurrency(data.revenue)}
@@ -634,9 +656,7 @@ export default function Reports() {
                           {policy.type}
                         </span>
                         <div className="text-right">
-                          <div className="text-sm">
-                            {policy.count} policies
-                          </div>
+                          <div className="text-sm">{policy.count} policies</div>
                           <div className="text-xs text-muted-foreground">
                             {formatCurrency(policy.revenue)}
                           </div>
@@ -747,7 +767,9 @@ export default function Reports() {
                           {index + 1}
                         </div>
                         <div>
-                          <div className="font-medium text-lg">{agent.name}</div>
+                          <div className="font-medium text-lg">
+                            {agent.name}
+                          </div>
                           <div className="text-sm text-muted-foreground">
                             {agent.region} Region • Rating: {agent.rating}⭐
                           </div>
@@ -893,7 +915,9 @@ export default function Reports() {
                           )}{" "}
                           approved
                         </span>
-                        <span>{claim.approved}/{claim.claims}</span>
+                        <span>
+                          {claim.approved}/{claim.claims}
+                        </span>
                       </div>
                     </div>
                   ))}
@@ -977,7 +1001,9 @@ export default function Reports() {
                   <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
                     <span className="text-sm">Churn Rate</span>
                     <span className="font-medium text-red-600">
-                      {formatPercentage(reportingData.customerMetrics.churnRate)}
+                      {formatPercentage(
+                        reportingData.customerMetrics.churnRate,
+                      )}
                     </span>
                   </div>
                   <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">

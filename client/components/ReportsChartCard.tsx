@@ -167,9 +167,7 @@ export default function ReportsChartCard({
                     {formatValue(item.value)}
                   </span>
                   {showTrends && item.trend && (
-                    <span
-                      className={`text-sm ${getTrendColor(item.trend)}`}
-                    >
+                    <span className={`text-sm ${getTrendColor(item.trend)}`}>
                       {item.trend > 0 ? "+" : ""}
                       {item.trend.toFixed(1)}%
                     </span>
