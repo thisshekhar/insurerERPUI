@@ -16,6 +16,7 @@ import Claims from "./pages/Claims";
 import Agents from "./pages/Agents";
 import Payments from "./pages/Payments";
 import Documents from "./pages/Documents";
+import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 import AIFeatures from "./pages/AIFeatures";
 import ApiDemo from "./pages/ApiDemo";
