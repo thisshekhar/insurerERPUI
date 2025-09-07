@@ -316,18 +316,26 @@ export const documentApi = {
 // Reports API Services
 export const reportsApi = {
   getRevenueReport: (params?: { period?: string; region?: string }) =>
-    apiClient.get('/reports/revenue', params),
-  getPolicyReport: (params?: any) => apiClient.get('/reports/policies', params),
-  getAgentPerformance: (params?: any) => apiClient.get('/reports/agents/performance', params),
-  getClaimsReport: (params?: any) => apiClient.get('/reports/claims', params),
-  getCustomerReport: (params?: any) => apiClient.get('/reports/customers', params),
-  getFinancialReport: (params?: any) => apiClient.get('/reports/financial', params),
-  getAIInsights: () => apiClient.get('/reports/ai/insights'),
-  exportReport: (reportType: string, format: 'pdf' | 'excel' | 'csv') =>
-    apiClient.get(`/reports/export/${reportType}`, { params: { format }, responseType: 'blob' }),
-  createCustomReport: (config: any) => apiClient.post('/reports/custom', config),
-  getCustomReports: () => apiClient.get('/reports/custom'),
-  deleteCustomReport: (reportId: string) => apiClient.delete(`/reports/custom/${reportId}`),
+    apiClient.get("/reports/revenue", params),
+  getPolicyReport: (params?: any) => apiClient.get("/reports/policies", params),
+  getAgentPerformance: (params?: any) =>
+    apiClient.get("/reports/agents/performance", params),
+  getClaimsReport: (params?: any) => apiClient.get("/reports/claims", params),
+  getCustomerReport: (params?: any) =>
+    apiClient.get("/reports/customers", params),
+  getFinancialReport: (params?: any) =>
+    apiClient.get("/reports/financial", params),
+  getAIInsights: () => apiClient.get("/reports/ai/insights"),
+  exportReport: (reportType: string, format: "pdf" | "excel" | "csv") =>
+    apiClient.get(`/reports/export/${reportType}`, {
+      params: { format },
+      responseType: "blob",
+    }),
+  createCustomReport: (config: any) =>
+    apiClient.post("/reports/custom", config),
+  getCustomReports: () => apiClient.get("/reports/custom"),
+  deleteCustomReport: (reportId: string) =>
+    apiClient.delete(`/reports/custom/${reportId}`),
 };
 
 // AI API Services
@@ -356,12 +364,10 @@ export const aiApi = {
   },
 };
 
-
 // Add reportsApi to the unified api object
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   // optional runtime check to avoid server-side issues during SSR
 }
-
 
 // Settings API Services
 export const settingsApi = {
