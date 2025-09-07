@@ -402,6 +402,7 @@ export const api = {
   agents: agentApi,
   payments: paymentApi,
   documents: documentApi,
+  reports: reportsApi,
   ai: aiApi,
   settings: settingsApi,
   health: healthApi,
